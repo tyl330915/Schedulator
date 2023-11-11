@@ -47,6 +47,22 @@
     <div id="nameDisplay"></div>
 
     <script>
+        const names = [{
+                first: 'John',
+                last: 'Doe'
+            }, {
+                first: 'Jane',
+                last: 'Doe'
+            }, {
+                first: 'Joe',
+                last: 'Doe'
+            }, {
+                first: 'Jill',
+                last: 'Doe'
+            }
+
+        ];
+
         window.onload = async function() {
             const lastAccess = await localforage.getItem('lastAccess');
             if (lastAccess) {
