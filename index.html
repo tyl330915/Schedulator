@@ -119,11 +119,20 @@
                     // Create a new list
                     list = document.createElement('ul');
                     list.id = 'namesList';
-                    names.sort((a, b) => a.last.localeCompare(b.last)).forEach(name => {
+                    names.sort((a, b) => {
+                        // Compare last names
+                        const lastNameComparison = a.last.localeCompare(b.last);
+                        if (lastNameComparison !== 0) {
+                            return lastNameComparison;
+                        }
+                        // If last names are equal, compare first names
+                        return a.first.localeCompare(b.first);
+                    }).forEach(name => {
                         const item = document.createElement('li');
                         item.textContent = `${name.first} ${name.last}`;
                         list.appendChild(item);
                     });
+
                     document.body.appendChild(list);
                 } else {
                     console.log('names is not an array');
