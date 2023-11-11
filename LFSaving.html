@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Web Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        #output {
+            margin-top: 20px;
+            width: 300px;
+            height: 200px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+</head>
+
+<body>
+    <select id="dept">
+        <option value="COR">COR</option>
+        <option value="BUS">BUS</option>
+        <option value="ART">ART</option>
+    </select>
+    <select id="semester">
+        <option value="Fall">Fall</option>
+        <option value="Spring">Spring</option>
+        <option value="Summer">Summer</option>
+    </select>
+    <select id="year">
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+        <option value="2027">2027</option>
+        <option value="2028">2028</option>
+        <option value="2029">2029</option>
+        <option value="2030">2030</option>
+    </select>
+    <button onclick="submit()">Submit</button>
+    <textarea id="output"></textarea>
+    <button onclick="save()">Save</button>
+
+    <script>
+        window.onload = async function() {
+            const lastAccess = await localforage.getItem('lastAccess');
+            if (lastAccess) {
+                document.getElementById('dept').value = lastAccess.dept;
+                document.getElementById('semester').value = lastAccess.semester;
+                document.getElementById('year').value = lastAccess.year;
+            }
+        }
+
+        async function submit() {
+            const dept = document.getElementById('dept').value;
+            const semester = document.getElementById('semester').value;
+            const year = document.getElementById('year').value;
+            const key = `${dept}/${semester}${year}`;
+
+            let value = await localforage.getItem(key);
+            if (!value) {
+                value = '';
+                await localforage.setItem(key, value);
+            }
+
+            const namesKey = `${dept}/Names`;
+            let namesValue = await localforage.getItem(namesKey);
+            console.log(namesValue);
+
+
+            document.getElementById('output').value = value;
+            if (namesValue) {
+                displayNames(JSON.parse(namesValue));
+            }
+
+            await localforage.setItem('lastAccess', {
+                dept,
+                semester,
+                year
+            });
+        }
+
+        async function save() {
+            const dept = document.getElementById('dept').value;
+            const semester = document.getElementById('semester').value;
+            const year = document.getElementById('year').value;
+            const key = `${dept}/${semester}${year}`;
+            const value = document.getElementById('output').value;
+
+            await localforage.setItem(key, value);
+        }
+
+        function displayNames(names) {
+            const list = document.createElement('ul');
+            names.sort((a, b) => a.last.localeCompare(b.last)).forEach(name => {
+                const item = document.createElement('li');
+                item.textContent = `${name.first} ${name.last}`;
+                list.appendChild(item);
+            });
+            document.body.appendChild(list);
+        }
+    </script>
+</body>
+
+</html>
