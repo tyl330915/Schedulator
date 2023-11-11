@@ -1,0 +1,340 @@
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Style for the row */
+        /* Style for the row */
+        
+        .row {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 10px;
+        }
+        /* Style for the columns */
+        
+        .column {
+            width: 100%;
+            /* Default width */
+        }
+        
+        .column.left {
+            width: 60%;
+            /* Left column width */
+        }
+        
+        .column.right {
+            width: 35%;
+            /* Right column width */
+            margin: 20px;
+        }
+        
+        #inputMenu {
+            margin-left: auto;
+            margin-right: auto;
+            justify-content: center;
+            align-items: center;
+            min-height: 10px;
+            font-size: 11pt;
+            font-size: 0.9vw;
+        }
+        
+        #selectDiv {
+            margin-left: 100px;
+        }
+        
+        #facultySelect {
+            font-size: 14pt;
+            font-size: 1.2vw;
+            margin-top: 5%;
+        }
+        
+        #graphDiv {
+            margin-left: 5%;
+            margin-bottom: 20px;
+            border: 1px solid black;
+        }
+        
+        #chartContainer {
+            width: 300px;
+        }
+        
+        #daysTable {
+            width: 85%;
+            max-height: 70%;
+            text-align: center;
+            font-size: 12pt;
+            font-size: 1vw;
+            margin-left: 10%;
+            margin-top: 20px;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+        
+        .table-bordered th,
+        .table-bordered td {
+            border: 2px solid #ddd!important;
+        }
+        
+        #daysTable tr:nth-child(10) {
+            background-color: lightgray;
+        }
+        
+        #unschedDiv {
+            display: flex;
+            margin-left: 10%;
+            align-items: left;
+            gap: 20px;
+            font-weight: bold;
+        }
+        
+        #holdingPen {
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            border: 1px solid black;
+            min-height: 25px;
+            width: 50%;
+            border-radius: 10px;
+        }
+        
+        #TYTable,
+        #nonClassroomTable {
+            border: 2px solid black;
+            text-align: center;
+            font-size: 12pt;
+            font-size: 1vw;
+            width: 80%;
+            margin-left: 20px;
+            border-radius: 10px;
+        }
+        
+        #nonClassroomDiv {
+            display: none;
+        }
+        
+        #TYTable th,
+        #nonClassroomTable th {
+            text-align: center;
+        }
+        
+        #TYTable td,
+        #nonClassroomTable td {
+            color: brown;
+            font-weight: bold;
+        }
+        
+        #placeCourses {
+            border: 2px solid black;
+            min-height: 80px;
+        }
+        
+        #Changed {
+            color: red;
+        }
+        
+        #firstRow {
+            height: 170px;
+            width: 80%;
+            font-size: 1vw;
+        }
+        
+        #email {
+            margin-left: 5%;
+        }
+        
+        #preferencesDiv {
+            border: #0a0000;
+            border-style: solid;
+            border-width: 2px;
+            border-radius: 10px;
+            margin: 5px;
+            padding: 5px;
+        }
+        
+        #facPrefs1,
+        #facPrefs2,
+        #facPrefs3 {
+            font-size: 7pt;
+            font-size: .7vw;
+            text-align: center;
+        }
+        
+        .prefData {
+            font-size: 0.8vw;
+            font-weight: bold;
+        }
+        
+        .dragger,
+        .sisterDragger {
+            display: inline-block;
+            font-size: 12pt;
+            font-size: 1vw;
+            font-weight: bold;
+            border: 1px solid;
+            border-radius: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 2px;
+            width: max-content;
+            text-align: center;
+        }
+        
+        .sisterDragger {
+            opacity: 0.5;
+        }
+        
+        .hybridDragger {
+            background-color: black;
+            color: white;
+            display: inline-block;
+            font-size: 12pt;
+            font-size: 1vw;
+            font-weight: bold;
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 3px;
+            margin: 2px;
+            width: max-content;
+            text-align: center;
+        }
+        
+        .labDragger {
+            color: gold;
+            background-color: gray;
+            border: 1px dashed;
+            font-size: 0.9vw;
+            border-radius: 25px;
+            text-align: center;
+        }
+        
+        .labSister {
+            color: gray;
+            border: 1px dashed;
+            font-size: 1vw;
+            border-radius: 25px;
+            text-align: center;
+            opacity: 0.5;
+        }
+        
+        #explanation {
+            font-size: 9pt;
+            font-size: .8vw;
+            text-align: left;
+        }
+        
+        .fieldset {
+            text-align: left;
+        }
+        
+        #dream,
+        unavail {
+            width: 45%;
+        }
+        
+        #context-menu {
+            position: absolute;
+            display: none;
+        }
+        
+        #context-menu ul,
+        #context-menu li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            background: white;
+        }
+        
+        #context-menu {
+            border: solid 1px #0a0000;
+        }
+        
+        #context-menu li {
+            border-bottom: solid 1px #0b0000;
+            padding: 5px;
+        }
+        
+        #context-menu li:hover {
+            background-color: red;
+        }
+        
+        #context-menu li:last-child {
+            border: 1px solid #150101;
+        }
+        
+        #context-menu li a {
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: blue;
+        }
+        
+        .menuOption {
+            font-weight: 500;
+            font-size: 12px;
+            padding: 10px 40px 10px 20px;
+            cursor: pointer;
+        }
+        
+        form {
+            font-size: 1vw;
+            margin: auto;
+        }
+        /* Style for the container div */
+        
+        #notesContainer {
+            width: 100%;
+            height: 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        #notesText {
+            width: 80%;
+            font-size: 1vw;
+            font-family: poppins, Arial, Helvetica, sans-serif;
+            border-radius: 10px;
+        }
+        
+        .menuButton {
+            border-radius: 12px;
+            background-color: #ffc107;
+            border: none;
+            color: black;
+            padding: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1vw;
+            font-size: 12pt;
+            margin: 4px 2px;
+            cursor: pointer;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        
+        .menuButton:hover {
+            background-color: #e0a905;
+        }
+        
+        .currentButton {
+            border-radius: 12px;
+            background-color: rgb(248, 134, 134);
+            border: none;
+            color: black;
+            padding: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1vw;
+            font-size: 12pt;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        
+        #fullOrPart {
+            font-size: 1.2vw;
+            font-weight: bold;
+            margin-right: 20px;
+            margin-left: 20px;
+        }

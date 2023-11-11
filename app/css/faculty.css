@@ -1,0 +1,261 @@
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    #topTitle {
+        display: flex;
+        margin-left: 30px;
+        font-size: 1.5vw;
+        font-weight: bold;
+    }
+    
+    h2 {
+        margin-left: 10px;
+    }
+    
+    #dataContainer {
+        flex: 1;
+    }
+    
+    .container {
+        display: flex;
+        margin-top: 10px;
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+    .left-divs {
+        display: flex;
+        font-size: 1.2vw;
+        font-weight: bold
+    }
+    
+    .button {
+        border-radius: 12px;
+        border: none;
+        color: white;
+        background-color: tomato;
+        padding: 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1vw;
+        font-size: 12pt;
+        margin: 4px 2px;
+        cursor: pointer;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    
+    .saveButton {
+        background-color: blue;
+        color: white;
+        border-radius: 7px;
+        border: none;
+        padding: 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1vw;
+        margin: 4px 2px;
+        cursor: pointer;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    
+    .confirmButton {
+        background-color: green;
+        color: white;
+        border-radius: 7px;
+        border: none;
+        padding: 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1.22vw;
+        margin: 4px 2px;
+        padding-left: 20px;
+        padding-right: 20px;
+        cursor: pointer;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    
+    .cancelButton {
+        background-color: red;
+        color: white;
+        border-radius: 7px;
+        border: none;
+        padding: 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1.2vw;
+        margin-left: 100px;
+        padding-left: 20px;
+        padding-right: 20px;
+        cursor: pointer;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    
+    .vertical {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .horizontal {
+        display: flex;
+        flex-direction: row;
+        margin-left: 20px;
+        font-size: medium;
+    }
+    
+    table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: auto;
+    }
+    
+    th,
+    td {
+        text-align: left;
+        padding: 2px;
+        border: 1pt solid blue;
+    }
+    
+    th {
+        background-color: rgb(247, 154, 138);
+        text-align: center;
+    }
+    
+    tr:nth-child(even) {
+        background-color: rgb(253, 248, 213);
+    }
+    
+    tr {
+        height: 20px;
+    }
+    
+    #faculty-form label,
+    #faculty-form input,
+    #faculty-form select,
+    #faculty-form button {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        /* Add some spacing between elements */
+    }
+    
+    #heading,
+    .container {
+        display: flex;
+    }
+    
+    .leftBox,
+    .rightBox {
+        border: 1pt solid black;
+    }
+    
+    .leftBox {
+        flex: 0 0 70%;
+    }
+    
+    .rightBox {
+        flex: 0 0 30%;
+    }
+    
+    .invisible {
+        display: none;
+    }
+    
+    #deleteSelectDiv {
+        display: none;
+    }
+    
+    #buttonDiv {
+        display: flex;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        /* Center items horizontally */
+        align-items: center;
+        /* Center items vertically */
+    }
+    
+    #buttonDiv button {
+        margin: 0 20px;
+        background-color: tomato;
+        font-size: 1.1vw;
+    }
+    
+    .box1,
+    .box2 {
+        flex: 1;
+    }
+    
+    #avail {
+        width: 70%;
+        margin-left: 20%;
+        text-align: center;
+        color: rgb(85, 67, 246);
+        display: flex;
+        justify-content: center;
+    }
+    
+    #available {
+        display: flex;
+        width: 500px;
+        font-size: 1.2vw;
+        font-weight: bold;
+    }
+    
+    #makeAllAvailable {
+        margin-left: 70%;
+        background-color: blue;
+    }
+    
+    #facDeleteSelect {
+        font-size: 12pt;
+        font-size: 1.2vw;
+    }
+    /* The Modal (background) */
+    
+    dialog::backdrop {
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+    }
+    
+    dialog {
+        border: 5px solid #333;
+        filter: drop-shadow(0 0 30px #333);
+        background-color: rgb(253, 248, 213);
+        font-size: 1.2vw;
+    }
+    
+    #deleteModal,
+    #loadModal {
+        height: 250px;
+    }
+    
+    #addModal {
+        width: 300px;
+        text-align: center;
+    }
+    
+    select {
+        font-size: 1.2vw;
+    }
+    
+    input {
+        font-size: 1.2vw;
+    }
+    
+    #status {
+        font-size: 1.2vw;
+        width: 100px;
+    }
+    
+    #preferably {
+        font-size: 0.7vw;
+    }

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+
+    <script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+    <link href="../css/navbar.css" media="screen" rel="stylesheet">
+    <link href="../css/spreadsheet.css" media="screen" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <title>Spreadsheet</title>
+
+</head>
+<!-------------------LOGO------------------------------>
+<!-------------------MENU BAR--------------------------->
+<header>
+    <div id="navMenu"></div>
+    <p></p>
+</header>
+<!-------------------END MENU BAR--------------------------->
+
+
+
+<body>
+
+    <!-------------------COLUMNS------------------------------>
+    <div class="columnsContainer">
+
+        <!-------------------LEFT COLUMN-------------------------->
+        <main>
+            <div class="leftColumn" style="text-align: center;">
+
+                <p>
+                    <span id="all" style="text-align: center;">
+
+<div class="container" id = "buttonDiv">
+  <div class="row">
+    <div class="col-sm">
+      </div>
+	  
+    <div class="col-sm">
+      <input type="button" class="button" id='btnExport' value='Download Spreadsheet' onclick="tableToCSV('objTable', 'Schedule', 'Latest Schedule.xls')"></input>
+    </div>
+    <!--div class="col-sm">
+     <input type='button' class="btn btn-secondary" id='btnList' value='List Changes' onclick = "showChangeArray()" ></input> 
+    </div-->
+	<div class="col-sm">
+     <!--input type='button' class="btn btn-info" id='btnList' value='Compare with Registrar Version' onclick = "window.location.href='spreadsheetRegistrarCompare.html'" ></input--> 
+    </div>
+  </div>
+</div>			
+		
+ 
+
+<br>			
+<!--p id = "changesBlurb">Changes from the last printing are <a style="background-color:yellow">highlighted</a>. Changes will be from when the last spreadsheet was exported.</p-->   
+</span>
+                    <a id="errorDiv" style="color: red"></a>
+
+
+                    <p>
+                        <div id="tableDiv">
+                            <table id="listTable" class="plain"></table>
+                            <table id="objTable" style="text-align: center;" class="table table-sm"> </table>
+                        </div>
+
+
+            </div>
+    </div>
+
+    <script type="text/javascript" src="../js/cfcSortAndClean.js"></script>
+    <script type="text/javascript" src="../js/backup.js"></script>
+    <script src="../js/TableMaker.js" type="text/javascript" charset="utf-8"></script>
+    <!--script type="text/javascript" src="../js/spreadsheet.js"></script-->
+    <script type="text/javascript" src="../js/spreadsheetSortSchedule.js"></script>
+    <script type="text/javascript" src="../js/sortByProperty.js"></script>
+    <script type="text/javascript" src="../js/thenBy.min.js"></script>
+    <script type="text/javascript" src="../js/parseBlockTime.js"></script>
+    <script type="text/javascript" src="../js/papaparse.js"></script>
+    <script type="text/javascript" src="../js/navbar.js"></script>
+    <script src="../js/zoom.js" type="text/javascript" charset="utf-8"></script>
+
+
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
+
+
+</body>
+
+</html>

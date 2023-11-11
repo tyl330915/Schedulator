@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC"-//W3C//DTD XHTML 1.0 Strict//EN"
+
+<meta charset="utf-8">
+<title>Backup</title>
+
+<head>
+
+    <script src="../js/localforage.js"></script>
+    <!--script lang="javascript" src="dist/xlsx.full.min.js"></script-->
+    <script src="../js/papaparse.js"></script>
+    <script src="../js/TableMaker.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/backup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+    <!-------------------MENU BAR--------------------------->
+
+    <header>
+        <div id="navMenu"></div>
+    </header>
+
+
+    <!-------------------END MENU BAR--------------------------->
+
+
+    <body>
+        <div class="col-sm-12" style="text-align: center">
+            <h4> Remember to export the spreadsheet frequently to somewhere safe: if you lose your data, you will be able to reload it and pick up where you left off.</h4>
+        </div>
+        <hr>
+
+        <div id="keys" class="col-sm-1"></div>
+        <p>
+
+            <!-- Control the column width, and how they should appear on different devices -->
+            <div class="row" id="savingDiv">
+                <div class="col-md-6" style="text-align: center">
+                    <div class="col-md-12">
+                        This will download all the Schedulator files. If you are prompted, save them to the <b>"/Schedulator/backup"</b> folder. If you are not prompted, you will find them in the "Downloads" folder (or wherever your computer is set to
+                        save documents), and you will need to move them to a safe place. All the files willl end with ".json".
+
+                        <p></p>
+                        <button type="button" class="button" onclick="downloadAllLocalForageToJSON()"><h4>Backup All Data</h4></button>
+                        <p> After you have done this, you should back up the entire Schedulator folder, including the newly-saved data, to a thumb drive or network location.
+                    </div>
+                </div>
+                <div class="col-md-6" style="text-align: center">
+                    This can be used to restore all files, in the event you lose all your data.<br> <i>Be very careful, as this will overwrite all of your hard work.</i><br> To use, click "Choose Files," go to "Backup" folder, select all of the files
+                    you have previously backed up (of course you have), and press "OK".
+                    <p>
+                        <h4>Restore all data:</h4>
+                        <!--input type="file" id="multiInput" multiple class="button" value=null/ onclick="areYouSure()"-->
+                        <input type="file" id="jsonFiles" multiple>
+                        <button class="button" onclick="loadJSONFilesAndSaveInLocalForage('jsonFiles')">Load Backup Files</button>
+
+                        <br/>
+                        <script>
+                        </script>
+                </div>
+            </div>
+            <!--END FIRST ROW-->
+
+
+            <div style="text-align: center">
+                Occasionally it might be useful to backup the Course list and Faculty list to a CSV for easy editing. These buttons will allow that, and allow restoration of the data from a CSV file.<br> Once you have backed it up, you will find the CSV
+                file in your "Downloads " folder, or wherever your computer puts downloaded files.
+            </div>
+            <div class="buttonRow">
+                <div class="col-md-12" style="text-align: center ">
+                    <button type="button " class=" button" onclick="courses2CSV() "> <h4>Backup Courses to CSV</h4></button>
+                </div>
+
+                <div class="col-md-12" style="text-align: center">
+                    <button type="button " class=" button" onclick="fac2CSV() "><h4>Backup Faculty to CSV</h4></button>
+                </div>
+            </div>
+
+
+
+            <!--END THIRD ROW-->
+
+
+            <!--END CONTAINER-->
+
+
+
+
+            <div id="nuclearOption " style="text-align: center; margin-top: 400px;">
+                <hr> This button will destroy all of your data. The only time you might want to do this is if you have irretrievably damaged the databases, or need to load an entirely different department's data. Basically, don't touch this.
+                <p>
+                    <button id="killButton" onclick="nuke()">Button of Doom</a></button>
+                    <p>
+                        OK, so, if you can't resist, BEFORE CLICKING make sure that you have backed up the data for COURSES and FACULTY. <br> AFTER CLICKING: restore the courses and faculty data above, and then you can load the desired Registrar spreadsheet
+                        on the home page. <br> This way, you will keep all of your important data, and be able to start over.
+            </div>
+
+
+
+
+            <table id="facTable " style="margin: 50px "></table>
+            <table id="CFCTable " style="margin: 50px "></table>
+            <div id="filecontents "></div>
+
+            <script src="../js/backup.js " type="text/javascript " charset="utf-8 "></script>
+            <script src="../js/navbar.js"></script>
+            <script src="../js/zoom.js" type="text/javascript" charset="utf-8"></script>
+    </body>
+    <html>

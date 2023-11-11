@@ -1,0 +1,49 @@
+body {
+    font-size: 1vw;
+    font-family: 'Poppins', sans-serif;
+}
+
+#savingDiv {
+    margin-bottom: 40px;
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+}
+
+.button,
+input {
+    border-radius: 12px;
+    background-color: #ffc107;
+    border: none;
+    color: black;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#nuclearOption {
+    margin-top: 40%;
+}
+
+#killButton {
+    border-radius: 12px;
+    border: 1px solid black;
+    color: white;
+    background-color: red;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.2vw;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

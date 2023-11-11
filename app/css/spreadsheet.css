@@ -1,0 +1,97 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+#objTable {
+    width: 95%;
+    margin: auto;
+    border: 1px solid;
+}
+
+#objTable th {
+    font-size: 0.7vw;
+    border: 1px solid #000000;
+    text-align: center;
+}
+
+#objTable td {
+    border: 1px solid;
+    text-align: left;
+    font-size: 0.8vw;
+}
+
+#objTable td:nth-child(1) {
+    width: 8%;
+}
+
+#objTable td:nth-child(2) {
+    width: 12%;
+}
+
+#objTable td:nth-child(3) {
+    width: 3%;
+}
+
+#objTable td:nth-child(4) {
+    width: 2%;
+}
+
+#objTable td:nth-child(5) {
+    width: 2%;
+}
+
+#objTable td:nth-child(6) {
+    width: 5%;
+}
+
+#objTable td:nth-child(7) {
+    width: 4%;
+}
+
+#objTable td:nth-child(8) {
+    width: 3%;
+}
+
+#objTable td:nth-child(9) {
+    width: 15%;
+}
+
+#objTable td:nth-child(10) {
+    width: 3%;
+}
+
+#objTable td:nth-child(11) {
+    width: 4%;
+}
+
+#objTable td:nth-child(12) {
+    width: 4%;
+}
+
+#objTable td:nth-child(14) {
+    width: 4%;
+}
+
+#objTable td:nth-child(15) {
+    width: 8%;
+}
+
+tr:nth-child(even) {
+    background-color: rgb(179, 246, 172);
+}
+
+.button {
+    border-radius: 12px;
+    background-color: #ffc107;
+    border: none;
+    color: black;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1vw;
+    font-size: 12pt;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

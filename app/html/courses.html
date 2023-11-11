@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" type="text/css" href="../css/courses.css">
+<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
+<link rel="stylesheet" type="text/css" href="../css/navbar.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+<head>
+    <title>Courses</title><br>
+</head>
+<header>
+    <div id="navMenu"></div>
+    <p></p>
+    <h2>Courses</h2>
+</header>
+<!-------------------END MENU BAR--------------------------->
+
+<body>
+
+
+    <div class="content-container">
+
+        <div class="left-side">
+            <div id="buttonDiv">
+                <button class="button" id="addButton">Add Course</button>
+                <button class="button" id="deleteButton">Delete Course</button>
+                <button class="button" id="loadButton">Load Course CSV</button>
+            </div>
+
+            <div id="sectionTotal">
+                <h5>Total Sections: <span id="currentSectionNum"></span></h5>
+            </div>
+            <div id="courseTable"></div>
+
+        </div>
+
+    </div>
+
+
+    <!------------MODALS--->
+
+
+    <dialog id="addModal" class="modal">
+        <div id="addContainer" class="frame">
+            <h2>Add Course</h2>
+            <form id="addForm">
+                <label for="division">Division:</label>
+                <select id="division" name="division" required>
+                        <option value="">Choose Division</option>
+                        <option value="AAO">AAO</option>
+                        <option value="BUS">BUS</option>
+                        <option value="CCM">CCM</option>
+                        <option value="COR">COR</option>
+                        <option value="EHS">EHS</option>
+                        <option value="ITS">ITS</option>
+              </select>
+                <p></p>
+
+                <label for="number">Course Number:</label>
+                <input type="text" id="number" name="number" required>
+                <p></p>
+                <label for="title">Course Title:</label>
+
+                <input type="text" id="title" name="title" required>
+                <p></p>
+                <label for="location">Location:</label>
+                <select id="location" name="location" required>
+
+                <option value="General Classroom">General Classroom</option>
+                <option value="DBL">DBL</option>
+                <option value="FLD">FLD</option>
+                <option value="MONT">MONT</option>
+                <option value="OFF">OFF</option>
+                <option value="OL">OL</option>
+                <option value="HYBRD">HYBRD</option>
+              </select>
+                <p> </p>
+                <label for="method">Method:</label>
+                <select id="method" name="method" required>
+                <option value="STN">STN</option>
+                <option value="IND">IND</option>
+                <option value="LAB">LAB</option>
+                <option value="FLD">FLD</option>
+                <option value="STU">STU</option>
+                <option value="ONL">ONL</option>
+                <option value="HYB">HYB</option>
+              </select>
+                <p></p>
+                <label for="semester">Semester:</label>
+                <select id="semester" name="semester" required>
+              <option value="FA">FA</option>
+              <option value="SP">SP</option>
+              <option value="SU">SU</option>
+            </select>
+                <p></p>
+                <button type="button" id="addCourseButton" onclick="addCourse()">Add Course</button>
+
+            </form>
+
+            <p></p>
+        </div>
+    </dialog>
+
+    <!--ALERT DIALOG-->
+    <dialog id="addConfirm" class="modal">
+        <p>New Course Added </p>
+        <button id="alertOk" class="button">OK</button>
+    </dialog>
+
+
+    <!----LOAD DIALOG-->
+    <dialog id="loadModal" class="modal">
+        <h2>Load Course</h2>
+        <div id="loadCoursesCSV">
+            <p>Select the CSV file:</p>
+            <input type="file" id="csv-file" accept=".csv">
+            <button type="button" class="button" onclick="confirmLoad()">Submit</button>
+        </div>
+
+    </dialog>
+
+    <p> </p>
+    <!--DELETE DIALOG-->
+
+    <dialog id="deleteModal" class="modal">
+        <h2>Delete Course</h2>
+
+        <select id="deleteSelect">
+                <option value="">Select a course</option>
+              </select>
+        <button id="deleteButton" class="button" onclick="deleteCourse()">Delete Course</button>
+
+    </dialog>
+
+    <!--CONFIRM DIALOG-->
+    <dialog id="confirmDialog" class="modal">
+        <p id="confirmText">Are you sure you want to uplaod a new list of courses?</p>
+        <button id="confirmYes" class="button">Yes</button>
+        <button id="confirmNo" class="button">No</button>
+    </dialog>
+
+    <!--CONFIRM DELETE-->
+    <dialog id="confirmDelete" class="modal">
+        <p id="confirmText"></p>
+        <button id="confirmYes" class="button">Yes</button>
+        <button id="confirmNo" class="button">No</button>
+    </dialog>
+
+    <!--ALERT DIALOG-->
+    <dialog id="alertDialog" class="modal">
+        <p id="alertText"></p>
+        <button id="alertClose" class="button">OK</button>
+    </dialog>
+
+    <!--NO COURSES DIALOG-->
+    <dialog id="noCoursesDialog" class="modal">
+        <p>Could not find saved courses. You may need to enter them manually, or use the 'Load Spreadsheet' button.</p>
+        <button id="close">Close</button>
+    </dialog>
+
+
+
+
+
+    <!--script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script-->
+
+    <script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/courseEditTable.js"></script>
+    <script src="../js/courseEditDropdowns.js"></script>
+    <script src="../js/sortByProperty.js"></script>
+    <script src="../js/LFsaveAndOpen.js"></script>
+    <script src="../js/courses.js"></script>
+    <script src="../js/parseCSV.js"></script>
+    <script src="../js/coursesCRUD.js"></script>
+    <script src="../js/zoom.js" type="text/javascript" charset="utf-8"></script>
+
+    <!--script src="../js/TableMaker.js"></script-->
+
+
+</body>
+
+</html>

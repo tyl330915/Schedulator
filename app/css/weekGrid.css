@@ -1,0 +1,328 @@
+body {
+    font-size: 10pt;
+    font-size: 0.8vw;
+    font-family: 'Poppins', sans-serif;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.menuButton {
+    border-radius: 12px;
+    background-color: #ffc107;
+    border: none;
+    color: black;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1vw;
+    font-size: 12pt;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.menuButton:hover {
+    background-color: #e0a905;
+}
+
+.currentButton {
+    border-radius: 12px;
+    background-color: rgb(248, 134, 134);
+    border: none;
+    color: black;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1vw;
+    font-size: 12pt;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#inputMenu {
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    align-items: center;
+    min-height: 10px;
+    font-size: 11pt;
+    font-size: 0.9vw;
+}
+
+#colorCode {
+    margin-left: auto;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#targetCount {
+    margin-left: auto;
+    font-size: 1.2vw;
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+#dayTable {
+    margin-left: 2%;
+    margin-right: 2%;
+    font-size: 10pt;
+    font-size: 0.8vw;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#dayTable td {
+    position: relative;
+    min-height: 20px;
+    border-style: solid;
+    border-color: slategray;
+    border-width: 2px;
+}
+
+#dayTable td:first-child {
+    width: 50px;
+    text-align: center;
+    font-size: 11pt;
+    font-size: 0.9vw;
+    font-weight: bold;
+}
+
+#dayTable td:not(:first-child) {
+    width: auto;
+    /* Adjust this value as needed */
+}
+
+#dayTable tr {
+    min-height: 100px;
+    max-height: 100px;
+}
+
+
+/* Set the height of the first table row */
+
+#dayTable tr:first-child {
+    min-height: 20px;
+    background-color: #f1cf68;
+}
+
+#chartContainer {
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+}
+
+#graphDiv {
+    margin-left: auto;
+    margin-right: auto;
+    height: 150px;
+}
+
+#scoreTable td,
+th {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    text-align: center;
+}
+
+.dragger,
+.sisterDragger {
+    display: inline-block;
+    font-size: 1em;
+    font-weight: bold;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 3px;
+    width: max-content;
+    text-align: center;
+}
+
+.sisterDragger {
+    opacity: 0.5;
+}
+
+.hybridDragger {
+    background-color: black;
+    color: white;
+    display: inline-block;
+    font-size: 1em;
+    font-weight: bold;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 3px;
+    margin: 2px;
+    width: max-content;
+    text-align: center;
+}
+
+.labDragger {
+    color: "blue";
+    background-color: "gray";
+    display: inline-block;
+    font-size: 8pt;
+    font-size: 0.7vw;
+    font-weight: bold;
+    border: 1px dashed;
+    border-radius: 5px;
+    padding: 1px;
+    margin: 1px;
+    min-width: 10%;
+    text-align: center;
+}
+
+.labSister {
+    color: "green";
+    display: inline-block;
+    font-size: 8pt;
+    font-size: 0.7vw;
+    border: 1px dashed;
+    border-radius: 5px;
+    padding: 1px;
+    margin: 1px;
+    min-width: 10%;
+    text-align: center;
+    opacity: 0.5;
+}
+
+#unschedWrapper {
+    min-width: 500px;
+    min-height: 20px;
+    margin-left: 30px;
+    margin-right: 20px;
+}
+
+#butDiv {
+    text-align: center;
+}
+
+#sliderDiv {
+    text-align: center;
+}
+
+#colorCode {
+    display: flex;
+    margin: auto;
+    width: fit-content;
+    text-align: center;
+    background-color: rgb(43, 39, 39);
+    color: white;
+    font-size: 0.9vw;
+}
+
+#dupContainer {
+    margin-left: 2%;
+    margin-right: 2%;
+    font-size: 11pt;
+    font-size: 0.8vw;
+    color: OrangeRed;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+#unScheduled {
+    min-height: 30px;
+    background-color: lightgray;
+    min-width: 90%;
+    border: 1px solid;
+    border-radius: 12px;
+    ;
+}
+
+#draggerKey {
+    text-align: center;
+    margin-left: 15%;
+    margin-right: 5%;
+    font-size: 9pt;
+    font-size: .8vw;
+}
+
+.radio-inline {
+    margin-left: 2%;
+    font-size: 10pt;
+}
+
+#link {
+    display: block;
+    padding: 20px;
+    background: #ECECEC;
+}
+
+#context-menu {
+    position: absolute;
+    display: none;
+}
+
+#context-menu ul,
+#context-menu li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: white;
+}
+
+#context-menu {
+    border: solid 1px #CCC;
+}
+
+#context-menu li {
+    border-bottom: solid 1px #CCC;
+}
+
+#context-menu li:last-child {
+    border: none;
+}
+
+#context-menu li a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: blue;
+}
+
+#context-menu li a:hover {
+    background: blue;
+    color: #FFF;
+}
+
+.tdNum {
+    position: absolute;
+    text-align: right;
+    background-color: #393939;
+    color: white;
+    width: 20px;
+    right: 0px;
+    top: 0px;
+    padding: 1px;
+    font-size: .7vw;
+}
+
+input {
+    font-size: 2vw;
+    font-size: 14pt;
+}
+
+#targetCountNote {
+    font-size: 1vw;
+    font-size: 12pt;
+    margin-right: 10px;
+}
+
+#distributionDropdown {
+    font-size: 1vw;
+    font-size: 12pt;
+    margin-left: 100px;
+}
+
+select {
+    font-size: 1.2vw;
+    font-size: 14pt;
+}

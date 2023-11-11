@@ -1,145 +1,85 @@
 <!DOCTYPE html>
 <html>
+<!--link rel="stylesheet" type="text/css" href=".app/css/navbar.css"-->
+<link rel="stylesheet" type="text/css" href="app/css/home.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
 
 <head>
-    <title>Schedulator Test</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        
-        #output {
-            margin-top: 20px;
-            width: 300px;
-            height: 200px;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+    <title>New Semester</title>
 </head>
 
 <body>
-    <select id="dept">
-        <option value="COR">COR</option>
-        <option value="BUS">BUS</option>
-        <option value="ART">ART</option>
-    </select>
-    <select id="semester">
-        <option value="Fall">Fall</option>
-        <option value="Spring">Spring</option>
-        <option value="Summer">Summer</option>
-    </select>
-    <select id="year">
-        <option value="2024">2024</option>
-        <option value="2025">2025</option>
-        <option value="2026">2026</option>
-        <option value="2027">2027</option>
-        <option value="2028">2028</option>
-        <option value="2029">2029</option>
-        <option value="2030">2030</option>
-    </select>
-    <button onclick="submit()">Submit</button>
-    <textarea id="output"></textarea>
-    <button onclick="save()">Save</button>
+    <!--div id="navMenu"></div-->
+    <h2>Home</h2>
     <p>
-        <button onclick="saveNames()">Save Names</button>
-        <button onclick="displayNames()">Display Names</button>
+
     </p>
-    <div id="nameDisplay"></div>
+    <div class="parent">
 
-    <script>
-        window.onload = async function() {
-            const lastAccess = await localforage.getItem('lastAccess');
-            if (lastAccess) {
-                document.getElementById('dept').value = lastAccess.dept;
-                document.getElementById('semester').value = lastAccess.semester;
-                document.getElementById('year').value = lastAccess.year;
-                console.log(lastAccess);
-            }
-        }
-
-        async function submit() {
-            const dept = document.getElementById('dept').value;
-            const semester = document.getElementById('semester').value;
-            const year = document.getElementById('year').value;
-            const key = `${dept}/${semester}${year}`;
-
-            let value = await localforage.getItem(key);
-            if (!value) {
-                value = '';
-                await localforage.setItem(key, value);
-            }
-
-            const namesKey = `${dept}/names`;
-            let namesValue = await localforage.getItem(namesKey);
-            console.log(namesValue);
+        <div id="logo" class="center">
+            <img src="app/css/schedyellow.png" id="logoImage" alt="Logo" class="center"></img>
+            <h1>Schedulator</h1>
+            <h5>v. 2024 B</h5>
+        </div>
+        <p></p>
 
 
-            document.getElementById('output').value = value;
-            if (namesValue) {
-                displayNames(JSON.parse(namesValue));
-            }
 
-            await localforage.setItem('lastAccess', {
-                dept,
-                semester,
-                year
-            });
-        }
 
-        async function save() {
-            const dept = document.getElementById('dept').value;
-            const semester = document.getElementById('semester').value;
-            const year = document.getElementById('year').value;
-            const key = `${dept}/${semester}${year}`;
-            const value = document.getElementById('output').value;
+        <div class="button-container">
+            <button class="mainButton" id="newSemesterButton">Start a New Semester</button>
+            <button class="mainButton" id="continueButton">Continue with Current Semester</button>
+        </div>
+    </div>
 
-            await localforage.setItem(key, value);
-        }
 
-        async function saveNames() {
-            console.log(names);
-            const dept = document.getElementById('dept').value;
-            const namesKey = `${dept}/names`;
-            const namesValue = JSON.stringify(names);
-            await localforage.setItem(namesKey, namesValue);
-        }
+    <dialog id="newSemester" class="modal">
+        <div class="modalContent">
+            <h1 class="center" style="color: black" ;>New Semester</h1>
+            <label for="">&nbsp; &nbsp; Department &nbsp;</label>
+            <select id="dept">
+    <option value="AAO">AAO</option>  
+    <option value="BUS">BUS</option>
+    <option value="CCM">CCS</option>  
+    <option value="COR">COR</option>
+    <option value="BUS">EHS</option>
+    <option value="ITS">ITS</option>
 
-        function displayNames(names) {
-            const dept = document.getElementById('dept').value;
-            localforage.getItem(`${dept}/names`).then(namesString => {
-                const names = JSON.parse(namesString);
-                console.log(names);
-                if (Array.isArray(names)) {
-                    // Get the existing list, if it exists
-                    let list = document.getElementById('namesList');
-                    // If the list exists, remove it
-                    if (list) {
-                        list.remove();
-                    }
-                    // Create a new list
-                    list = document.createElement('ul');
-                    list.id = 'namesList';
-                    names.sort((a, b) => {
-                        // Compare last names
-                        const lastNameComparison = a.last.localeCompare(b.last);
-                        if (lastNameComparison !== 0) {
-                            return lastNameComparison;
-                        }
-                        // If last names are equal, compare first names
-                        return a.first.localeCompare(b.first);
-                    }).forEach(name => {
-                        const item = document.createElement('li');
-                        item.textContent = `${name.first} ${name.last}`;
-                        list.appendChild(item);
-                    });
+  </select>
+            <label for="semester">&nbsp; &nbsp; Semester &nbsp;</label>
+            <select id="semester">
+    <option value="Fall">Fall</option>
+    <option value="Spring">Spring</option>
+    <option value="Summer">Summer</option>
+  </select>
+            <label for="year">&nbsp; &nbsp;Year &nbsp;</label>
+            <select id="year">
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+    <option value="2026">2026</option>
+    <option value="2027">2027</option>
+    <option value="2028">2028</option>
+    <option value="2029">2029</option>
+    <option value="2030">2030</option>
+    <!-- Add more years as needed -->
+  </select>
+            <p class="center">
+                <button class="smallButton" id="saveButton">Save</button>
+                <button class="smallButton" id="cancelButton">Cancel</button>
+            </p>
+        </div>
+    </dialog>
 
-                    document.body.appendChild(list);
-                } else {
-                    console.log('names is not an array');
-                }
-            });
-        }
-    </script>
+
+    <footer>
+        <p> &copy; 2018 - 2024 Jeff Haig </p>
+    </footer>
+
+
+    <script src="./app/js/home.js"></script>
+    <!--script src="../js/navbar.js"></script-->
+    <script src="./app/js/localforage.js"></script>
+    <!--script src="../js/zoom.js" type="text/javascript" charset="utf-8"></script-->
 </body>
 
 </html>

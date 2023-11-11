@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <title>Faculty Survey</title>
+    <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <link href="../css/survey.css" media="screen" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+</head>
+<header>
+    <div id="navMenu"></div>
+
+</header>
+
+<body>
+    <h2>Faculty Survey</h2>
+    <hr>
+    <div class="row">
+
+        <!-------------------LEFT COLUMN-------------------------->
+        <div id="leftColumn" class="col-3">
+            <!----LOAD DIALOG-->
+            <dialog id="surveyModal" class="modal">
+                <h2>Load Faculty Survey</h2>
+                <div id="loadSurveyCSV">
+                    <p>Select the CSV file:</p>
+                    <input type="file" id="fileInputCSV" accept=".csv">
+
+                </div>
+
+            </dialog>
+
+            <p>
+
+        </div>
+        <!--------------------END LEFT COLUMN----------------------->
+
+        <!-------------------RIGHT COLUMN--------------------------->
+        <div id="rightColumn " class="col ">
+            <button type="button " class="button" id="showByClass" value="Show Preferences by Course" onclick="toggleButton()">Show Preferences by Course
+            </button>
+            <button id="loadCSVButton" onclick="loadSurvey()" style="float: right">Load Survey</button>
+            <p> </p>
+
+
+        </div>
+        <p>
+            <p>
+                <p>
+                    <div class="row" id="missingDiv" style="margin-left: 50px ">
+                        <b><div id="numberMissing"></div>
+                        missing surveys:</div>
+                        <div id="missing" class="border border-warning; col-10 " style="padding: 10px; margin-left: 50px; ">Missing:&nbsp </div>
+                        </b>
+                        <div id="orphanPrefs " class="col-10 "></div>
+                    </div>
+
+                    <div class="row " style="margin-left: 50px ">
+                        <h3>Completed Surveys: </h3>
+                    </div>
+
+                    <table id="objTable"></table>
+
+
+    </div>
+    </div>
+
+
+</body>
+<script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/survey.js "></script>
+<script src="../js/parseCSV.js "></script>
+<script src="../js/papaparse.js "></script>
+<script src="../js/surveyParse.js "></script>
+<script src="../js/TableMaker.js " type="text/javascript " charset="utf-8 "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<script src="../js/navbar.js " type="text/javascript " charset="utf-8"></script>
+<script src="../js/zoom.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+
+
+
+</html>

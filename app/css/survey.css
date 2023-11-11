@@ -1,0 +1,112 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+    width: 70%;
+    margin: auto;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 2px;
+    border: 1pt solid blue;
+}
+
+tr:nth-child(even) {
+    background-color: rgb(253, 248, 213);
+}
+
+tr {
+    height: 20px;
+}
+
+.button {
+    border-radius: 12px;
+    background-color: tomato !important;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1vw;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#loadCSVButton {
+    border-radius: 12px;
+    background: red;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1vw;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.body {
+    font-size: .9vw;
+}
+
+#leftColumn {
+    font-size: 11pt;
+    font-size: .9vw;
+}
+
+#rightColumn {
+    font-size: 11pt;
+    font-size: 0.9vw;
+}
+
+#logo,
+#version,
+#mainGroup,
+#sch,
+#vDate,
+#editButtons,
+#tableDiv,
+#missing,
+#orphanPrefs,
+#numberMissing,
+#missingTitle {
+    display: inline-block;
+}
+
+#orphanPrefs,
+#missing {
+    color: red;
+    font-size: 1.2vw;
+}
+
+
+/* The Modal (background) */
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+dialog {
+    border: 5px solid #333;
+    filter: drop-shadow(0 0 30px #333);
+    background-color: rgb(253, 248, 213);
+    font-size: 1.2vw;
+}
+
+#deleteModal,
+#loadModal {
+    height: 250px;
+}
+
+#missingDiv {
+    display: none;
+}

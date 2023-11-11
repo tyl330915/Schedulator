@@ -1,0 +1,39 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+#dataContainer {
+    margin-left: 60px !important;
+    margin-right: 60px !important;
+}
+
+#missingTimes,
+#missingBlurb,
+#noTimesTable,
+#ODTBlurb,
+#ODTTable,
+#missingClassTitle,
+#missingClass,
+#moreThanWantedTitle,
+#moreThanWanted,
+#lessThanWantedTitle,
+#lessThanWanted,
+#moreThanNormalTitle,
+#moreThanNormal,
+#lessThanNormalTitle,
+#lessThanNormal,
+#noClassesTitle,
+#noClasses {
+    display: none;
+}
+
+.title {
+    color: brown;
+}
+
+#noTimesTable td,
+th {
+    border: 1px solid brown;
+    min-width: 150px;
+    text-align: center;
+}

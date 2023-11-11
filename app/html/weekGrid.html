@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC"-//W3C//DTD XHTML 1.0 Strict//EN">
+
+<meta charset="utf-8">
+
+<head>
+    <title>Weekly Grid</title>
+    <link href="../css/navbar.css" media="screen" rel="stylesheet">
+    <link href="../css/weekGrid.css" media="screen" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+</head>
+
+<header>
+    <div id="navMenu"></div>
+    <p></p>
+</header>
+
+<body>
+    <div class="row">
+        <h2>Weekly Schedule</h2>
+        <nav id="inputMenu" class="btn-group" role="group">
+            <a href="assignCourses.html"><button type="button" class="menuButton">Assign Classes</button></a>
+            <a href="scheduleIndividuals.html"><button type ="button" class="menuButton"> Individual Schedules </button></a>
+            <a href="weekGrid.html"><button type="button" class="currentButton">Week Grid</button></a>
+        </nav>
+    </div>
+    <!-------------------END MENU BAR--------------------------->
+
+
+    <div class="row">
+
+        <div id="distributionDropdown">
+            <b>Distribution: &nbsp</b>
+            <select id="distribution">                 
+            </select>
+        </div>
+
+        <div id="targetCount" style="text-align: center">
+            Enter the Registrar's target for each class time:<br>
+            <input id="targNum" type="number" min="1" max="20" onchange="getTimeCount()">
+            <br>
+        </div>
+
+    </div>
+    <!--end top row-->
+
+    <hr>
+    <div id="colorCode">Colors:&nbsp;
+        <div style="color: yellow">Yellow cells&nbsp; </div> have the professor's name in them already.&nbspIf a survey has been loaded,&nbsp;
+        <div style="color: lightgreen">green cells &nbsp; </div> are desired times, &nbsp;
+        <div style="color: lightblue">blue cells &nbsp; </div> are undesired times.&nbsp;
+        <div style="color: red">Red cells &nbsp; </div> have duplicate names.</div>
+    <!----, and&nbsp
+            <div style="color: rgb(185, 29, 185)">purple cells&nbsp </div> indicate both an undesired time and one the professor already occupies.-->
+    </div>
+
+
+
+    <!--div class="row" id="dupContainer">
+        <div id="duplicates">Duplicates here</div>
+    </div-->
+    <p>
+        <div id="unschedWrapper" class="row"><b>Unscheduled: &nbsp </b>
+            <div id="unScheduled" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false"></div>
+        </div>
+
+
+        <div class="row" id="tableDiv">
+
+
+            <p></p>
+            <table id="dayTable">
+                <td>Time
+                </td>
+                <th>
+                    MONDAY
+                </th>
+                <th>
+                    TUESDAY
+                </th>
+                <th>
+                    WEDNESDAY
+                </th>
+                <th>
+                    THURSDAY
+                </th>
+                <th>
+                    FRIDAY
+                </th>
+
+                <!------Row 8:30------>
+                <tr>
+                    <td>
+                        <div>8:30</div>
+                        <div>(W9:00)</div>
+                    </td>
+                    <td id="M 8:30 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                        <div class="tdNum" id="M8">M8</div>
+                    </td>
+                    <td id="T 8:30 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                        <div class="tdNum" id="T8"></div>
+                    </td>
+                    <td id="W 9:00 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                        <div class="tdNum" id="W9"></div>
+                    </td>
+                    <!--td align="center" style="background-color: white">
+                                        <div id="chartContainer" align="right" style="height: 130px; width: 95%; display: inline-block"> </div>
+                                    </td-->
+                    <td id="TH 8:30 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+                        <div class="tdNum" id="TH8"></div>
+                    </td>
+                    <td id="F 8:30 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+                        <div class="tdNum" id="F8"></div>
+                    </td>
+                </tr>
+                <!------Row 10:00------>
+                <tr>
+                    <td>
+                        10:00
+                    </td>
+                    <td id="M 10:00 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                        <div class="tdNum" id="M10"></div>
+                    </td>
+                    <td id="T 10:00 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                        <div class="tdNum" id="T10"></div>
+                    </td>
+                    <td id="W 10:30 AM" class="dayCell" style="background-color: #ffe6cc">
+                        <div class="tdNum" id="W10"></div>
+                    </td>
+                    <td id="TH 10:00 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+                        <div class="tdNum" id="TH10"></div>
+                    </td>
+                    <td id="F 10:00 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+                        <div class="tdNum" id="F10"></div>
+                    </td>
+
+                </tr>
+                <!------Row 11:30------>
+                <tr>
+                    <td>
+                        <div>11:30</div>
+                        <div>(W12:15)</div>
+                    </td>
+                    <td id="M 11:30 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                        <div class="tdNum" id="M11"></div>
+                    </td>
+                    <td id="T 11:30 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                        <div class="tdNum" id="T11"></div>
+                    </td>
+                    <!--td id="W 11:30 AM" style= "background-color: lightgray">
+                                        </div>
+                                    </td-->
+                    <td id="W 12:15 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                        <div class="tdNum" id="W12"></div>
+                    </td>
+                    <td id="TH 11:30 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+                        <div class="tdNum" id="TH11"></div>
+                    </td>
+                    <td id="F 11:30 AM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+                        <div class="tdNum" id="F11"></div>
+                    </td>
+                </tr>
+                <!------Row 1:00------>
+                <tr>
+                    <td>
+                        1:00
+                    </td>
+                    <td id="M 1:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background: white">
+                        <div class="tdNum" id="M1"></div>
+                    </td>
+                    <td id="T 1:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background: white">
+                        <div class="tdNum" id="T1"></div>
+                    </td>
+                    <td id="W 1:45 PM" class="dayCell" style="background-color: #ffe6cc">
+                        <div class="tdNum" id="W1"></div>
+
+                    </td>
+                    <td id="TH 1:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+                        <div class="tdNum" id="TH1"></div>
+                    </td>
+                    <td id="F 1:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+                        <div class="tdNum" id="F1"></div>
+                    </td>
+                </tr>
+                <!------Row 2:30------>
+                <tr>
+                    <td>
+                        2:30
+                    </td>
+                    <td id="M 2:30 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                        <div class="tdNum" id="M2"></div>
+                    </td>
+                    <td id="T 2:30 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                        <div class="tdNum" id="T2"></div>
+                    </td>
+                    <td id="W 2:30 PM" text-align="center" style="background-color: white">
+                        <div id="graphDiv">
+                            <canvas id="chartContainer"></canvas>
+                        </div>
+        </div>
+        </td>
+        <td id="TH 2:30 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+            <div class="tdNum" id="TH2"></div>
+        </td>
+        <td id="F 2:30 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+            <div class="tdNum" id="F2"></div>
+        </td>
+        </tr>
+        <!------Row 4:00------>
+        <tr>
+            <td>
+                4:00
+            </td>
+            <td id="M 4:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                <div class="tdNum" id="M4"></div>
+            </td>
+            <td id="T 4:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                <div class="tdNum" id="T4"></div>
+            </td>
+            <td id="W 4:00 PM" style="background-color: black">
+
+            </td>
+            <td id="TH 4:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+                <div class="tdNum" id="TH4"></div>
+            </td>
+            <td id="F 4:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: #ffe6cc">
+                <div class="tdNum" id="F4"></div>
+            </td>
+        </tr>
+
+        <!------Row 5:30------>
+        <tr>
+            <td>
+                5:30
+            </td>
+            <td id="M 5:30 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                <div class="tdNum" id="M5"></div>
+            </td>
+            <td id="T 5:30 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                <div class="tdNum" id="T5"></div>
+            </td>
+            <td id="W 5:30 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                <div class="tdNum" id="W5"></div>
+            </td>
+            <td id="TH 5:30 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                <div class="tdNum" id="TH5"></div>
+            </td>
+            <td id="F 5:30 PM" style="background-color: black"></td>
+
+        </tr>
+
+
+        <!------Row 7:00------>
+        <tr>
+            <td>
+                7:00
+            </td>
+            <td id="M 7:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                <div class="tdNum" id="M7"></div>
+            </td>
+            <td id="T 7:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                <div class="tdNum" id="T7"></div>
+            </td>
+            <td id="W 7:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                <div class="tdNum" id="W7"></div>
+            </td>
+            <td id="TH 7:00 PM" class="dayCell" ondrop="drop(this, event)" ondragenter="return false" ondragover="return false" style="background-color: white">
+                <div class="tdNum" id="TH7"></div>
+            </td>
+            <td id="F 7:00 PM" style="background-color: black"></td>
+
+        </tr>
+        </table>
+
+
+        <!-- end table container-->
+        </div>
+        <!--END TABLE ROW-->
+
+
+
+        <script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../js/weekDragAndDrop.js" type="text/javascript"></script>
+        <script src="../js/parseBlockTime.js"></script>
+        <script src="../js/weekFillClasses.js"></script>
+        <script src="../js/colorDraggers.js"></script>
+        <script src="../js/parseTime.js" type="text/javascript"></script>
+        <script src="../js/colorGoodAndBadTimes.js" type="text/javascript"></script>
+        <script src="../js/weekTimeCount.js" type="text/javascript"></script>
+        <script src="../js/navbar.js" type="text/javascript"></script>
+        <script src="../js/weekDropdown.js" type="text/javascript"></script>
+
+        <!--script src="../js/rightClick.js" type="text/javascript"></script-->
+        <script src="../js/parseBlockTime.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../js/cfcSortAndClean.js" type="application/javascript"></script>
+        <script type="text/javascript" src="../js/createGraph.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0-rc/dist/chartjs-plugin-datalabels.min.js"></script>
+        <script src="../js/TableMaker.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../js/zoom.js" type="text/javascript" charset="utf-8"></script>
+
+        <!--script charset="utf-8" src="../js/saveToChangeLog.js" type="text/javascript"></script-->
+
+
+        <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="../css/faculty.css">
+<link rel="stylesheet" type="text/css" href="../css/navbar.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+
+<head>
+    <title>Faculty</title>
+    <div id="navMenu"></div>
+</head>
+<header>
+
+    <p></p>
+</header>
+
+<body>
+    <h2>Faculty</h2>
+
+    <div class="container"></div>
+
+    <div id="buttonDiv">
+        <button class="button" id="showFacAddButton">Add Name</button>
+        <button class="button" id="showFacDeleteButton">Delete Name</button>
+        <button class="button" id="loadButton">Load Faculty CSV</button>
+    </div>
+    <div class="leftBox">
+
+
+        <div id="avail">
+            <div id="available">
+                Total Available:&nbsp;
+                <div id="totalAvailable"></div>
+            </div>
+            <button id="makeAllAvailable" class="button" onclick="makeAllAvailable()">Make All Available</button>
+        </div>
+
+
+        <p> </p>
+        <div id='table-container'></div>
+
+    </div>
+
+    </div>
+    <!--ADD DIALOG-->
+    <dialog id="addModal" class="modal">
+        <h2>Add Name</h2>
+        <form id="add-form" class="vertical">
+            First Name: <input type="text" id="first-name" placeholder="First Name">
+            <p></p>
+            Last Name: <input type="text" id="last-name" placeholder="Last Name">
+            <p> </p>
+            Status: <select id="status">
+                        <option value="PT">PT</option>
+                        <option value="FT">FT</option>
+                </select>
+            <p></p>
+            Email: <input type="text" id="addEmail" placeholder="Email">
+            <p id="preferably">(Preferably a champlain.edu account)</p>
+            <button id="saveButton" type="button" class="saveButton">Save Name</button>
+        </form>
+
+    </dialog>
+
+    <!--DELETE DIALOG-->
+    <dialog id="deleteModal" class="modal">
+        <div>
+            <h2>Delete</h2>
+            Delete name: <select id="facDeleteSelect"> </select>
+        </div>
+    </dialog>
+
+    <!--LOAD DIALOG-->
+
+    <dialog id="loadModal" class="modal">
+
+        <div id="loadOptions">
+            <h2>Load Data</h2>
+            <p>The .csv file must have the headers "firstName", "lastName", status, "email" and "available".</p>
+            <p></p>
+            <p>Select the CSV file:</p>
+            <input type="file" class="button" id="csv-file" accept=".csv">
+            <button class="saveButton" onclick="confirmLoad()">Save Data</button>
+        </div>
+    </dialog>
+
+    <!--ErrorDialog -->
+    <dialog id="missingModal" class="modal">
+        <div>
+            Please check your data: there is something missing.
+        </div>
+    </dialog>
+
+    <!--EmailDialog -->
+    <dialog id="emailModal" class="modal">
+        <div>
+            Please make sure you enter a valid email.
+        </div>
+    </dialog>
+
+    <!-- The Modal -->
+    <dialog id="confirmModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <!--span class="close">&times;</span-->
+            <p>Are you sure you want to proceed?</p>
+            <button id="confirmBtn" class="confirmButton">Yes</button>
+            <button id="cancelBtn" class="cancelButton">No</button>
+        </div>
+    </dialog>
+
+
+
+    <script src="../js/sortByProperty.js"></script>
+    <script src="../js/facEditTable.js"></script>
+    <script src="../js/faculty.js"></script>
+    <!--script src="../js/LFsaveAndOpen.js"></script-->
+    <script src="../js/parseCSV.js"></script>
+    <script src="../js/facDeleteSelect.js"></script>
+    <script src="../js/getAvailableFaculty.js"></script>
+    <script src="../js/checkCFC.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/zoom.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+
+
+</body>
+
+</html>
