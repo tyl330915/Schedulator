@@ -40,6 +40,11 @@
     <button onclick="submit()">Submit</button>
     <textarea id="output"></textarea>
     <button onclick="save()">Save</button>
+    <p>
+        <button onclick="saveNames()">Save Names</button>
+        <button onclick="displayNames()">Display Names</button>
+    </p>
+    <div id="nameDisplay"></div>
 
     <script>
         window.onload = async function() {
@@ -63,17 +68,17 @@
                 value = '';
                 await localforage.setItem(key, value);
             }
+            /*
+                        const namesKey = `${dept}/names`;
+                        let namesValue = await localforage.getItem(namesKey);
+                        console.log(namesValue);
 
-            const namesKey = `${dept}/Names`;
-            let namesValue = await localforage.getItem(namesKey);
-            console.log(namesValue);
 
-
-            document.getElementById('output').value = value;
-            if (namesValue) {
-                displayNames(JSON.parse(namesValue));
-            }
-
+                        document.getElementById('output').value = value;
+                        if (namesValue) {
+                            displayNames(JSON.parse(namesValue));
+                        }
+            */
             await localforage.setItem('lastAccess', {
                 dept,
                 semester,
@@ -91,14 +96,39 @@
             await localforage.setItem(key, value);
         }
 
+        async function saveNames() {
+            console.log(names);
+            const dept = document.getElementById('dept').value;
+            const namesKey = `${dept}/names`;
+            const namesValue = JSON.stringify(names);
+            await localforage.setItem(namesKey, namesValue);
+        }
+
         function displayNames(names) {
-            const list = document.createElement('ul');
-            names.sort((a, b) => a.last.localeCompare(b.last)).forEach(name => {
-                const item = document.createElement('li');
-                item.textContent = `${name.first} ${name.last}`;
-                list.appendChild(item);
+            const dept = document.getElementById('dept').value;
+            localforage.getItem(`${dept}/names`).then(namesString => {
+                const names = JSON.parse(namesString);
+                console.log(names);
+                if (Array.isArray(names)) {
+                    // Get the existing list, if it exists
+                    let list = document.getElementById('namesList');
+                    // If the list exists, remove it
+                    if (list) {
+                        list.remove();
+                    }
+                    // Create a new list
+                    list = document.createElement('ul');
+                    list.id = 'namesList';
+                    names.sort((a, b) => a.last.localeCompare(b.last)).forEach(name => {
+                        const item = document.createElement('li');
+                        item.textContent = `${name.first} ${name.last}`;
+                        list.appendChild(item);
+                    });
+                    document.body.appendChild(list);
+                } else {
+                    console.log('names is not an array');
+                }
             });
-            document.body.appendChild(list);
         }
     </script>
 </body>
