@@ -47,22 +47,6 @@
     <div id="nameDisplay"></div>
 
     <script>
-        const names = [{
-                first: 'John',
-                last: 'Diddly'
-            }, {
-                first: 'Jane',
-                last: 'Diddly'
-            }, {
-                first: 'Joe',
-                last: 'Diddly'
-            }, {
-                first: 'Jill',
-                last: 'Diddly'
-            }
-
-        ];
-
         window.onload = async function() {
             const lastAccess = await localforage.getItem('lastAccess');
             if (lastAccess) {
@@ -84,17 +68,17 @@
                 value = '';
                 await localforage.setItem(key, value);
             }
-            /*
-                        const namesKey = `${dept}/names`;
-                        let namesValue = await localforage.getItem(namesKey);
-                        console.log(namesValue);
+
+            const namesKey = `${dept}/names`;
+            let namesValue = await localforage.getItem(namesKey);
+            console.log(namesValue);
 
 
-                        document.getElementById('output').value = value;
-                        if (namesValue) {
-                            displayNames(JSON.parse(namesValue));
-                        }
-            */
+            document.getElementById('output').value = value;
+            if (namesValue) {
+                displayNames(JSON.parse(namesValue));
+            }
+
             await localforage.setItem('lastAccess', {
                 dept,
                 semester,
