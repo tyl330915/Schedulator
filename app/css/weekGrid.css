@@ -85,6 +85,7 @@ body {
     border-style: solid;
     border-color: slategray;
     border-width: 2px;
+    background-clip: padding-box;
 }
 
 #dayTable td:first-child {
