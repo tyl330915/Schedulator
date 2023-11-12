@@ -43,6 +43,7 @@ function makeDropDown(currFC) {
                     if (currFC[i].currentCourses[j].num && !currFC[i].currentCourses[j].days && currFC[i].currentCourses[j].method !== "ONL") {
                         console.log(fullName);
                         option.style.color = "red";
+                        option.style.fontStyle = "italic";
                     }
                 }
             }
