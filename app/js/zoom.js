@@ -1,8 +1,7 @@
 let isZoomed = false;
 
-document.getElementById('zoomButton').addEventListener('click', toggleZoom);
-
 function toggleZoom() {
+    console.log("Zoom clicked");
     let body = document.body;
     let currentScale = parseFloat(getComputedStyle(body).getPropertyValue('transform'));
     if (!isZoomed) {
