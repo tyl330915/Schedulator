@@ -1,8 +1,8 @@
 //const localforage = require("localforage");
 
-window.onload = function() {
+window.addEventListener('load', function() {
     startUp();
-};
+});
 
 function startUp() {
     console.log("startup");
