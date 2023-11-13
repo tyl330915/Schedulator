@@ -1,13 +1,15 @@
 let isZoomed = false;
 
+document.getElementById('zoomButton').addEventListener('click', toggleZoom);
+
 function toggleZoom() {
     let body = document.body;
-    let currentZoom = parseFloat(getComputedStyle(body).getPropertyValue('zoom'));
+    let currentScale = parseFloat(getComputedStyle(body).getPropertyValue('transform'));
     if (!isZoomed) {
-        body.style.zoom = currentZoom + 0.5;
+        body.style.transform = 'scale(' + (currentScale + 0.5) + ')';
         isZoomed = true;
     } else {
-        body.style.zoom = currentZoom - 0.5;
+        body.style.transform = 'scale(' + (currentScale - 0.5) + ')';
         isZoomed = false;
     }
 }

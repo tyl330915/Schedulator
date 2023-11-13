@@ -30,10 +30,5 @@ const menu = `
 </div>
 `
 
-const myString = `
-  <div class="example-class" id="example-id">
-    This is a sample div element
-  </div>
-`;
 
 document.getElementById('navMenu').innerHTML = menu;
