@@ -5,7 +5,7 @@ window.onload = function() {
 }
 
 function toggleZoom() {
-    console.log("Zoom button clicked");
+    console.log("Zoom button");
     let body = document.body;
     let currentScale = parseFloat(getComputedStyle(body).getPropertyValue('transform'));
     if (!isZoomed) {
