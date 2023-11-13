@@ -1,6 +1,8 @@
 let isZoomed = false;
 
-document.getElementById('zoomButton').addEventListener('click', toggleZoom);
+window.onload = function() {
+    document.getElementById('zoomButton').addEventListener('click', toggleZoom);
+}
 
 function toggleZoom() {
     console.log("Zoom button clicked");
