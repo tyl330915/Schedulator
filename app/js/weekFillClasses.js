@@ -1,9 +1,8 @@
 //const localforage = require("localforage");
 
-window.onload = function() {
+window.addEventListener('load', function() {
     showIndividualClasses();
-
-};
+});
 
 function showIndividualClasses() {
     //console.log("showIndividualClasses");
@@ -18,7 +17,6 @@ function showIndividualClasses() {
         }
     });
 };
-
 
 
 function createDragnDropInformation(personData) {
