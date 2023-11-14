@@ -1,5 +1,9 @@
 //import "chart.js/auto";
 
+window.addEventListener('load', function() {
+    createGraph(CFC);
+});
+
 function createGraph(CFC) {
     console.log("createGraph");
     //
