@@ -1,16 +1,12 @@
 //const localforage = require("localforage");
 
-window.onload = function() {
-    //const crses = openLF(courses);
-    ///openSemData();
-    showAllCourses(); ///
-
+document.addEventListener("DOMContentLoaded", function(event) {
+    showAllCourses();
     localforage.keys().then(function(keys) {
         // An array of all the key names.
         console.log(keys);
     });
-
-};
+});
 
 let currSemester, currDept, currSections, currSectionCount;
 const tableHeaders = ['Div', 'Num', 'Title', 'Loc', 'Meth', 'Sem'];
