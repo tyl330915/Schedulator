@@ -45,14 +45,16 @@
                         <p> After you have done this, you should back up the entire Schedulator folder, including the newly-saved data, to a thumb drive or network location.
                     </div>
                 </div>
-                <div class="col-md-6" style="text-align: center">
+                <div style="text-align: center">
                     This can be used to restore all files, in the event you lose all your data.<br> <i>Be very careful, as this will overwrite all of your hard work.</i><br> To use, click "Choose Files," go to "Backup" folder, select all of the files
                     you have previously backed up (of course you have), and press "OK".
                     <p>
                         <h4>Restore all data:</h4>
                         <!--input type="file" id="multiInput" multiple class="button" value=null/ onclick="areYouSure()"-->
-                        <input type="file" id="jsonFiles" multiple>
-                        <button class="button" onclick="loadJSONFilesAndSaveInLocalForage('jsonFiles')">Load Backup Files</button>
+                        <button type="button" class="button" id="loadFilesButton"><h4>Load Data from Schedulator Files</h4></button>
+
+                        <button type="button" class="button" id="loadCSVButton"><h4>Load Data from Schedulator Spreadsheet</h4></button>
+
 
                         <br/>
                         <script>
@@ -80,6 +82,37 @@
 
             <!--END THIRD ROW-->
 
+            <!--MODAL FOR LOADING FILES-->
+            <dialog id="uploadFilesModal" class="modal">
+                <div id="modalContent">
+                    <div id="dialogboxhead">
+                        <h1>Upload Files</h1>
+                    </div>
+                    <div id="dialogboxbody">
+                        <input type="file" id="jsonFiles" accept=".json" multiple>
+                        <button id="loadFiles" class="button">Load Schedulator Files</button>
+                    </div>
+                    <p> </p>
+                    <div id="dialogboxfoot">This will erase the current schedule: be sure this is what you want to do!</div>
+                </div>
+            </dialog>
+
+            <!--create a dialog modal to handle loading spreadsheet-->
+
+            <dialog id="uploadSSModal" class="modal">
+                <div id="modalContent">
+                    <div id="dialogboxhead">
+                        <h1>Upload Spreadsheet</h1>
+                    </div>
+                    <div id="dialogboxbody">
+                        <input type="file" id="loadSS" accept=".csv">
+                        <button id="loadSSButton" class="button">Load Spreadsheet</button>
+                    </div>
+                    <p> </p>
+                    <div id="dialogboxfoot">This will erase the current schedule: be sure this is what you want to do!</div>
+                </div>
+            </dialog>
+
 
             <!--END CONTAINER-->
 
@@ -98,11 +131,14 @@
 
 
 
+
+
             <table id="facTable " style="margin: 50px "></table>
             <table id="CFCTable " style="margin: 50px "></table>
             <div id="filecontents "></div>
 
             <script src="../js/backup.js " type="text/javascript " charset="utf-8 "></script>
+            <script src="../js/backupSpreadsheet.js " type="text/javascript " charset="utf-8 "></script>
             <script src="../js/navbar.js"></script>
             <script src="../js/zoom.js" type="text/javascript" charset="utf-8"></script>
     </body>

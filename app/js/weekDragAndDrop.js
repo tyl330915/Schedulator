@@ -52,11 +52,11 @@ function drop(target, e) {
         let chosenName = id.split("#")[0];
         console.log(chosenName);
         nameIndex = CFC.findIndex(obj => obj.lastName + obj.firstName[0] === chosenName);
-        console.log(nameIndex);
+        //console.log(nameIndex);
         var courseIndex = id.split("#")[1].split("/")[0];
 
-        console.log(nameIndex, courseIndex);
-        console.log(CFC[nameIndex].currentCourses[courseIndex]);
+        //console.log(nameIndex, courseIndex);
+        //console.log(CFC[nameIndex].currentCourses[courseIndex]);
         currentCourse = CFC[nameIndex].currentCourses[courseIndex];
         currentNum = currentCourse.num;
         currentTime = currentCourse.time;
@@ -64,16 +64,17 @@ function drop(target, e) {
         currentMethod = currentCourse.method;
         let currentPerWeek;
 
+        console.log("currentTime: ", currentTime, "currentDays: ", currentDays);
+        //  if (currentDays === "" || currentDays === undefined || currentDays.includes("/") || currentDays === null || currentTime === "" || currentTime === undefined) {
+        //      currentPerWeek = 2;
+        //  }
 
-        if (currentDays === "" || currentDays === undefined || currentDays.includes("/")) {
+        if (currentMethod === "HYB" || (!currentDays.includes("/") && currentDays !== "")) {
+            currentPerWeek = 1;
+        } else {
             currentPerWeek = 2;
         }
-
-        if (currentMethod === "HYB" || !currentDays.includes("/")) {
-            currentPerWeek = 1;
-        }
-
-        console.log("currentCourse: ", currentCourse, "currentMethod: ", currentMethod, "currentTime: ", currentTime, "currentDays: ", currentDays);
+        console.log("currentCourse: ", currentCourse, "currentMethod: ", currentMethod, "currentTime: ", currentTime, "currentDays: ", currentDays, "currentPerWeek: ", currentPerWeek);
         firstDayCellIndex = twoDayFirstCells.indexOf(tId);
         console.log("firstdaycellindex: ", twoDayFirstCells.indexOf(tId));
 

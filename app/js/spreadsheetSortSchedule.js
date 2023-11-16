@@ -2,8 +2,6 @@ window.addEventListener('load', function() {
     asssembleData();
 });
 
-
-
 function asssembleData() {
     let scheduleArray = [];
     localforage.getItem("faculty", function(err, fac) {

@@ -15,6 +15,37 @@ localforage.iterate(function(value, key, iterationNumber) {
 });
 
 ////////////////////////////////////////////////////////ARRAY FUNCTIONS
+var csvModal = document.getElementById("uploadSSModal");
+var csvModalButton = document.getElementById("loadCSVButton");
+var filesModal = document.getElementById("uploadFilesModal");
+var filesButton = document.getElementById("loadFilesButton");
+var loadFiles = document.getElementById("loadFiles");
+var loadSS = document.getElementById("loadSSButton");
+
+csvModalButton.onclick = function() {
+    csvModal.style.display = "block";
+}
+
+filesButton.onclick = function() {
+    filesModal.style.display = "block";
+}
+
+loadFiles.onclick = function() {
+    loadJSONFilesAndSaveInLocalForage('jsonFiles');
+};
+
+loadSS.onclick = function() {
+    loadSpreadsheet();
+}
+
+window.onclick = function(event) {
+    if (event.target == csvModal || event.target == filesModal) {
+        csvModal.style.display = "none";
+        filesModal.style.display = "none";
+    }
+}
+
+
 function downloadObjectAsCSV(obj, filename) {
     var csv = Object.keys(obj[0]).join(',') + '\n'; // header
     csv += obj.map(row => Object.values(row).join(',')).join('\n'); // data
@@ -127,7 +158,12 @@ function areYouSure() {
 function tableToCSV(tableName, name, filename) {
     localforage.getItem('semesterData', function(err, semData) {
         console.log("semData: ", semData);
-        let semTitle = semData.semYear.year + " " + semData.semYear.semester + " " + semData.semYear.dept;
+        //Get today's date
+        let date = new Date();
+        let formattedDate = (date.getMonth() + 1) + '.' + date.getDate() + '.' + date.getFullYear() + ' ' + date.getHours() + date.getMinutes();
+        console.log(formattedDate);
+
+        let semTitle = semData.semYear.dept + " " + semData.semYear.year + " " + semData.semYear.semester + "-" + formattedDate;
         const table = document.getElementById(tableName);
         var data = [];
         var rows = table.rows;
@@ -162,6 +198,7 @@ function loadJSONFilesAndSaveInLocalForage(inputElementId) {
     let inputElement = document.getElementById(inputElementId);
     let files = inputElement.files;
     if (confirm("Are you sure you want to load " + files.length + " files? This will overwrite all of your previous data.")) {
+        filesModal.style.display = "none";
         for (let i = 0; i < files.length; i++) {
             let file = files[i];
             let reader = new FileReader();
@@ -170,11 +207,16 @@ function loadJSONFilesAndSaveInLocalForage(inputElementId) {
                 let jsonContent = JSON.parse(content);
                 let fileNameWithoutSuffix = file.name.replace(/\.[^/.]+$/, "");
                 await localforage.setItem(fileNameWithoutSuffix, jsonContent);
+
             };
             reader.readAsText(file);
         }
+
+        alert("Files saved.");
     }
 };
+
+console.log(filesModal);
 
 
 

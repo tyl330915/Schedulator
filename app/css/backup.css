@@ -47,3 +47,54 @@ input {
     cursor: pointer;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+
+/* The Modal (background) */
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+dialog {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+#modalContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(249, 249, 189);
+    padding: 50px;
+    border: 4px solid #888;
+    width: 400px;
+    height: 250px;
+    text-align: center;
+    align-items: center;
+    font-size: 1vw;
+}
+
+#dialogboxfoot {
+    font-weight: bold;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    font-size: 1vw;
+}
+
+#loadCSVButton {
+    margin-left: 100px;
+    padding: 0px 20px;
+}
+
+#loadFilesButton {
+    padding: 0px 20px;
+}
