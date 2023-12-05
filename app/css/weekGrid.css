@@ -64,10 +64,17 @@ body {
 }
 
 #targetCount {
+    display: flex;
     margin-left: auto;
-    font-size: 1.2vw;
-    font-size: 14pt;
+    font-size: 1vw;
+    font-size: 12pt;
     font-weight: bold;
+}
+
+#targetCountNote {
+    font-size: 1vw;
+    font-size: 12pt;
+    margin-right: 10px;
 }
 
 #dayTable {
@@ -229,7 +236,7 @@ th {
     border: 1px solid black;
 }
 
-#unScheduled {
+#holdingPen {
     min-height: 30px;
     background-color: lightgray;
     min-width: 90%;
@@ -309,12 +316,6 @@ th {
 input {
     font-size: 2vw;
     font-size: 14pt;
-}
-
-#targetCountNote {
-    font-size: 1vw;
-    font-size: 12pt;
-    margin-right: 10px;
 }
 
 #distributionDropdown {

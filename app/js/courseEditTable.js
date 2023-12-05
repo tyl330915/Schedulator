@@ -1,5 +1,3 @@
-//const localforage = require("localforage");
-
 function generateTable(dataList, headers, containerId) {
 
     console.log("generateTable");
@@ -95,90 +93,60 @@ function generateTable(dataList, headers, containerId) {
 ///THIS IS THE SECTION WHICH MAKES THE COURSE NUMBER AND THE COURSE TITLE EDITABLE
 
 function setupEditing(table, dataList) {
-
     var rows = table.getElementsByTagName('tr');
-
     for (var i = 0; i < rows.length; i++) {
         var cells = rows[i].getElementsByTagName('td');
         if (cells.length >= 3) {
-            cells[1].addEventListener('click', function() {
-                var cellIndex = getCellIndex(this);
-                console.log('Row Index:', cellIndex.row);
-                console.log('Column Index:', cellIndex.column);
-                makeEditable(this, dataList, cellIndex.row, cellIndex.column);
-            });
-            cells[1].classList.add('editable');
-
-            cells[2].addEventListener('click', function() {
-                var cellIndex = getCellIndex(this);
-                console.log('Row Index:', cellIndex.row);
-                console.log('Column Index:', cellIndex.column);
-                makeEditable(this, dataList, cellIndex.row, cellIndex.column);
-            });
-            cells[2].classList.add('editable');
+            setupCell(cells[1], dataList);
+            setupCell(cells[2], dataList);
         }
     }
     createSelects(table, dataList);
 }
 
+function setupCell(cell, dataList) {
+    cell.addEventListener('click', function() {
+        var cellIndex = getCellIndex(this);
+        console.log('Row Index:', cellIndex.row);
+        console.log('Column Index:', cellIndex.column);
+        makeEditable(this, dataList, cellIndex.row, cellIndex.column);
+    });
+    cell.classList.add('editable');
+}
 
 function getCellIndex(cell) {
-    var row = cell.parentNode.rowIndex; // Get the row index of the cell
-    var column = cell.cellIndex; // Get the column index of the cell
-
     return {
-        row: row,
-        column: column
+        row: cell.parentNode.rowIndex,
+        column: cell.cellIndex
     };
 }
 
-
-
 function makeEditable(td, courseData, entryIndex, cellIndex) {
-    // Store the original content of the cell
-    var originalContent = td.innerHTML;
+    if (td.querySelector('input')) {
+        return; // If the cell already contains an input element, do nothing
+    }
+
+    var originalContent = td.textContent;
     let actualIndex = entryIndex - 1;
 
-    // Create an input element
     var input = document.createElement('input');
     input.type = 'text';
     input.value = originalContent;
 
-    // Replace the cell's content with the input element
     td.innerHTML = '';
     td.appendChild(input);
     input.focus();
 
-    // Add an event listener to save the data when the input element loses focus
     input.addEventListener('blur', function() {
+        var newContent = input.value.trim();
+        td.textContent = newContent === '' ? originalContent : newContent;
 
-        // Get the new content of the cell
-        var newContent = input.value;
+        console.log("Save here ", td.textContent);
 
-        // Restore the original content if the new content is empty
-        if (newContent.trim() === '') {
-            td.innerHTML = originalContent;
-        } else {
-            td.innerHTML = newContent;
-        }
-        //console.log(courseData)
-        console.log(courseData[actualIndex]);
-        console.log("Save here ", td.innerHTML);
-
-        let entryField = "";
-        if (cellIndex == 1) {
-            entryField = "num";
-        } else if (cellIndex == 2) {
-            entryField = "title";
-        }
-
-        let newEntry = td.innerHTML.trim();
-
-
-        courseData[actualIndex][entryField] = newEntry;
+        let entryField = cellIndex == 1 ? "num" : "title";
+        courseData[actualIndex][entryField] = td.textContent;
 
         console.log(courseData[actualIndex]);
         saveData(courseData);
-
     });
-};
+}

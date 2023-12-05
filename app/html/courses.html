@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html>
 
+
+<script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/currentStorage.js" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="../css/courses.css">
 <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
 <link rel="stylesheet" type="text/css" href="../css/navbar.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
 
 <head>
     <title>Courses</title><br>
 </head>
 <header>
     <div id="navMenu"></div>
-    <p></p>
+
     <h2>Courses</h2>
 </header>
 <!-------------------END MENU BAR--------------------------->
 
 <body>
 
-
     <div class="content-container">
-
         <div class="left-side">
             <div id="buttonDiv">
                 <button class="button" id="addButton">Add Course</button>
@@ -31,6 +33,7 @@
             <div id="sectionTotal">
                 <h5>Total Sections: <span id="currentSectionNum"></span></h5>
             </div>
+
             <div id="courseTable"></div>
 
         </div>
@@ -67,7 +70,7 @@
                 <label for="location">Location:</label>
                 <select id="location" name="location" required>
 
-                <option value="General Classroom">General Classroom</option>
+                <option value="">General Classroom</option>
                 <option value="DBL">DBL</option>
                 <option value="FLD">FLD</option>
                 <option value="MONT">MONT</option>
@@ -84,6 +87,7 @@
                 <option value="FLD">FLD</option>
                 <option value="STU">STU</option>
                 <option value="ONL">ONL</option>
+                <option value="ONLSY">ONLSY</option>
                 <option value="HYB">HYB</option>
               </select>
                 <p></p>
@@ -108,6 +112,10 @@
         <button id="alertOk" class="button">OK</button>
     </dialog>
 
+    <!--NO COURSES DIALOG-->
+    <dialog id="noCoursesDialog" class="modal">
+        <p>Could not find saved courses. You may need to enter them manually, or use the 'Load Spreadsheet' button.</p>
+    </dialog>
 
     <!----LOAD DIALOG-->
     <dialog id="loadModal" class="modal">
@@ -142,9 +150,9 @@
 
     <!--CONFIRM DELETE-->
     <dialog id="confirmDelete" class="modal">
-        <p id="confirmText"></p>
-        <button id="confirmYes" class="button">Yes</button>
-        <button id="confirmNo" class="button">No</button>
+        <p id="deleteText"></p>
+        <button id="deleteYes" class="button">Yes</button>
+        <button id="deleteNo" class="button">No</button>
     </dialog>
 
     <!--ALERT DIALOG-->
@@ -153,21 +161,9 @@
         <button id="alertClose" class="button">OK</button>
     </dialog>
 
-    <!--NO COURSES DIALOG-->
-    <dialog id="noCoursesDialog" class="modal">
-        <p>Could not find saved courses. You may need to enter them manually, or use the 'Load Spreadsheet' button.</p>
-        <button id="close">Close</button>
-    </dialog>
 
 
 
-
-
-    <!--script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script-->
-
-    <script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
     <script src="../js/navbar.js"></script>
     <script src="../js/courseEditTable.js"></script>
     <script src="../js/courseEditDropdowns.js"></script>

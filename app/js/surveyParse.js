@@ -1,6 +1,10 @@
 function surveyParse(preferenceSurvey) {
     console.log("survey parse");
     console.table(preferenceSurvey);
+    if (preferenceSurvey.length === 0) {
+
+        return [];
+    }
     let fpData = findAndLogDuplicateEmails(preferenceSurvey);
     // console.log(fpData);
     let personPrefs = {};
@@ -180,7 +184,7 @@ function removeDuplicateEmailsAndKeepLatest(array) {
 
 function matchPrefsNametoFacultyName(prefs) {
     try {
-        localforage.getItem('faculty', function(err, fac) {
+        currentstore.getItem('faculty', function(err, fac) {
             if (err) throw err;
             console.table(fac);
             let missingNames = [];

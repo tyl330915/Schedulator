@@ -12,6 +12,8 @@
             margin-left: auto;
             margin-right: auto;
             width: 150px;
+            margin-top: 50px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
         
         .parent {
@@ -19,7 +21,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 1;
         }
         
         .center {
@@ -29,7 +30,6 @@
             animation-name: fadeIn;
             animation-duration: 3s;
             text-align: center;
-            z-index: 1;
         }
         
         .button-container {
@@ -37,7 +37,6 @@
             /* Adjust as needed */
             align-items: center;
             gap: 200px;
-            z-index: 99;
         }
         
         .mainButton {
@@ -53,7 +52,6 @@
             text-decoration: none;
             cursor: pointer;
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            z-index: 1;
         }
         
         button {
@@ -89,10 +87,31 @@
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
         
+        #currentSemester {
+            display: flex;
+            flex-direction: row;
+            font-size: 1.5vw;
+            font-weight: bold;
+            color: tomato;
+        }
+        
+        #selectDiv {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+        
         select {
             font-size: 1.5em;
             padding-left: 10px;
             padding-right: 10px;
+            background-color: rgb(246, 236, 181);
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        
+        #selectButton {
+            font-size: 1.5em;
         }
         
         footer {
@@ -109,12 +128,11 @@
             font-size: 10pt;
         }
         
-        .modal {
-            display: none;
+        #loadingModal {
             /* Hidden by default */
             position: fixed;
             /* Stay in place */
-            z-index: 99;
+            z-index: 2;
             /* Sit on top */
             left: 0;
             top: 0;
@@ -129,14 +147,16 @@
             background-color: rgba(0, 0, 0, 0.4);
             /* Black w/ opacity */
         }
-        /* Modal Content/Box */
         
-        .modalContent {
+        #modalMessage {
             background-color: #f7f0b0;
+            width: 30%;
+            font-size: 2vw;
+            text-align: center;
             margin: auto;
             /* Centers the modal vertically and horizontally */
             padding: 20px;
-            border: 1px solid #888;
+            border: 4px solid black;
             display: inline-block;
             /* Adjusts the width of the modal content box */
             /* Center the modal-content vertically */
@@ -165,4 +185,44 @@
             position: absolute;
             background-color: white;
             border-radius: 20px;
+            z-index: -1;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+        
+        .tooltip .tooltiptext {
+            font-family: 'Poppins', sans-serif;
+            visibility: hidden;
+            width: 400px;
+            font-size: 0.9vw;
+            background-color: #f7f0b0;
+            text-align: left;
+            border: black solid 3px;
+            border-radius: 6px;
+            padding: 5px 30px 5px 20px;
+            /* top right bottom left */
+            position: absolute;
+            z-index: 1;
+            bottom: 150%;
+            left: 50%;
+            margin-left: -60px;
+        }
+        
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 20%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
         }

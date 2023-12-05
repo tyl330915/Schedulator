@@ -1,8 +1,8 @@
 //import "chart.js/auto";
 
-window.addEventListener('load', function() {
-    createGraph(CFC);
-});
+//document.addEventListener('DOMContentLoaded', async function() {
+//    createGraph(CFC);
+//});
 
 function createGraph(CFC) {
     console.log("createGraph");
@@ -31,7 +31,7 @@ function createGraph(CFC) {
 
                 let currentTimes = currentFacCourses[j].time;
                 let blockTime = currentTimes.split(":")[0];
-                // console.log("Block Time: ", blockTime);
+                //console.log("Block Time: ", blockTime);
 
                 switch (blockTime) {
                     case "Block 1":

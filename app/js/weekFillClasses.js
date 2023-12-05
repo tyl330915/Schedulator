@@ -1,16 +1,17 @@
-//const localforage = require("localforage");
-
-window.addEventListener('load', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    await setCurrentStore();
+    // Now you can use currentStore
+    console.log(currentStore);
     showIndividualClasses();
 });
 
 function showIndividualClasses() {
     //console.log("showIndividualClasses");
 
-    localforage.getItem('faculty', function(err, CFC) {
+    currentStore.getItem('faculty', function(err, CFC) {
         //clearTableCells();
         createGraph(CFC);
-        document.getElementById("unScheduled").innerHTML = "";
+        document.getElementById("holdingPen").innerHTML = "";
         for (i = 0; i < CFC.length; i++) {
             createDragnDropInformation(CFC[i]);
 
@@ -21,8 +22,8 @@ function showIndividualClasses() {
 
 function createDragnDropInformation(personData) {
 
-    // console.log("personData", personData);
-    ///localforage.getItem('courses', function(err, courses) {
+    //console.log("personData", personData);
+    ///currentstore.getItem('courses', function(err, courses) {
     //console.table(courses);
 
     let assignedCourses = personData.currentCourses;
@@ -35,8 +36,6 @@ function createDragnDropInformation(personData) {
     }
     colorWeekDraggers(personData);
 
-
-    ///});
 };
 
 function assembleDraggerID(personName, classDT, arrayNumber) {
@@ -47,7 +46,7 @@ function assembleDraggerID(personName, classDT, arrayNumber) {
     let method = classDT.method;
     let shortName = personName.split(",")[0] + personName.split(", ")[1][0];
 
-    if (method === "STN" || method === "HYB") {
+    if (method === "STN" || method === "HYB" || method === "ONLSY") {
         if (classDT.time !== undefined && classDT.time !== null && classDT.time !== "" && classDT.days !== undefined && classDT.days !== null && classDT.days !== "") {
 
 
@@ -149,13 +148,13 @@ function createDragger(coursePerson, courseNum, DT1, DT2, method, arrayNumber) {
 
 
     if ((DT1 === null || DT1 === undefined)) {
-        target = "unScheduled";
+        target = "holdingPen";
     } else {
         target = DT1;
     }
 
     let draggerMethod = dragger.getAttribute("method");
-    if (draggerMethod !== "STN" && draggerMethod !== "HYB") {
+    if (draggerMethod !== "STN" && draggerMethod !== "HYB" && draggerMethod !== "ONLSY") {
         console.log("Abnormal dragger Method", draggerMethod);
     }
     //console.log("Target: ", target);
@@ -168,7 +167,7 @@ function createDragger(coursePerson, courseNum, DT1, DT2, method, arrayNumber) {
         console.log(e);
     }
 
-    if (target !== "unScheduled" && draggerMethod !== "HYB") {
+    if (target !== "holdingPen" && draggerMethod !== "HYB") {
 
         var sisterDragger = document.getElementById(dragger.id).cloneNode(true); //CLONE THE NAME AND PUT IT IN THE SECOND DAY
         sisterDragger.setAttribute("id", dragName + "-sister");
@@ -189,11 +188,9 @@ function createDragger(coursePerson, courseNum, DT1, DT2, method, arrayNumber) {
         console.log("HYBRID: No sister");
 
     } else {
-        console.log("unScheduled");
+        console.log("holdingPen");
         return;
     }
-
-
 };
 
 function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
@@ -207,11 +204,8 @@ function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
     var sisterDragger = document.getElementById(id).cloneNode(true); //CLONE THE NAME AND PUT IT IN THE SECOND DAY
     sisterDragger.setAttribute("id", id + "-sister");
     sisterDragger.setAttribute("draggable", "false");
-    sisterDragger.setAttribute("onmousedown", "rightSelect(event)");
+    //sisterDragger.setAttribute("onmousedown", "rightSelect(event)");
     sisterDragger.setAttribute("class", "sisterDragger");
-    //sisterDragger.setAttribute("perWeek", perWeek);
-    // console.log(primaryTarget, id, perWeek);
-    //    console.log(sisterParse(primaryTarget));
 
     if ((perWeek === 2 || perWeek === "2") && hour.includes("&")) {
         perWeek = 1;
@@ -225,14 +219,6 @@ function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
         sisterTarget = doubleClassParse(primaryTarget);
         // console.log(sisterTarget);
     }
-
-    //console.log(sisterTarget);
-    // if (courseName[7] === "L" || meth === "LAB") {
-    //     sisterDragger.setAttribute("class", "labSister");
-    // } else {
-
-    //};
-    //console.log(sisterDragger.getAttribute("class"), sisterTarget);
 
     try {
 
@@ -259,11 +245,6 @@ function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
         updatedFacName = id.split(".")[2];
 
         //console.log("updatedClass: ", updatedClass, "updatedTime: ", updatedTime, "classListIndex: ", classListIndex, "updatedIndex: ", updatedIndex, "updatedFacName: ", updatedFacName);
-
-
-
-
-
     } catch (e) {
         console.log(e);
         if (sisterTarget === null) {
@@ -271,9 +252,6 @@ function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
 
         };
     };
-    /////saveSchedule(updatedClass, updatedTime, oldTime, updatedIndex, updatedFacName)
-    //colorDraggers();
-
 };
 
 function clearTableCells() {

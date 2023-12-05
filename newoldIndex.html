@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<!--link rel="stylesheet" type="text/css" href=".app/css/navbar.css"-->
+<link rel="stylesheet" type="text/css" href="app/css/home.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+<head>
+    <title>New Semester</title>
+</head>
+
+<body>
+    <!--div id="navMenu"></div-->
+    <h2 style="margin-left: 10px;">Home</h2>
+    <p>
+
+    </p>
+    <div class="parent">
+
+        <div id="logo" class="center">
+            <img src="app/css/schedyellow.png" id="logoImage" alt="Logo" class="center"></img>
+            <h1>Schedulator</h1>
+            <h5>v. 2024 B</h5>
+        </div>
+        <p></p>
+        <!--create a button to onclick goto testHome.html-->
+
+        <a href="./app/html/testIndex2.html"><button class="mainButton">Test Home Pages</button></a>
+
+        <div class="button-container">
+            <button class="mainButton" id="newSemesterButton">Start a New Semester</button>
+            <button class="mainButton" id="continueButton">Continue with Current Semester</button>
+        </div>
+    </div>
+
+
+    <dialog id="newSemester" class="modal">
+        <div class="modalContent">
+            <h1 class="center" style="color: black" ;>New Semester</h1>
+            <label for="">&nbsp; &nbsp; Department &nbsp;</label>
+            <select id="dept">
+    <option value="AAO">AAO</option>  
+    <option value="BUS">BUS</option>
+    <option value="CCM">CCM</option>  
+    <option value="COR">COR</option>
+    <option value="BUS">EHS</option>
+    <option value="ITS">ITS</option>
+
+  </select>
+            <label for="semester">&nbsp; &nbsp; Semester &nbsp;</label>
+            <select id="semester">
+    <option value="Fall">Fall</option>
+    <option value="Spring">Spring</option>
+    <option value="Summer">Summer</option>
+  </select>
+            <label for="year">&nbsp; &nbsp;Year &nbsp;</label>
+            <select id="year">
+    <option value="2023">2023</option>
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+    <option value="2026">2026</option>
+    <option value="2027">2027</option>
+    <option value="2028">2028</option>
+    <option value="2029">2029</option>
+    <option value="2030">2030</option>
+    <!-- Add more years as needed -->
+  </select>
+            <p class="center">
+                <button class="smallButton" id="cancelButton">Cancel</button>
+                <button class="smallButton" id="saveButton">Save</button>
+
+            </p>
+        </div>
+    </dialog>
+
+
+    <footer>
+        <p> &copy; 2018 - 2024 Jeff Haig </p>
+    </footer>
+
+
+    <script src="./app/js/home.js"></script>
+    <!--script src="../js/navbar.js"></script-->
+    <script src="./app/js/localforage.js"></script>
+    <!--script src="../js/zoom.js" type="text/javascript" charset="utf-8"></script-->
+</body>
+
+</html>

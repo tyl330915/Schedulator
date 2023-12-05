@@ -26,8 +26,9 @@ const menu = `
 <a href="spreadsheet.html">Spreadsheet</a>
 
 <a href="backup.html">Backup</a>
-
+<div id="currentSemester">${currStore}</div>
 </div>
+
 `
 
 

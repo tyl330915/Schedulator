@@ -1,12 +1,14 @@
-//const localforage = require("localforage");
-
-window.addEventListener('load', function() {
+//const currentStore = require("currentStore");
+document.addEventListener('DOMContentLoaded', async function() {
+    await setCurrentStore();
+    // Now you can use currentStore
     startUp();
 });
 
+
 function startUp() {
     console.log("startup");
-    localforage.getItem("faculty", function(err, currFaC) {
+    currentStore.getItem("faculty", function(err, currFaC) {
         if (err) {
             console.log(err);
             alert("Could not load faculty list. You may need to enter them manually, or use the 'Load Spreadsheet' button on the Faculty page.");
@@ -18,7 +20,7 @@ function startUp() {
 };
 
 function makeDropDown(currFC) {
-    console.table(currFC);
+    //console.table(currFC);
     var sel = document.getElementById("facultySelect");
     sel.innerHTML = "";
     let fullName = "";
@@ -59,21 +61,22 @@ function makeDropDown(currFC) {
 
 
 function getCurrProfessor() {
-
-    localforage.getItem('semesterData', function(err, currData) {
+    currentStore.getItem('semesterData', function(err, currData) {
+        if (err) {
+            console.error("Error getting semesterData:", err);
+            return;
+        }
         console.log("currData: ", currData);
         var element = document.getElementById('facultySelect');
         let crPrf = currData.currProf;
-        //console.log("Prof:", crPrf);
-        if (crPrf !== "") {
+        if (crPrf) {
             element.value = crPrf;
             displayFacPrefs();
         } else {
-            element.selectedIndex = 0;
-        };
-
+            element.value = "Select Faculty Name";
+        }
     });
-};
+}
 
 function displayFacPrefs() {
     console.log("displayFacPrefs");
@@ -82,18 +85,10 @@ function displayFacPrefs() {
     let chosenName;
     //let chosenName = document.getElementById("facultySelect").value;
     //console.log(chosenName);
-    localforage.getItem('faculty', function(err, fac) {
-        localforage.getItem('semesterData', function(err, semData) {
-
-
-            //clearCourseTable();
-
-            //semData.currProf = chosenName;
-
+    currentStore.getItem('faculty', function(err, fac) {
+        currentStore.getItem('semesterData', function(err, semData) {
             chosenName = document.getElementById("facultySelect").value;
-            console.log("chosenName: ", chosenName);
-
-
+            //console.log("chosenName: ", chosenName);
             let index = fac.findIndex(obj => obj.lastName + ", " + obj.firstName === chosenName);
             let chosenEmail = fac[index].email;
             // console.log("1stFacEmail: ", facEmail);
@@ -107,7 +102,7 @@ function displayFacPrefs() {
             //  }
 
 
-            localforage.getItem('facultyPreferences', function(err, facPrefsData) {
+            currentStore.getItem('facultyPreferences', function(err, facPrefsData) {
 
                 if (facPrefsData) {
                     //  console.log(facPrefsData);
@@ -121,7 +116,7 @@ function displayFacPrefs() {
 
             semData.currProf = chosenName;
 
-            localforage.setItem('semesterData', semData, function(err, sData) {
+            currentStore.setItem('semesterData', semData, function(err, sData) {
                 if (sData) {
 
                     showIndividualClasses(fac[index].currentCourses);
@@ -139,14 +134,14 @@ function showFacPrefsData(facPrefsData, name, CFCemail) {
     let indivPrefs, shortName;
 
     let prefIndex = facPrefsData.findIndex(obj => obj.prefEmail === CFCemail);
-    console.log("1st try: ", prefIndex);
+    //console.log("1st try: ", prefIndex);
     // console.log(facPrefsData[prefIndex]);
     shortName = name.split(",")[0] + name.split(", ")[1][0];
     if (prefIndex < 0) {
 
 
         prefIndex = facPrefsData.findIndex(obj => obj.name.split(", ")[0] + " " + obj.name.split(", ")[1][0].toLowerCase() === shortName);
-        console.log("2nd try: ", facPrefsData[prefIndex]);
+        //console.log("2nd try: ", facPrefsData[prefIndex]);
     }
 
 
@@ -157,8 +152,8 @@ function showFacPrefsData(facPrefsData, name, CFCemail) {
         console.log("Ready to fill preferences");
         indivPrefs = facPrefsData[prefIndex];
 
-        console.log(indivPrefs.past);
-        console.log(document.getElementById("haveTaught"));
+        //console.log(indivPrefs.past);
+        //console.log(document.getElementById("haveTaught"));
         try {
             document.getElementById("unavailReasons").innerHTML = indivPrefs.factors;
             document.getElementById("haveTaught").innerHTML = indivPrefs.past;
@@ -188,7 +183,7 @@ function showFacPrefsData(facPrefsData, name, CFCemail) {
 
     //var unAvailTimes = parseFullTime(indivPrefs.notAvail);
     //var idealTimes = parseFullTime(indivPrefs.dream);
-    console.log(shortName);
+    //console.log(shortName);
     colorGoodAndBadTimes(shortName);
 
 

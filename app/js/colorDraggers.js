@@ -3,15 +3,13 @@ function colorDraggers() {
     let chosenName, weekly, drags, sDrags, dragID, sDragID, labDrags, labSister, classList;
     const colorArray = ["mistyrose", "salmon", "lightblue", "cornsilk", "pink", "greenapple", "lightgreen", "wheat", "yellow", "lightlavender", "peachpuff"];
 
-    localforage.getItem('faculty', function(err, CFC) {
+    currentStore.getItem('faculty', function(err, CFC) {
         //get the data for the current faculty memeber, and the array of drag elements
 
         chosenName = document.getElementById("facultySelect").value;
         nameIndex = CFC.findIndex(obj => obj.lastName + ", " + obj.firstName === chosenName);
         personData = CFC[nameIndex];
         //console.log(personData);
-
-
         drags = document.getElementsByClassName("dragger");
         sDrags = document.getElementsByClassName("sisterDragger");
 
@@ -30,11 +28,8 @@ function colorDraggers() {
 
             //get the information for whether the class is once or twice per week
             let listIndex = drags[i].id.split(".")[1];
-            console.log(listIndex);
-
+            //console.log(listIndex);
             let days = classList[listIndex].days;
-
-
             if (days === "" || days === undefined || days.includes("/")) {
                 weekly = 2;
             } else {
@@ -45,33 +40,36 @@ function colorDraggers() {
                 weekly = 1;
             }
 
+            if (classList[listIndex].method !== "ONLSY" && classList[listIndex].method !== "HYB") {
 
-            //color the draggers & set the formatting
-            if (weekly && (weekly === 1 || weekly === "1")) {
-                console.log("Once a week");
-                document.getElementById(dragID).style.backgroundColor = draggerColor;
-                document.getElementById(dragID).style.border = "1px dashed black";
-                document.getElementById(dragID).style.borderRadius = "25px";
-                let currSDrag = document.getElementById(sDragID);
-                if (currSDrag) {
-                    document.getElementById(sDragID).style.backgroundColor = draggerColor;
-                    document.getElementById(sDragID).style.opacity = "0.5";
-                    document.getElementById(sDragID).style.border = "1px dashed black";
-                    document.getElementById(sDragID).style.borderRadius = "25px";
+
+                //color the draggers & set the formatting
+                if (weekly && (weekly === 1 || weekly === "1")) {
+                    //console.log("Once a week");
+                    document.getElementById(dragID).style.backgroundColor = draggerColor;
+                    document.getElementById(dragID).style.border = "1px dashed black";
+                    document.getElementById(dragID).style.borderRadius = "25px";
+                    let currSDrag = document.getElementById(sDragID);
+                    if (currSDrag) {
+                        document.getElementById(sDragID).style.backgroundColor = draggerColor;
+                        document.getElementById(sDragID).style.opacity = "0.5";
+                        document.getElementById(sDragID).style.border = "1px dashed black";
+                        document.getElementById(sDragID).style.borderRadius = "25px";
+                    }
+
                 }
+                if (weekly && (weekly === 2 || weekly === "2")) {
+                    // console.log("Twice a week");
+                    document.getElementById(dragID).style.backgroundColor = draggerColor;
+                    document.getElementById(dragID).style.border = "1px solid black";
+                    document.getElementById(dragID).style.borderRadius = "25px";
 
-            }
-            if (weekly && (weekly === 2 || weekly === "2")) {
-                console.log("Twice a week");
-                document.getElementById(dragID).style.backgroundColor = draggerColor;
-                document.getElementById(dragID).style.border = "1px solid black";
-                document.getElementById(dragID).style.borderRadius = "25px";
-
-                if (document.getElementById(sDragID)) {
-                    document.getElementById(sDragID).style.backgroundColor = draggerColor;
-                    document.getElementById(sDragID).style.opacity = "0.5";
-                    document.getElementById(sDragID).style.border = "1px solid black";
-                    document.getElementById(sDragID).style.borderRadius = "25px";
+                    if (document.getElementById(sDragID)) {
+                        document.getElementById(sDragID).style.backgroundColor = draggerColor;
+                        document.getElementById(sDragID).style.opacity = "0.5";
+                        document.getElementById(sDragID).style.border = "1px solid black";
+                        document.getElementById(sDragID).style.borderRadius = "25px";
+                    }
                 }
             }
         }

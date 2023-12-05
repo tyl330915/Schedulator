@@ -21,19 +21,19 @@ body {
 }
 
 #objTable td:nth-child(1) {
-    width: 8%;
-}
-
-#objTable td:nth-child(2) {
-    width: 12%;
-}
-
-#objTable td:nth-child(3) {
     width: 3%;
 }
 
+#objTable td:nth-child(2) {
+    width: 8%;
+}
+
+#objTable td:nth-child(3) {
+    width: 15%;
+}
+
 #objTable td:nth-child(4) {
-    width: 2%;
+    width: 3%;
 }
 
 #objTable td:nth-child(5) {
@@ -53,27 +53,27 @@ body {
 }
 
 #objTable td:nth-child(9) {
-    width: 15%;
+    width: 5%;
 }
 
 #objTable td:nth-child(10) {
-    width: 3%;
+    width: 5%;
 }
 
 #objTable td:nth-child(11) {
-    width: 4%;
+    width: 15%;
 }
 
 #objTable td:nth-child(12) {
     width: 4%;
 }
 
-#objTable td:nth-child(14) {
+#objTable td:nth-child(13) {
     width: 4%;
 }
 
-#objTable td:nth-child(15) {
-    width: 8%;
+#objTable td:nth-child(14) {
+    width: 4%;
 }
 
 tr:nth-child(even) {

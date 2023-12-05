@@ -1,8 +1,13 @@
-//const localforage = require("localforage");
+//const currentcurrentStore = require("currentcurrentStore");
 
-document.addEventListener("DOMContentLoaded", function(event) {
+// anotherScript.js
+document.addEventListener('DOMContentLoaded', async function() {
+    await setCurrentStore();
+    // Now you can use currentStore
+    console.log(currentStore);
     loadExistingPrefs();
 });
+
 
 let buttonState = false;
 
@@ -29,7 +34,7 @@ document.getElementById('fileInputCSV').addEventListener('change', function(evt)
 
 
 function loadExistingPrefs() {
-    localforage.getItem('facultyPreferences', function(err, fPrefs) {
+    currentStore.getItem('facultyPreferences', function(err, fPrefs) {
         if (err) {
             console.log(err);
         } else {
@@ -41,12 +46,17 @@ function loadExistingPrefs() {
 
 function showNamesAndEmails(prefs) {
     let nameAndEmail = [];
-    for (let i = 0; i < prefs.length; i++) {
-        nameAndEmail.push([prefs[i].name, prefs[i].prefEmail]);
+    if (prefs == null) {
+        document.getElementById("surveysCompleted").innerHTML = "No surveys uploaded."
+        return;
+    } else {
+        for (let i = 0; i < prefs.length; i++) {
+            nameAndEmail.push([prefs[i].name, prefs[i].prefEmail]);
+        }
+        // console.table(nameAndEmail);
+        let headers = ["Name", "Email"];
+        drawTableAddHeaders(nameAndEmail, headers, "objTable");
     }
-    // console.table(nameAndEmail);
-    let headers = ["Name", "Email"];
-    drawTableAddHeaders(nameAndEmail, headers, "objTable");
 }
 
 
@@ -60,7 +70,7 @@ function sortAndDisplayPrefs(facPrefs) {
         }
         return 0;
     });
-    localforage.setItem('facultyPreferences', facPrefs, function(err) {
+    currentStore.setItem('facultyPreferences', facPrefs, function(err) {
         if (err) {
             console.log(err);
         } else {
@@ -75,8 +85,8 @@ function sortAndDisplayPrefs(facPrefs) {
 };
 
 function showPrefsByClass() {
-    localforage.getItem('courses', function(err, courseList) {
-        localforage.getItem('facultyPreferences', function(err, fPrefs) {
+    currentStore.getItem('courses', function(err, courseList) {
+        currentStore.getItem('facultyPreferences', function(err, fPrefs) {
             let pByClass = [];
 
             for (let i = 0; i < courseList.length; i++) {

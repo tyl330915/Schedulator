@@ -136,7 +136,7 @@ setEditableCells = function(table, facData) {
 
                         // If necessary, you can update your data here
                         if (newValue !== oldValue) {
-                            facData[cellIndex.row - 1].status = newValue;
+                            facData[cellIndex.row].status = newValue;
                             saveData(facData);
                         }
                     });
@@ -195,8 +195,6 @@ function makeEditable(cell, index, facData) { //(td, courseData, entryIndex, cel
         console.log(facData[editIndex]);
         saveData(facData);
     });
-
-
 };
 
 

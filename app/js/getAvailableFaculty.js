@@ -2,7 +2,7 @@ function getAvailableFaculty() {
     let availableList = [];
     console.log("getAvailableFaculty");
     try {
-        localforage.getItem('faculty', function(err, fac) {
+        currentStore.getItem('faculty', function(err, fac) {
 
             if (err) {
                 alert("Could not find saved faculty names. You may need to enter them manually, or use the 'Load Spreadsheet' button.");

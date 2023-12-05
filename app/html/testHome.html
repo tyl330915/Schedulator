@@ -1,0 +1,68 @@
+<!--fill in a basic html page, with three droopdown menues for Department, Semester and Year-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Home</title>
+</head>
+<header>
+    <div id="navMenu"></div>
+</header>
+<script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="../css/navbar.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+<body>
+    <h1>Test Home</h1>
+    <p></p>
+    <div id="messageDiv"></div><button id="continueButton" class="button">Continue</button>
+
+    <p></p>
+
+    <label for="">&nbsp; &nbsp; Department &nbsp;</label>
+    <select id="dept">
+<option value="AAO">AAO</option>  
+<option value="BUS">BUS</option>
+<option value="CCM">CCS</option>  
+<option value="COR">COR</option>
+<option value="BUS">EHS</option>
+<option value="ITS">ITS</option>
+
+</select>
+    <label for="semester">&nbsp; &nbsp; Semester &nbsp;</label>
+    <select id="semester">
+<option value="Fall">Fall</option>
+<option value="Spring">Spring</option>
+<option value="Summer">Summer</option>
+</select>
+    <label for="year">&nbsp; &nbsp;Year &nbsp;</label>
+    <select id="year">
+<option value="2023">2023</option>
+<option value="2024">2024</option>
+<option value="2025">2025</option>
+<option value="2026">2026</option>
+<option value="2027">2027</option>
+<option value="2028">2028</option>
+<option value="2029">2029</option>
+<option value="2030">2030</option>
+<!-- Add more years as needed -->
+</select>
+    <p class="center">
+        <button class="smallButton" id="cancelButton">Cancel</button>
+        <button class="smallButton" id="saveButton">Save</button>
+
+    </p>
+    </div>
+
+
+    <script>
+    </script>
+
+
+
+    <script src="../js/navbar.js"></script>
+    <script src="../js/testIndex.js"></script>
+</body>
+
+</html>

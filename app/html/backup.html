@@ -5,7 +5,8 @@
 
 <head>
 
-    <script src="../js/localforage.js"></script>
+    <script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/currentStorage.js" type="text/javascript" charset="utf-8"></script>
     <!--script lang="javascript" src="dist/xlsx.full.min.js"></script-->
     <script src="../js/papaparse.js"></script>
     <script src="../js/TableMaker.js" type="text/javascript" charset="utf-8"></script>
@@ -37,12 +38,11 @@
             <div class="row" id="savingDiv">
                 <div class="col-md-6" style="text-align: center">
                     <div class="col-md-12">
-                        This will download all the Schedulator files. If you are prompted, save them to the <b>"/Schedulator/backup"</b> folder. If you are not prompted, you will find them in the "Downloads" folder (or wherever your computer is set to
-                        save documents), and you will need to move them to a safe place. All the files willl end with ".json".
+                        This will download all the Schedulator files. You will find them in the "Downloads" folder (or wherever your computer is set to save documents), and you will need to copy them to a safe place.
 
                         <p></p>
-                        <button type="button" class="button" onclick="downloadAllLocalForageToJSON()"><h4>Backup All Data</h4></button>
-                        <p> After you have done this, you should back up the entire Schedulator folder, including the newly-saved data, to a thumb drive or network location.
+                        <button type="button" class="button" onclick="downloadAllFiles()"><h4>Backup All Data</h4></button>
+                        <p> After you have done this, you should back up the newly-saved data, to a thumb drive or network location.
                     </div>
                 </div>
                 <div style="text-align: center">
@@ -54,6 +54,7 @@
                         <button type="button" class="button" id="loadFilesButton"><h4>Load Data from Schedulator Files</h4></button>
 
                         <button type="button" class="button" id="loadCSVButton"><h4>Load Data from Schedulator Spreadsheet</h4></button>
+                        <span class="new">New!</span>
 
 
                         <br/>
@@ -89,7 +90,7 @@
                         <h1>Upload Files</h1>
                     </div>
                     <div id="dialogboxbody">
-                        <input type="file" id="jsonFiles" accept=".json" multiple>
+                        <input type="file" id="jsonFiles" multiple>
                         <button id="loadFiles" class="button">Load Schedulator Files</button>
                     </div>
                     <p> </p>
@@ -104,29 +105,77 @@
                     <div id="dialogboxhead">
                         <h1>Upload Spreadsheet</h1>
                     </div>
-                    <div id="dialogboxbody">
+                    <p></p>
+                    <div id="dropdowns">
+                        <select id="department">
+                            <option value="">Choose Department</option>
+                            <option value="AAO">AAO</option>  
+                    <option value="BUS">BUS</option>
+                    <option value="CCM">CCM</option>  
+                    <option value="COR">COR</option>
+                    <option value="BUS">EHS</option>
+                    <option value="ITS">ITS</option>
+                        </select>
+
+                        <select id="semester">
+                            <option value="">Choose semester</option>
+                            <option value="Fall">Fall</option>
+                    <option value="Spring">Spring</option>
+                    <option value="Summer">Summer</option>
+                        </select>
+
+                        <select id="year">
+                            <option value="">Choose Year</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                        </select>
+
+                        <button id="ssUploadButton" class="button" onclick="ssSemesterData()">Select Semester</button>
+                        <p></p>
+                    </div>
+                    <div id="dialogMessage"></div>
+                    <div id="uploadDiv">
                         <input type="file" id="loadSS" accept=".csv">
                         <button id="loadSSButton" class="button">Load Spreadsheet</button>
                     </div>
+
                     <p> </p>
-                    <div id="dialogboxfoot">This will erase the current schedule: be sure this is what you want to do!</div>
+                    <div id="dialogboxfoot">This will erase the data for the selected semester: be sure this is what you want to do!</div>
                 </div>
             </dialog>
 
-
+            <dialog id="houseKeepingModal" class="modal">
+                <div id="houseKeepingContent">
+                    <h2>Current saved semesters: </h2>
+                    <p></p>
+                    <div id="databaseList"></div>
+                    <p>Note: you cannot delete a semester if you are currently in that semester.</p>
+                    <p></p>
+                    <button id="houseKeepingDeleteButton" class="button">Delete Selected Semesters</button>
+                </div>
+            </dialog>
             <!--END CONTAINER-->
 
 
 
 
             <div id="nuclearOption " style="text-align: center; margin-top: 400px;">
-                <hr> This button will destroy all of your data. The only time you might want to do this is if you have irretrievably damaged the databases, or need to load an entirely different department's data. Basically, don't touch this.
+                <hr> This button will destroy all of your data. The only time you might want to do this is if you have irretrievably damaged the databases. Basically, don't touch this.
                 <p>
                     <button id="killButton" onclick="nuke()">Button of Doom</a></button>
                     <p>
-                        OK, so, if you can't resist, BEFORE CLICKING make sure that you have backed up the data for COURSES and FACULTY. <br> AFTER CLICKING: restore the courses and faculty data above, and then you can load the desired Registrar spreadsheet
-                        on the home page. <br> This way, you will keep all of your important data, and be able to start over.
+                        OK, so, if you can't resist, BEFORE CLICKING make sure that you have backed up the data for COURSES and FACULTY. <br> This way, you will keep all of your important data, and be able to start over.
+                        <div id="houseKeepingDiv"><br> Don't touch this button either:<br>
+                            <button id="houseKeepingButton" class="button">Delete Selected Semesters</button> <br>You can use this to get rid of semesters that are no longer needed, but just don't.
+                        </div>
             </div>
+
 
 
 

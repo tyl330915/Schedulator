@@ -1,4 +1,3 @@
-//const localforage = require("localforage");
 function drag(target, e) {
     console.log("drag", e)
     e.dataTransfer.setData('id', target.id);
@@ -38,7 +37,7 @@ function drop(target, e) {
         alert("Cannot put a hybrid class here.");
         return;
     }
-    localforage.getItem('faculty', function(err, CFC) {
+    currentStore.getItem('faculty', function(err, CFC) {
         let chosenName = document.getElementById("facultySelect").value;
         //console.log(chosenName);
         nameIndex = CFC.findIndex(obj => obj.lastName + ", " + obj.firstName === chosenName);
@@ -194,9 +193,9 @@ function drop(target, e) {
         currentCourse.days = newDays;
 
 
-        localforage.setItem("faculty", CFC, function(err, value) {
+        currentStore.setItem("faculty", CFC, function(err, value) {
             console.log(value[nameIndex].currentCourses);
-            createGraph(CFC);
+            createGraph(value);
             makeDropDown(value);
             showThisSemesterCourses(value[nameIndex].currentCourses);
             //colorDraggers();
@@ -228,7 +227,7 @@ function unschedDrop(target, e) {
 
     console.log("Unsched: ", newClass, newTime, newIndex, facName);
 
-    localforage.getItem("faculty", function(err, nameCourses) {
+    currentStore.getItem("faculty", function(err, nameCourses) {
 
         let nameIndex = nameCourses.map(function(e) { return e.lastName + ", " + e.firstName; }).indexOf(facName);
         console.log(nameCourses[nameIndex]);
@@ -244,7 +243,7 @@ function unschedDrop(target, e) {
             killSister.parentNode.removeChild(killSister);
         }
 
-        localforage.setItem("faculty", nameCourses, function(err, value) {
+        currentStore.setItem("faculty", nameCourses, function(err, value) {
             console.log(value[nameIndex].currentCourses);
             // colorDraggers();
             createGraph(value);

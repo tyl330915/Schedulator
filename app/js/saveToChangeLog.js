@@ -2,7 +2,7 @@
 
 
 function saveToChangeLog(info) {
-    localforage.getItem('changeLog', function(err, cLog) {
+    currentStore.getItem('changeLog', function(err, cLog) {
         if (!cLog) {
             cLog = [];
         }
@@ -18,7 +18,7 @@ function saveToChangeLog(info) {
             cLog.length = 200;
         }
 
-        localforage.setItem('changeLog', cLog, function(err, cLogger) {
+        currentStore.setItem('changeLog', cLog, function(err, cLogger) {
             // console.table(cLogger);
 
 
@@ -28,7 +28,7 @@ function saveToChangeLog(info) {
 };
 
 function displayHistory() {
-    localforage.getItem('changeLog', function(err, hist) {
+    currentStore.getItem('changeLog', function(err, hist) {
         drawTableAddHeaders(hist, ["Date", "Time", "Change"], "historyTable");
     });
 };

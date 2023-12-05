@@ -1,6 +1,11 @@
 //Displays the table of courses, the number of courses needed, and the faculty available to teach them. 
-//const localforage = require('localforage');
-window.onload = startup();
+
+document.addEventListener('DOMContentLoaded', async function() {
+    await setCurrentStore();
+    // Now you can use currentStore
+    console.log(currentStore);
+    startup();
+});
 
 var upDateCourse = [];
 let courseArray = [];
@@ -9,7 +14,7 @@ let colorArray = [];
 
 
 function startup() {
-    localforage.getItem("faculty", function(err, currFac) {
+    currentStore.getItem("faculty", function(err, currFac) {
         tableCreate(currFac);
         pastelColors();
 
@@ -34,16 +39,23 @@ function tableCreate(CFC) {
     tbl.setAttribute('class', 'nameDragTable');
     tbl.setAttribute('id', 'nameDragTable');
 
-    localforage.getItem('semesterData', function(err, semData) {
-        //console.log(semData);
+
+    currentStore.getItem('semesterData', function(err, semData) {
+        console.log(semData);
         if (!semData) {
             alert("There seems to be an error here: you may need to go back and fill in how many sections are needed for the courses. Go to 'Input', then 'Sections'.")
         };
 
         let semesterCourses = semData.currSections;
         //console.log(semesterCourses);
+        if (!semesterCourses) {
+            alert("There seems to be an error here: you may need to go back and fill in how many sections are needed for the courses. Go to 'Input', then 'Sections'.")
+        }
+
+
         for (var i = 0; i < semesterCourses.length; i++) {
             var fullCourse = semesterCourses[i];
+            console.log(fullCourse);
             courseArray.push(fullCourse);
             var tr = tbl.insertRow();
             for (var j = 0; j < 2; j++) {
@@ -91,11 +103,13 @@ function makeCourseBoxes(tyCourses) { //THIS MAKES THE DROP AREAS FOR EACH COURS
 };
 
 function makeCourseDivs(ttyCourses) {
+    //MAKE THE COURSE TITLES AND COUNTS FOR THE TABLE
     console.log('makeCourseDivs');
-    //console.log(ttyCourses);
+    console.log(ttyCourses);
 
     for (var a = 0; a < ttyCourses.length; a++) {
-        // console.log('cell0' + a);
+        //console.log('cell0' + a);
+        //console.log(ttyCourses[a], ttyCourses[a].num, ttyCourses[a].sections);
         document.getElementById('cell0' + a).innerHTML = '<b>' + ttyCourses[a].num + "</b> <br>" + 0 + "/" + ttyCourses[a].sections;
     };
     //initialPopulateTable(courseArray); //initializes the table
@@ -103,16 +117,15 @@ function makeCourseDivs(ttyCourses) {
 
 };
 
-function makeAllNames() { //CALCULATES HOW MANY CLASSES EACH PERSON IS SCHEDULED FOR
+function makeAllNames() {
+    //CALCULATES HOW MANY CLASSES EACH PERSON IS SCHEDULED FOR
     let actualLength;
-    localforage.getItem("faculty", function(err, fac) {
+    currentStore.getItem("faculty", function(err, fac) {
         //console.table(fac);
 
         console.log('makeAllNames');
         // console.table(pData);
         let howManyClasses = 4;
-
-
 
         //CHECK TO SEE IF NONE OF THE AVAILABILTY IS TRUE
         const isAvailable = fac.some(facultyMember => facultyMember.available === true || facultyMember.available === "true");
@@ -198,7 +211,7 @@ function getNameColor(lname) {
 
 function pastelColors() {
 
-    localforage.getItem('faculty', function(err, fac) {
+    currentStore.getItem('faculty', function(err, fac) {
         // console.table(cfac);
         for (var pc = 0; pc < fac.length; pc++) {
 
@@ -248,53 +261,57 @@ function makeAddSelect(fac) { //CREATES DROP-MENU FOR NAMES
 
 
 function addNameToTable() { //IF NAME ADDED TO TABLE, ADDS NAME BOX AT TOP
-    console.log('addNameToTable');
-    localforage.getItem("faculty", function(err, cFC) {
-        //console.table(cFC);
-        let target = "holdingPen";
-        let draggerCount = 0;
-        let scheduledLength = 0;
-        var facName = document.getElementById("addName").value;
-        if (facName !== "") {
-            var ind = cFC.map(function(e) { return e.lastName + ", " + e.firstName; }).indexOf(facName);
-            console.log(ind);
-
-            //cFC[ind].Wants++; 
-            console.log("facCoursesCalc: ", cFC[ind].lastName + ", " + cFC[ind].firstName, "Staus: ", cFC[ind].status);
+    try {
+        console.log('addNameToTable');
+        currentStore.getItem("faculty", function(err, cFC) {
             //console.table(cFC);
+            let target = "holdingPen";
+            let draggerCount = 0;
+            let scheduledLength = 0;
+            var facName = document.getElementById("addName").value;
+            if (facName !== "") {
+                var ind = cFC.map(function(e) { return e.lastName + ", " + e.firstName; }).indexOf(facName);
+                console.log(ind);
+
+                //cFC[ind].Wants++; 
+                console.log("facCoursesCalc: ", cFC[ind].lastName + ", " + cFC[ind].firstName, "Staus: ", cFC[ind].status);
+                //console.table(cFC);
 
 
-            /////// console.log(facName + "." + (cFC[ind].currentCourses.length), target);
-            if (cFC[ind].currentCourses) {
-                scheduledLength = cFC[ind].currentCourses.length;
-            }
-            ///// 
-
-            let parentDiv = document.getElementById('holdingPen');
-            let childDivs = parentDiv.children;
-
-            var elements = document.getElementsByClassName('dragger');
-            console.log(elements);
-
-            for (let i = 0; i < childDivs.length; i++) {
-                //console.log("childDivs ids: ", childDivs[i].id.split(".")[0], facName);
-                if (childDivs[i].id.split(".")[0] === (facName)) {
-                    console.log("facname found");
-                    draggerCount++;
+                /////// console.log(facName + "." + (cFC[ind].currentCourses.length), target);
+                if (cFC[ind].currentCourses) {
+                    scheduledLength = cFC[ind].currentCourses.length;
                 }
-            }
-            let finalCount = scheduledLength + draggerCount;
-            console.log(facName, draggerCount, scheduledLength, "finalCount: ", finalCount);
-            makeUpperNameBox(facName, facName + "." + finalCount, target);
-            console.log(cFC[ind].currentCourses);
+                ///// 
 
-            localforage.setItem("faculty", cFC, function(err, facCourses) {
-                //console.table(facCourses);
-                //fillCoursesFromHolding(facCourses);
+                let parentDiv = document.getElementById('holdingPen');
+                let childDivs = parentDiv.children;
 
-            });
-        };
-    });
+                var elements = document.getElementsByClassName('dragger');
+                console.log(elements);
+
+                for (let i = 0; i < childDivs.length; i++) {
+                    //console.log("childDivs ids: ", childDivs[i].id.split(".")[0], facName);
+                    if (childDivs[i].id.split(".")[0] === (facName)) {
+                        console.log("facname found");
+                        draggerCount++;
+                    }
+                }
+                let finalCount = scheduledLength + draggerCount;
+                console.log(facName, draggerCount, scheduledLength, "finalCount: ", finalCount);
+                makeUpperNameBox(facName, facName + "." + finalCount, target);
+                console.log(cFC[ind].currentCourses);
+
+                currentStore.setItem("faculty", cFC, function(err, facCourses) {
+                    //console.table(facCourses);
+                    //fillCoursesFromHolding(facCourses);
+
+                });
+            };
+        });
+    } catch (err) {
+        console.log(err);
+    }
 
 };
 

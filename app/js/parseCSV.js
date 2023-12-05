@@ -101,15 +101,18 @@ function readCourseCSVFile() {
 
                 let obj = {};
                 let values = line.split(',');
-
+                //GET THE DATA FROM THE SPREADSHEET AND PARSE IT. ALLOWS BOTH "METH" AND "METHOD" TO BE USED
                 keys.forEach((key, i) => {
-                    if (['div', 'num', 'title', 'loc', 'meth', 'sem'].includes(key)) {
+                    if (['div', 'num', 'title', 'loc', 'sem'].includes(key)) {
                         obj[key] = values[i];
+                    }
+                    if (key === 'method' || key === 'meth') {
+                        obj['method'] = values[i];
                     }
                 });
 
                 return obj;
-            }).filter(Boolean); // Remove null values from the result array
+            }).filter(Boolean);
 
             console.log(result);
 

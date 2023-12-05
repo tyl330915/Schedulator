@@ -9,11 +9,6 @@ body {
     height: 100vh;
 }
 
-body.fade-out {
-    opacity: 0;
-    transition: none;
-}
-
 h2 {
     margin-left: 20px;
 }
@@ -44,42 +39,6 @@ tr:nth-child(even) {
     background-color: rgb(253, 248, 213);
 }
 
-#logo,
-#version,
-#mainGroup,
-#sch,
-#vDate,
-#editButtons,
-#tableDiv {
-    display: inline-block;
-}
-
-.vertical {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-}
-
-#created {
-    display: inline-block;
-    color: red;
-}
-
-#set2Zero {
-    font-size: 9pts;
-    font-size: 0.9vw;
-    margin-left: 100px;
-}
-
-#message {
-    margin-left: 150px;
-}
-
-.top-row {
-    background-color: lightgreen;
-    padding: 10px;
-}
-
 .content-container {
     flex: 1;
     display: flex;
@@ -90,10 +49,6 @@ tr:nth-child(even) {
     flex: 90%;
 }
 
-.right-side {
-    flex: 0%;
-}
-
 label,
 input,
 select {
@@ -101,23 +56,6 @@ select {
     margin-right: 2px;
     margin-bottom: 10px;
     font-size: 1vw;
-}
-
-#number {
-    width: 10%;
-    min-width: 100px;
-}
-
-#title {
-    width: 25%;
-    min-width: 150px;
-    /* Optional: Set a minimum width for the input */
-}
-
-.frameTitle {
-    top: -15px;
-    left: 10px;
-    font-size: 1vw bold;
 }
 
 #buttonDiv {
@@ -188,6 +126,11 @@ dialog {
 #deleteModal,
 #loadModal {
     height: 200px;
+}
+
+#noCoursesDialog {
+    width: 300px;
+    text-align: center;
 }
 
 select {

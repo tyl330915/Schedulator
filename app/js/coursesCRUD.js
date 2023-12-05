@@ -1,5 +1,5 @@
 function addCourse() {
-    localforage.getItem('courses', function(err, courseList) {
+    currentStore.getItem('courses', function(err, courseList) {
 
         if (err || courseList === undefined || courseList === null) {
             var dialog = document.getElementById("noCourseDialog");
@@ -16,13 +16,18 @@ function addCourse() {
         var entryError = false;
         var div = document.getElementById("division").value;
         var courseNum = document.getElementById("number").value;
+        if (courseNum[3] !== '-' || courseNum.includes(" ")) {
+            entryError = true;
+            alert("Please make sure that the course number has a hyphen and no spaces, e.g. 'BUS-001TVL'");
+            return;
+        }
         var tempcourseName = document.getElementById("title").value;
         var courseName = tempcourseName.charAt(0).toUpperCase() + tempcourseName.slice(1);
         var loc = document.getElementById("location").value;
-        var meth = document.getElementById("method").value;
+        var method = document.getElementById("method").value;
         var semester = document.getElementById("semester").value;
 
-        console.log(div, courseNum, courseName, loc, meth, semester);
+        console.log(div, courseNum, courseName, loc, method, semester);
 
 
         newCourse = ({
@@ -30,7 +35,7 @@ function addCourse() {
             "num": courseNum.toUpperCase(),
             "title": courseName,
             "loc": loc,
-            "meth": meth,
+            "method": method,
             "sem": semester,
             "sections": 0
         });
@@ -75,55 +80,69 @@ function deleteCourse() {
     const selectedOption = deleteSelect.options[deleteSelect.selectedIndex];
     const selectedText = selectedOption.textContent;
     var confirmDelete = document.getElementById("confirmDelete");
-    var confirmText = document.getElementById("confirmText");
+    var deleteText = document.getElementById("deleteText");
     var alertDialog = document.getElementById("alertDialog");
     var alertText = document.getElementById("alertText");
     var alertClose = document.getElementById("alertClose");
     var confirmYes = document.getElementById("confirmYes");
     var confirmNo = document.getElementById("confirmNo");
+    var deleteYes = document.getElementById("deleteYes");
+    var deleteNo = document.getElementById("deleteNo");
     console.log(selectedText, selectedOption);
 
     if (selectedOption.value) {
-        confirmText.textContent = `Are you sure you want to delete ${selectedText}?`;
+        deleteText.textContent = `Are you sure you want to delete ${selectedText}?`;
         confirmDelete.showModal();
-
-        confirmYes.onclick = function() {
-            confirmDelete.close();
-            // Implement your course deletion logic here
-            localforage.getItem('courses', function(err, allCourses) {
-                allCourses.splice(selectedIndex, 1);
-
-                console.log(allCourses[selectedIndex], allCourses[selectedIndex].title);
-                console.log(selectedOption.value);
-
-                console.log(deleteSelect[0].value);
-                alertText.textContent = `Course ${selectedText} deleted.`;
-                alertDialog.showModal();
-
-                let deleteDiv = document.querySelector('#deleteModal');
-                deleteDiv.close();
-
-
-
-                saveData(allCourses, function() {
-
-                });
-            });
-
-        }
-
     } else {
-        // alert("Please select a course to delete.");
         alertDialog.showModal();
         alertText.textContent = "Please select a course to delete.";
         return;
     }
-};
+
+    // var confirmDelete = document.getElementById("confirmDelete");
+    console.log(confirmDelete.showModal); // Should log a function if showModal is supported
+    confirmDelete.showModal(); // Should display the dialog
+
+
+    // Check if an event listener has already been added
+    if (!deleteYes.hasAttribute('listener')) {
+        deleteYes.addEventListener('click', function() {
+            // Close the confirmation dialog
+            confirmDelete.close();
+
+            // Get the courses from the store
+            currentStore.getItem('courses', function(err, allCourses) {
+                // Remove the selected course
+                allCourses.splice(selectedIndex, 1);
+
+                // Log the remaining courses
+                console.log(allCourses);
+
+                // Show an alert dialog with the deletion message
+                alertText.textContent = `Course ${selectedText} deleted.`;
+                alertDialog.showModal();
+
+                // Close the delete modal
+                let deleteDiv = document.querySelector('#deleteModal');
+                deleteDiv.close();
+
+                // Save the updated course list
+                saveData(allCourses, function() {
+                    // Callback function after saving data
+                });
+            });
+        });
+
+        // Add an attribute to indicate that an event listener has been added
+        confirmYes.setAttribute('listener', 'true');
+    }
+}
+
 
 function saveData(data) {
     console.table("Save Data: ", data);
     sortDataByProperty(data, 'num');
-    localforage.setItem('courses', data, function(err) {
+    currentStore.setItem('courses', data, function(err) {
         // if err is non-null, we got an error
         // if err is non-null, we got an error. otherwise, value is the value
         if (err) {

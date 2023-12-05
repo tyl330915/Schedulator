@@ -38,7 +38,7 @@ function parsePartTime(aClass) { //for parsing the saved faculty course and time
 
 function parseFullTime(aClass) { //takes the Fac class desired and undesired data and finds the first weekly class
     var dayTim = [];
-    console.log(aClass);
+    //console.log(aClass);
     aClass = aClass.toString();
 
     /*Schedule Requests [Mon/Thu 8:30-9:45 ]	Schedule Requests [Mon/Thu 10:00-11:15]	Schedule Requests [Mon/Thu 11:30-12:45]	Schedule Requests [Mon/Thu 1-2:15]	Schedule Requests [Mon/Thu 2:30-3:45]	Schedule Requests [Mon/Thu 4:00-5:15]	Schedule Requests [Tue/Fri 8:30-9:45]	Schedule Requests [Tue/Fri 10:00-11:15]	Schedule Requests [Tue/Fri 11:30-12:45]	Schedule Requests [Tue/Fri 1-2:15]	Schedule Requests [Tue/Fri 2:30-3:45]	Schedule Requests [Tue/Fri 4:00-5:15]	Schedule Requests [Wed 9:00-11:45 (double class only)]	Schedule Requests [Wed 12:15-3:00 (double class only)]	Schedule Requests [Mon 5:30-6:45]	Schedule Requests [Mon 7:00-8:15]	Schedule Requests [Mon 5:30-8:15]	Schedule Requests [Tue 5:30-6:45]	Schedule Requests [Tue 7:00-8:15]	Schedule Requests [Wed 5:30-6:45]	Schedule Requests [Wed 7:00-8:15]	Schedule Requests [Thu 5:30-6:45]	Schedule Requests [Thu 7:00-8:15]
