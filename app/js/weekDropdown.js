@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     await setCurrentStore();
     // Now you can use currentStore
     console.log(currentStore);
+    setDraggerBorders();
     const dropDown = document.getElementById("distribution");
 
     currentStore.getItem('semesterData', function(err, currData) {

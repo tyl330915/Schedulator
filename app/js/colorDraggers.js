@@ -41,9 +41,8 @@ function colorDraggers() {
             }
 
             if (classList[listIndex].method !== "ONLSY" && classList[listIndex].method !== "HYB") {
-
-
                 //color the draggers & set the formatting
+                console.log("weekly", weekly);
                 if (weekly && (weekly === 1 || weekly === "1")) {
                     //console.log("Once a week");
                     document.getElementById(dragID).style.backgroundColor = draggerColor;

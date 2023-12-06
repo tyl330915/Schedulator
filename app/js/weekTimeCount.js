@@ -5,12 +5,14 @@ console.log("weekTimeCount");
 //console.log(document.getElementById("M8"));
 
 function displayCurrTarget() {
+
     currentStore.getItem('semesterData', function(err, semDat) {
         //console.log(semDat);
         var counter = document.getElementById("targNum");
         counter.value = semDat.registrarMaxPerTimePeriod;
         displayTimeCount(counter.value);
     });
+
 };
 
 function getTimeCount() {
@@ -26,6 +28,7 @@ function getTimeCount() {
 };
 
 function displayTimeCount(targCount) {
+
     targCount = parseInt(targCount);
     let tableCells = document.getElementsByClassName("dayCell");
     //console.log(tableCells[1].id);
@@ -74,4 +77,5 @@ function displayTimeCount(targCount) {
     };
     ///checkForDuplicateTimes();
     highlightDuplicateDraggers("dayTable");
+    setDraggerBorders();
 };
