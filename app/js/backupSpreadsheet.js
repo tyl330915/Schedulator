@@ -248,7 +248,7 @@ function saveNewFacultyCourses(newFac) {
             console.log("saved faculty");
             alert("Spreadsheet loaded successfully");
             //go to courses.html
-            //////// window.location.href = "courses.html";
+            window.location.href = "courses.html";
         })
 
 
