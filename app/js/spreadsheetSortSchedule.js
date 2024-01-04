@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 function asssembleData() {
+    console.log(currStore);
     let scheduleArray = [];
     let courseLocation;
     let currStartTime, currEndTime;
@@ -51,7 +52,8 @@ function asssembleData() {
                             currEndTime = "";
                         }
 
-
+                        //Get the current semester and format it 
+                        let currSemester = currStore.split(" ")[2] + currStore.split(" ")[1].substring(0, 2).toUpperCase();
                         let currDivision = courses[numIndex].div;
                         let currTitle = courses[numIndex].title;
                         let currMethod = courses[numIndex].method;
@@ -67,6 +69,7 @@ function asssembleData() {
                             'num': fac[i].currentCourses[j].num,
                             'name': fac[i].lastName + ", " + fac[i].firstName,
                             'title': currTitle,
+                            'term': currSemester,
                             'location': courseLocation,
                             'method': currMethod,
                             'classroom': currClassroom,
@@ -118,6 +121,7 @@ function sortDayAndTime(dataArray) {
             'name': currName,
             'num': currCourse,
             'title': dataArray[i].title,
+            'term': dataArray[i].term,
             'location': dataArray[i].location,
             'method': dataArray[i].method,
             'time': dataArray[i].time,
@@ -154,13 +158,9 @@ function sortDayAndTime(dataArray) {
 
 // create an async function to sort the array and add a number to each of the nums
 function addSectionNumbers(array) {
-
-
     // Add a dash and a 2-digit number to each of the “num” fields
     // Create two counters to keep track of the sequential numbers for the -01 and -51 numbers
-    let currentNum;
-    let counter01 = 1;
-    let counter51 = 51;
+    let currentNum, counter01, counter51, counterHybrid, counterOnline;
 
     // Iterate over the array
     for (const element of array) {
@@ -168,21 +168,29 @@ function addSectionNumbers(array) {
         if (element.num !== currentNum) {
             counter01 = 1;
             counter51 = 51;
+            counterHybrid = 71;
+            counterOnline = 81;
         }
 
         // Update the current "num" value
         currentNum = element.num;
 
-        // If the "time" field is empty, add "-01" to the "num" field, incrementing the counter01 variable
-        if (element.time === "" || (!element.time.includes("Block 7") && !element.time.includes("Block 8") && !element.time.includes("Block 9"))) {
+        if (element.location === "HYBRD") {
+            element.num += "-" + counterHybrid.toString().padStart(2, "0");
+            counterHybrid++;
+        } else if (element.location === "OL") {
+            element.num += "-" + counterOnline.toString().padStart(2, "0");
+            counterOnline++;
+        } else if (element.time === "" || (!element.time.includes("Block 7") && !element.time.includes("Block 8") && !element.time.includes("Block 9"))) {
             element.num += "-" + counter01.toString().padStart(2, "0");
             counter01++;
-        }
-        // Add the dash and the 2-digit number to the "num" field, incrementing the counter51 variable
-        if (element.time.includes("Block 7") || element.time.includes("Block 8") || element.time.includes("Block 9")) {
+        } else if (element.time.includes("Block 7") || element.time.includes("Block 8") || element.time.includes("Block 9")) {
             element.num += "-" + counter51.toString().padStart(2, "0");
             counter51++;
         }
+
+
+
 
 
     }
@@ -201,6 +209,7 @@ function createFinalForm(array) {
             'division': array[i].division,
             'sectionName': array[i].num,
             'shortTitle': array[i].title,
+            'term': array[i].term,
             'location': array[i].location,
             'method': array[i].method,
             //'splitSection': "",
@@ -226,6 +235,6 @@ function createFinalForm(array) {
     }
     //    Division	Section Name	Title 	Term 	Location 	Instructional Method	Room	Days	Start Time	End Time	Block TimeFaculty First 	Faculty Last 	E-Mail address	Cross Listed
 
-    drawTableAddHeaders(registrarFormat, ["Division", "Section Name", "Title", "Location", "Instructional Method", "Faculty First", "Faculty Last", "Days", "Start Time", "End Time", "Time Block", "Classroom", "Cross List", "Notes"], "objTable");
+    drawTableAddHeaders(registrarFormat, ["Division", "Section Name", "Title", "Term", "Location", "Instructional Method", "Faculty First", "Faculty Last", "Days", "Start Time", "End Time", "Time Block", "Classroom", "Cross List", "Notes"], "objTable");
 
 };

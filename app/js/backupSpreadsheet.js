@@ -118,13 +118,13 @@ function parseIndividualCourses(data) {
                 //console.log("C: ", courseNumber);
             }
             //console.log("D: ", courseNumber);
-            firstName = columns[firstNameIndex].trim();
-            lastName = columns[lastNameIndex].trim();
+            firstName = columns[firstNameIndex];
+            lastName = columns[lastNameIndex];
             // Extract the meeting day and time block
             meetingDay = columns[meetingDayIndex];
             timeBlock = columns[timeBlockIndex];
-            method = columns[methodIndex].trim();
-            location = columns[locationIndex].trim();
+            method = columns[methodIndex];
+            location = columns[locationIndex];
         }
         // If the faculty name is already in the facultyCourses object, add the course to their currentCourses
         // Otherwise, add the faculty name to the facultyCourses object with the course in their currentCourses
@@ -248,7 +248,7 @@ function saveNewFacultyCourses(newFac) {
             console.log("saved faculty");
             alert("Spreadsheet loaded successfully");
             //go to courses.html
-            window.location.href = "courses.html";
+            //////// window.location.href = "courses.html";
         })
 
 

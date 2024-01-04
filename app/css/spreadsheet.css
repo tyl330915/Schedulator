@@ -41,15 +41,15 @@ body {
 }
 
 #objTable td:nth-child(6) {
-    width: 5%;
+    width: 3%;
 }
 
 #objTable td:nth-child(7) {
-    width: 4%;
+    width: 6%;
 }
 
 #objTable td:nth-child(8) {
-    width: 3%;
+    width: 6%;
 }
 
 #objTable td:nth-child(9) {
@@ -61,11 +61,11 @@ body {
 }
 
 #objTable td:nth-child(11) {
-    width: 15%;
+    width: 5%;
 }
 
 #objTable td:nth-child(12) {
-    width: 4%;
+    width: 14%;
 }
 
 #objTable td:nth-child(13) {
