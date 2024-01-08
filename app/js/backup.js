@@ -2,17 +2,16 @@
 
 ////////////////////////////////////////////////////////ARRAY FUNCTIONS
 var csvModal = document.getElementById("uploadSSModal");
-var csvModalButton = document.getElementById("loadCSVButton");
+var csvModalButton = document.getElementById("loadSpreadsheetButton");
 var houseKeepingModal = document.getElementById("houseKeepingModal");
-
 var filesModal = document.getElementById("uploadFilesModal");
 var filesButton = document.getElementById("loadFilesButton");
 var loadFiles = document.getElementById("loadFiles");
 var loadSS = document.getElementById("loadSSButton");
 
 
-
-csvModalButton.onclick = function() {
+csvModalButton.onclick = function(event) {
+    event.preventDefault();
     csvModal.style.display = "block";
 }
 
@@ -27,6 +26,11 @@ loadFiles.onclick = function() {
 loadSS.onclick = function() {
     loadSpreadsheet();
 }
+
+csvModalButton.onclick = function() {
+    csvModal.style.display = "block";
+}
+
 
 
 
@@ -221,7 +225,7 @@ function loadJSONFilesAndSaveInCurrentStore(inputElementId) {
         }
 
         alert("Files saved.");
-        window.location.href = "./courses.html";
+        //window.location.href = "./app/html/courses.html";
 
     }
 };

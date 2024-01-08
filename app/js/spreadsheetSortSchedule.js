@@ -46,7 +46,9 @@ function asssembleData() {
                         //console.log(courses[numIndex]);
                         if (fac[i].currentCourses[j].time) {
                             currStartTime = fac[i].currentCourses[j].time.split(": ")[1].split("-")[0];
+                            if (currStartTime === "9:00") { currStartTime = "9:00 AM"; }
                             currEndTime = fac[i].currentCourses[j].time.split(": ")[1].split("-")[1];
+                            if (currStartTime === "12:15") { currStartTime = "12:15 PM"; }
                         } else {
                             currStartTime = "";
                             currEndTime = "";
@@ -165,13 +167,16 @@ function addSectionNumbers(array) {
     // Iterate over the array
     for (const element of array) {
         // If the "num" field changes, reset the counters
+        console.log("Element: ", element);
         if (element.num !== currentNum) {
             counter01 = 1;
             counter51 = 51;
             counterHybrid = 71;
             counterOnline = 81;
         }
-
+        if (element.time === undefined) {
+            element.time = "";
+        }
         // Update the current "num" value
         currentNum = element.num;
 
@@ -181,18 +186,13 @@ function addSectionNumbers(array) {
         } else if (element.location === "OL") {
             element.num += "-" + counterOnline.toString().padStart(2, "0");
             counterOnline++;
-        } else if (element.time === "" || (!element.time.includes("Block 7") && !element.time.includes("Block 8") && !element.time.includes("Block 9"))) {
+        } else if (element.time === "" || element.time === undefined || (!element.time.includes("Block 7") && !element.time.includes("Block 8") && !element.time.includes("Block 9"))) {
             element.num += "-" + counter01.toString().padStart(2, "0");
             counter01++;
         } else if (element.time.includes("Block 7") || element.time.includes("Block 8") || element.time.includes("Block 9")) {
             element.num += "-" + counter51.toString().padStart(2, "0");
             counter51++;
         }
-
-
-
-
-
     }
     // console.table(array);
 

@@ -18,7 +18,6 @@ function colorGoodAndBadTimes(shortName) {
     let goodTimes, badTimes;
 
     currentStore.getItem('facultyPreferences', function(err, fPrefs) {
-
         fPrefsIndex = fPrefs.findIndex(obj => obj.name.split(",")[0].toLowerCase() + obj.name.split(", ")[1][0].toLowerCase() === shortName.toLowerCase());
 
         if (fPrefs[fPrefsIndex]) {

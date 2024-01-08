@@ -1,5 +1,5 @@
 function classBlocks(day, timePart, perWeek) {
-    console.log("Blox One: ", day, timePart, perWeek);
+    //console.log("Blox One: ", day, timePart, perWeek);
     if (perWeek === "2" || perWeek === 2) {
         switch (timePart) {
             case "8:30 AM":
@@ -24,7 +24,7 @@ function classBlocks(day, timePart, perWeek) {
     }
 
     if (day !== "W" && (perWeek === "1" || perWeek === 1)) {
-        console.log("Blox Two: ", day, timePart);
+        //console.log("Blox Two: ", day, timePart);
         switch (timePart) {
             case "8:30 AM":
                 return "Block 1&2: 8:30 AM-11:15 AM";
@@ -52,7 +52,7 @@ function classBlocks(day, timePart, perWeek) {
 
 
     if (day === "W" && (perWeek === "1" || perWeek === 1)) {
-        console.log("Blox Three: ", day, timePart);
+        // console.log("Blox Three: ", day, timePart);
         switch (timePart) {
             case "9:00 AM":
                 return "* Wed Block A: 9:00-11:45 AM";
