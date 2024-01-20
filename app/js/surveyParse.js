@@ -19,7 +19,7 @@ function surveyParse(preferenceSurvey) {
         if (headings[a].includes("Timestamp")) {
             timestamp = a;
         }
-        if (headings[a].includes('Email')) {
+        if (headings[a].includes('Username')) {
             email = a;
         }
         if (headings[a].includes("First Name")) {

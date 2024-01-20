@@ -80,8 +80,9 @@ function getCurrProfessor() {
 
 function displayFacPrefs() {
     console.log("displayFacPrefs");
-    document.getElementById("preferencesDiv").style.display = 'block';
+    //document.getElementById("preferencesDiv").style.display = 'block';
     document.getElementById("TYTable").innerHTML = "";
+    document.getElementById("nonClassroomDiv").style.display = "none";
     let chosenName;
     //let chosenName = document.getElementById("facultySelect").value;
     //console.log(chosenName);

@@ -23,7 +23,7 @@ function createGraph(CFC) {
     let timeArray = [];
 
     for (var i = 0; i < CFC.length; i++) {
-        console.log(CFC[i]);
+        //console.log(CFC[i]);
         let currentFacCourses = CFC[i].currentCourses;
         if (currentFacCourses) {
 

@@ -10,6 +10,8 @@ function showIndividualClasses() {
         createGraph(fac);
         document.getElementById("holdingPen").innerHTML = "";
         document.getElementById("notesText").innerHTML = "";
+        //document.getElementById("nonClassroomDiv").style.display = "none";
+        // document.getElementById("TYTable").style.display = "none";
 
         //        console.log(fac);
         let nameIndex = -1;
@@ -311,7 +313,8 @@ function clearTableCells() {
 function showThisSemesterCourses(array) {
 
     console.log("showThisSemesterCourses");
-    // console.table(array);
+    console.table(array);
+    document.getElementById("nonClassroomDiv").style.display = "none";
 
     if (array.length < 1) {
         alert("You need to assign courses to faculty before they can be scheduled.")
@@ -338,15 +341,19 @@ function showThisSemesterCourses(array) {
     }
     console.table(classArray);
     console.table(nonClassroomArray);
+    console.log(nonClassroomArray.length);
 
+    document.getElementById("TYTable").style.display = "block";
     drawTableAddHeaders(classArray, ["Course", "Days", "Time", "Method"], "TYTable");
+
     if (nonClassroomArray.length > 0) {
+        console.log("Non Classroom Array showing")
         document.getElementById("nonClassroomDiv").style.display = "block";
         drawTableAddHeaders(nonClassroomArray, ["Course", "Days", "Time", "Method"], "nonClassroomTable");
 
     } else {
+        console.log("Non Classroom Array not showing")
         document.getElementById("nonClassroomDiv").style.display = "none";
-
     }
 
 };
