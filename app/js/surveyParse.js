@@ -184,7 +184,7 @@ function removeDuplicateEmailsAndKeepLatest(array) {
 
 function matchPrefsNametoFacultyName(prefs) {
     try {
-        currentstore.getItem('faculty', function(err, fac) {
+        currentStore.getItem('faculty', function(err, fac) {
             if (err) throw err;
             console.table(fac);
             let missingNames = [];
