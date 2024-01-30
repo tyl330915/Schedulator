@@ -183,6 +183,7 @@ function removeDuplicateEmailsAndKeepLatest(array) {
 
 
 function matchPrefsNametoFacultyName(prefs) {
+    console.log(prefs);
     try {
         currentStore.getItem('faculty', function(err, fac) {
             if (err) throw err;
@@ -192,27 +193,35 @@ function matchPrefsNametoFacultyName(prefs) {
                 for (let i = 0; i < fac.length; i++) {
                     if (fac[i].available = true) {
                         let prefIndex = prefs.map(function(e) { return e.prefEmail; }).indexOf(fac[i].email);
-                        if (prefIndex < 0) {
-                            console.log("Missing: ", fac[i].email, fac[i].lastName);
-                            missingNames.push(fac[i].lastName);
-                        }
-                    }
+                        //if (prefIndex < 0) {
+                        //check to see if the last name and first initial match
+                        let nameIndex = prefs.map(function(e) { return e.name.split(", ")[0] + e.name.split(", ")[1][0]; }).indexOf(fac[i].lastName + fac[i].firstName[0]);
+                        if (nameIndex < 0 && prefIndex < 0) {
 
-                }
-                console.log(missingNames);
-                document.getElementById("missing").innerHTML = "";
-                if (missingNames.length > 0) {
-                    document.getElementById("missingDiv").style.display = "block";
-                    for (let j = 0; j < missingNames.length - 1; j++) {
-                        //GET ALL THE MISSING NAMES BUT THE LAST
-                        document.getElementById("missing").innerHTML += missingNames[j] + ", ";
+                            console.log("Missing: ", fac[i].email, fac[i].lastName);
+                            missingNames.push(fac[i].lastName + fac[i].firstName[0]);
+                        }
+
+
+                        //console.log("Missing: ", fac[i].email, fac[i].lastName);
+                        //missingNames.push(fac[i].lastName);
                     }
-                    //THIS JUST ENSURE THAT THE FINAL COMMA IS DROPPED FROM THE LAST NAME
-                    document.getElementById("missing").innerHTML += missingNames[missingNames.length - 1];
-                    document.getElementById("numberMissing").innerHTML = missingNames.length;
-                } else {
-                    console.log("Could not find saved faculty names. You may need to enter them manually, or use the 'Load Spreadsheet' button.");
                 }
+
+            }
+            console.log(missingNames);
+            document.getElementById("missing").innerHTML = "";
+            if (missingNames.length > 0) {
+                document.getElementById("missingDiv").style.display = "block";
+                for (let j = 0; j < missingNames.length - 1; j++) {
+                    //GET ALL THE MISSING NAMES BUT THE LAST
+                    document.getElementById("missing").innerHTML += missingNames[j] + ", ";
+                }
+                //THIS JUST ENSURE THAT THE FINAL COMMA IS DROPPED FROM THE LAST NAME
+                document.getElementById("missing").innerHTML += missingNames[missingNames.length - 1];
+                document.getElementById("numberMissing").innerHTML = missingNames.length;
+            } else {
+                console.log("Could not find saved faculty names. You may need to enter them manually, or use the 'Load Spreadsheet' button.");
             }
         });
 
