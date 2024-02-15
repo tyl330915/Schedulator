@@ -141,20 +141,23 @@ function deleteCourse() {
 
 function saveData(data) {
     console.table("Save Data: ", data);
+
     sortDataByProperty(data, 'num');
     currentStore.setItem('courses', data, function(err) {
-        // if err is non-null, we got an error
         // if err is non-null, we got an error. otherwise, value is the value
         if (err) {
             console.log(err);
         } else {
-            console.log(data);
+            // console.log(data);
+            // checkForZeroSections(data);
             // Regenerate the table
             generateTable(data, tableHeaders, 'courseTable');
 
         }
         generateDeleteSelect(data);
+
         // getCurrentTotalSections(data);
+
 
     });
 };
@@ -248,3 +251,32 @@ window.addEventListener('click', function(event) {
         }
     }
 });
+
+//Go through the list of currentCourses,for each person, and check if they have any courses which match the course number. 
+//If so, delete those classes, and consolidate any remaining classes
+function killZeroSections(courseNum) {
+    currentStore.getItem('faculty', function(err, fac) {
+        for (let i = 0; i < fac.length; i++) {
+            let currentCourses = fac[i].currentCourses;
+            if (currentCourses) {
+                for (let j = currentCourses.length - 1; j >= 0; j--) {
+                    if (currentCourses[j].num === courseNum) {
+                        currentCourses.splice(j, 1);
+                    }
+                }
+                if (currentCourses.length > 0) {
+                    fac[i].currentCourses = currentCourses;
+                } else {
+                    delete fac[i].currentCourses;
+                }
+            }
+        }
+        currentStore.setItem('faculty', fac, function(err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Classes consolidated successfully');
+            }
+        });
+    });
+}

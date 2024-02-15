@@ -52,6 +52,7 @@ function generateTable(dataList, headers, containerId) {
         const sectionsCell = row.insertCell();
         const sectionsSelect = document.createElement('select');
         sectionsSelect.id = 'sectionsCount';
+        sectionsSelect.className = 'sectionsTotal';
 
 
         for (let i = 0; i <= 40; i++) {
@@ -62,12 +63,18 @@ function generateTable(dataList, headers, containerId) {
         }
 
         sectionsSelect.addEventListener('change', () => {
-            //dataList.sections = sectionsSelect.value;
-
+            //get index of changed element
+            console.log("Change", index);
+            let courseNum = dataList[index].num;
+            let courseSectionCount = sectionsSelect.value;
+            console.log(dataList[index].num, sectionsSelect.value);
             dataList[index].sections = parseInt(sectionsSelect.value);
-            //console.log(dataList[index].sections);
-            //sectionsSelect.value = data[index].sections;
-            //console.log(dataList[index]);
+            ///if the sectionsSelect.value === 0, find matching datalist[index.num in faculty currentCourses
+            if (parseInt(courseSectionCount) === 0) {
+                console.log("zEROED!");
+                killZeroSections(courseNum);
+            }
+
             saveData(dataList); // Save the updated data
             getCurrentTotalSections(dataList);
 
@@ -75,7 +82,7 @@ function generateTable(dataList, headers, containerId) {
 
 
         sectionsCell.appendChild(sectionsSelect);
-        //console.log(dataList[index].sections);
+        //console.log(sectionsSelect.value);
         sectionsSelect.value = dataList[index].sections;
         //saveData(dataList); // Save the updated data
 

@@ -126,13 +126,9 @@ function getCurrentTotalSections(csData) {
 
         semData.currRequiredCoursesCount = currTotal;
         semData.currSections = currentCourses;
-        //console.log({ "currRequiredCoursesCount": currTotal }, { "currSections": currentCourses }); //currRequiredCoursesCount = currTotal;
-
-        ////////////////////////semData.currSections = currentCourses;
-        //console.log(semData);
 
         currentStore.setItem('semesterData', newSemData, function(err) { //semData
-            // if err is non-null, we got an error
+
             // if err is non-null, we got an error. otherwise, value is the value
             if (err) {
                 console.log(err);
