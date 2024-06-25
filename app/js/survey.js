@@ -22,22 +22,19 @@ document.getElementById('fileInputCSV').addEventListener('change', function(evt)
         skipEmptyLines: true,
         complete: function(results) {
             var pData = results.data;
-            //console.table(pData);
+            console.table(pData);
             document.getElementById("surveyModal").style.display = "none";
             surveyParse(pData);
         }
     });
 });
 
-
-
-
-
 function loadExistingPrefs() {
     currentStore.getItem('facultyPreferences', function(err, fPrefs) {
         if (err) {
             console.log(err);
         } else {
+            console.log(fPrefs);
             showNamesAndEmails(fPrefs);
             matchPrefsNametoFacultyName(fPrefs);
         }
