@@ -199,7 +199,7 @@ function matchPrefsNametoFacultyName(prefs) {
                         if (nameIndex < 0 && prefIndex < 0) {
 
                             console.log("Missing: ", fac[i].email, fac[i].lastName);
-                            missingNames.push(fac[i].lastName + fac[i].firstName[0]);
+                            missingNames.push(fac[i].lastName + " " + fac[i].firstName[0]) + ".";
                         }
                     }
                 }
