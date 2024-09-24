@@ -101,7 +101,6 @@ function saveData(data) {
             email: email,
             available: avail,
             currentCourses: currentCourses
-
         };
         newData.push(currRecord);
     }
