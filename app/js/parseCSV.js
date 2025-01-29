@@ -5,22 +5,23 @@ function parseCSVFile(csvFile) {
         const parsedData = parseFacCSVContent(csvContent);
         dataList = parsedData;
 
-        //console.table(dataList);
         for (let i = 0; i < dataList.length; i++) {
-            //   console.log(dataList[i]);
+            for (let key in dataList[i]) {
+                if (typeof dataList[i][key] === 'string') {
+                    dataList[i][key] = dataList[i][key].replace(/^"|"$/g, ''); // Remove leading/trailing quotes
+                }
+            }
+
             if (dataList[i].email.includes('<')) {
                 let str = dataList[i].email;
                 let cleanStr = str.replace(/<\/?[^>]+(>|$)/g, "");
                 cleanStr = cleanStr.replace(/&nbsp;/g, "").trim();
                 cleanStr = cleanStr.replace(/"/g, '');
-                console.log(cleanStr); // Outputs: jsmith@some.edu
-
                 dataList[i].email = cleanStr;
             }
         }
         console.log(dataList);
         saveData(dataList); // Save the updated data
-
     };
     reader.readAsText(csvFile);
 }
