@@ -90,7 +90,7 @@ function readCourseCSVFile() {
             console.log("Keys:", keys);
 
             // Create a mapping of expected keys to their positions
-            const expectedKeys = ['div', 'num', 'title', 'loc', 'meth', 'sem', 'sections'];
+            const expectedKeys = ['div', 'num', 'title', 'loc', 'method', 'sem', 'sections'];
             const keyMap = {};
             
             console.log("Creating key map from headers:", keys);
@@ -131,7 +131,7 @@ function readCourseCSVFile() {
 
             console.log("Final Result:", result);
 
-            const tableHeaders = ['div', 'num', 'title', 'loc', 'meth', 'sem', 'sections'];
+            const tableHeaders = ['div', 'num', 'title', 'loc', 'method', 'sem', 'sections'];
             console.log("Table Headers:", tableHeaders);
 
             saveData(result);
