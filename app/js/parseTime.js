@@ -69,8 +69,9 @@ function parseFullTime(aClass) { //takes the Fac class desired and undesired dat
     // if (aClass.includes("Mon/Thurs 5:00pm-6:15pm") || aClass.includes("Mon/Wed 5:30-6:45")) { dayTim.push("M 5:30 PM") };
     // if (aClass.includes("Mon/Thurs 7:00pm-8:15pm") || aClass.includes("Mon/Wed 7:00-8:15")) { dayTim.push("M 7:00 PM") };
 
-    if (aClass.includes("Wed 9:00-11:45") || aClass.includes("W 9:00 AM-11:45 AM")) { dayTim.push("W 9:00 AM", "W 10:30 AM") };
-    if (aClass.includes("Wed 12:15-3:00") || aClass.includes("W 12:15 PM-3:00 PM")) { dayTim.push("W 12:15 PM", "W 1:45 PM") };
+    ///These first two parse the errors in the Fall 2025 Questionaire
+    if (aClass.includes("Wed 9:00-11:45") || aClass.includes("W 9:00 AM-11:45 AM") || aClass.includes("Wed 8:30-11:15") ) { dayTim.push("W 9:00 AM", "W 10:30 AM") };
+    if (aClass.includes("Wed 12:15-3:00") || aClass.includes("W 12:15 PM-3:00 PM") || aClass.includes("Wed 11:30-12:45")) { dayTim.push("W 12:15 PM", "W 1:45 PM") };
     if (aClass.includes("Mon 5:30-8:15") || aClass.includes("M 5:30 PM-8:15 PM")) { dayTim.push("M 5:30 PM", "M 7:00 PM") };
     if (aClass.includes("Tue 5:30-8:15") || aClass.includes("T 5:30 PM-8:15 PM")) { dayTim.push("T 5:30 PM", "T 7:00 PM") };
     if (aClass.includes("Wed 5:30-8:15") || aClass.includes("W 5:30 PM-8:15 PM")) { dayTim.push("W 5:30 PM", "W 7:00 PM") };

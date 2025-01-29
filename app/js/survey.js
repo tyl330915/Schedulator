@@ -48,10 +48,12 @@ function showNamesAndEmails(prefs) {
         return;
     } else {
         for (let i = 0; i < prefs.length; i++) {
-            nameAndEmail.push([prefs[i].name, prefs[i].prefEmail]);
+            //nameAndEmail.push([prefs[i].name, prefs[i].prefEmail]);
+            nameAndEmail.push([prefs[i].name]);
         }
         // console.table(nameAndEmail);
-        let headers = ["Name", "Email"];
+        //let headers = ["Name", "Email"];
+        let headers = ["Name"];
         drawTableAddHeaders(nameAndEmail, headers, "objTable");
     }
 }

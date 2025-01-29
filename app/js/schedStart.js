@@ -104,14 +104,11 @@ function displayFacPrefs() {
 
 
             currentStore.getItem('facultyPreferences', function(err, facPrefsData) {
-
+                document.getElementById("preferencesDiv").style.display = 'none';
                 if (facPrefsData) {
-                    //  console.log(facPrefsData);
-                    showFacPrefsData(facPrefsData, chosenName, chosenEmail);
-                } else {
-                    document.getElementById("preferencesDiv").style.display = 'none';
-
-                }
+                    console.log(facPrefsData);
+                    showFacPrefsData(facPrefsData, chosenName);
+                } 
             });
 
 
@@ -119,7 +116,6 @@ function displayFacPrefs() {
 
             currentStore.setItem('semesterData', semData, function(err, sData) {
                 if (sData) {
-
                     showIndividualClasses(fac[index].currentCourses);
                 }
                 if (err) {
@@ -132,19 +128,26 @@ function displayFacPrefs() {
 
 function showFacPrefsData(facPrefsData, name, CFCemail) {
     console.log("showFacPrefsData");
+    console.log(facPrefsData, name);
     let indivPrefs, shortName;
+    let prefIndex = -1;
 
-    let prefIndex = facPrefsData.findIndex(obj => obj.prefEmail === CFCemail);
+    //let prefIndex = facPrefsData.findIndex(obj => obj.prefEmail === CFCemail);
     //console.log("1st try: ", prefIndex);
-    // console.log(facPrefsData[prefIndex]);
-    shortName = name.split(",")[0] + name.split(", ")[1][0];
-    if (prefIndex < 0) {
-
-
-        prefIndex = facPrefsData.findIndex(obj => obj.name.split(", ")[0] + " " + obj.name.split(", ")[1][0].toLowerCase() === shortName);
-        //console.log("2nd try: ", facPrefsData[prefIndex]);
+    //console.log(facPrefsData[prefIndex]);
+    if (name.includes(", ")) {
+        shortName = name.split(", ")[0] + name.split(", ")[1][0];
+    } else {
+        console.error("Invalid name format:", name);
+        return;
     }
-
+    if (prefIndex < 0) {
+        prefIndex = facPrefsData.findIndex(function(obj) {
+            console.log(shortName, obj.name.split(", ")[0] + obj.name.split(", ")[1][0].toUpperCase());
+            return obj.name.split(", ")[0] + obj.name.split(", ")[1][0].toUpperCase() === shortName;
+        });
+        console.log("2nd try: ", facPrefsData[prefIndex], shortName, facPrefsData[prefIndex].name.split(", ")[0] + " " + facPrefsData[prefIndex].name.split(", ")[1][0].toLowerCase());
+    }
 
     if (prefIndex < 0) {
         document.getElementById("preferencesDiv").style.display = 'none';
@@ -153,7 +156,7 @@ function showFacPrefsData(facPrefsData, name, CFCemail) {
         console.log("Ready to fill preferences");
         indivPrefs = facPrefsData[prefIndex];
 
-        //console.log(indivPrefs.past);
+        console.log(indivPrefs);
         //console.log(document.getElementById("haveTaught"));
         try {
             document.getElementById("unavailReasons").innerHTML = indivPrefs.factors;
@@ -162,16 +165,16 @@ function showFacPrefsData(facPrefsData, name, CFCemail) {
             if (typeof indivPrefs.shouldNot == 'undefined') { document.getElementById("shouldNot").innerHTML = "" };
             document.getElementById("wouldLike").innerHTML = indivPrefs.wouldLike;
             document.getElementById("numBackToBack").innerHTML = indivPrefs.numBackToBack;
-            document.getElementById("PTNumLast").innerHTML = indivPrefs.PTLastYear;
             document.getElementById("PTNumThisYear").innerHTML = indivPrefs.PTThisYear;
+          document.getElementById("summer").innerHTML = indivPrefs.PTSummer;
             document.getElementById("FTThisYear").innerHTML = indivPrefs.FTThisYear;
             document.getElementById("splainin").innerHTML = indivPrefs.whyNot4;
-            document.getElementById("ftORpt").innerHTML = indivPrefs.status;
-
-            if (typeof ruFTPT == 'undefined') { document.getElementById("ftORpt").innerHTML = "" };
-            document.getElementById("overLoad").innerHTML = indivPrefs.overLoad;
-            if (typeof indivPrefs.overLoad == 'undefined') { document.getElementById("overLoad").innerHTML = "" };
+            //document.getElementById("ftORpt").innerHTML = indivPrefs.status;
+document.getElementById("overLoad").innerHTML = indivPrefs.overLoad;
+            
             document.getElementById("comments").innerHTML = indivPrefs.comments;
+           // if (typeof indivPrefs.overLoad == 'undefined') { document.getElementById("overLoad").innerHTML = "" };
+            if (typeof ruFTPT == 'undefined') { document.getElementById("ftORpt").innerHTML = "" };
             if (typeof indivPrefs.comments == 'undefined') { document.getElementById("comments").innerHTML = "" };
 
 

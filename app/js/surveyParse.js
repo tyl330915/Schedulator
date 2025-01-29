@@ -12,7 +12,7 @@ function surveyParse(preferenceSurvey) {
     let headings = fpData[0];
     //console.log(headings);
 
-    let timestamp, email, first, last, reasons, b2b, ptft, ptly, ptty, ftty, ynot4, overLoad, notes, pastTaut, notAvail, wouldLikeToTeach, shouldNotTeach, columnTime, prefTimes, dream;
+    let timestamp, email, first, last, reasons, b2b, singleDouble, PTSummer, FTSummer, ptft, ptly, ptty, ftty, ynot4, overLoad, notes, pastTaut, notAvail, wouldLikeToTeach, shouldNotTeach, columnTime, prefTimes, dream;
 
     for (let a = 0; a < headings.length; a++) {
         //console.log(headings[a]);
@@ -37,17 +37,27 @@ function surveyParse(preferenceSurvey) {
                 b2b = a;
             }
         }
-        if (headings[a].includes("Part-Time") && headings[a].includes("last")) {
 
+        if (headings[a].includes("75")) {
+            singleDouble = a;
+        }
+
+        if (headings[a].includes("Part-Time") && headings[a].includes("3 courses")) {
             ptft = "PT";
-            ptly = parseInt(a);
+            ptty = a;
         }
-        if (headings[a].includes("Part-Time") && headings[a].includes("would you")) {
-            ptty = parseInt(a);
+
+        if (headings[a].includes("Part-Time") && headings[a].includes("summer")) {
+            PTSummer = a;
         }
-        if (headings[a].includes("Full-Time") && headings[a].includes("should you")) {
+
+       // if (headings[a].includes("Part-Time") && headings[a].includes("should we")) {
+       //     ptty = parseInt(a);
+       // }
+        
+       if (headings[a].includes("Full-Time") && headings[a].includes("should we")) {
             ptft = "FT"
-            ftty = parseInt(a);
+            ftty = a; //parseInt(a);
         }
         if (headings[a].includes("less than 4")) {
             ynot4 = a;
@@ -55,6 +65,11 @@ function surveyParse(preferenceSurvey) {
         if (headings[a].includes("overload")) {
             overLoad = a;
         }
+
+        if (headings[a].includes("Full-Time") && headings[a].includes("summer")) {
+            FTSummer = a;
+        }
+
 
         if (headings[a].includes("Anything else")) {
             notes = a;
@@ -108,13 +123,16 @@ function surveyParse(preferenceSurvey) {
 
         personPrefs[i] = {
 
-            "prefEmail": fpData[i][email],
+            //"prefEmail": fpData[i][email],
             "name": capitalizeFirstLetter(fpData[i][last]).trim() + ", " + capitalizeFirstLetter(fpData[i][first].trim()),
             "factors": fpData[i][reasons],
             "numBackToBack": parseInt(fpData[i][b2b]),
-            "PTLastYear": Number(fpData[i][ptly]),
-            "PTThisYear": Number(fpData[i][ptty]),
-            "FTThisYear": Number(fpData[i][ftty]),
+            "singleDouble": fpData[i][singleDouble],
+           // "PTLastYear": Number(fpData[i][ptly]),
+            "PTSummer": fpData[i][PTSummer],
+            "PTThisYear": fpData[i][ptty],
+            "FTThisYear": fpData[i][ftty],
+            "FTSummer": fpData[i][FTSummer],
             "whyNot4": fpData[i][ynot4],
             "overLoad": fpData[i][overLoad],
             "comments": fpData[i][notes],
