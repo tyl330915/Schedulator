@@ -170,11 +170,11 @@ function showFacPrefsData(facPrefsData, name, CFCemail) {
             document.getElementById("FTThisYear").innerHTML = indivPrefs.FTThisYear;
             document.getElementById("splainin").innerHTML = indivPrefs.whyNot4;
             //document.getElementById("ftORpt").innerHTML = indivPrefs.status;
-document.getElementById("overLoad").innerHTML = indivPrefs.overLoad;
+            document.getElementById("overLoad").innerHTML = indivPrefs.overLoad;
             
             document.getElementById("comments").innerHTML = indivPrefs.comments;
            // if (typeof indivPrefs.overLoad == 'undefined') { document.getElementById("overLoad").innerHTML = "" };
-            if (typeof ruFTPT == 'undefined') { document.getElementById("ftORpt").innerHTML = "" };
+            //if (typeof ruFTPT == 'undefined') { document.getElementById("ftORpt").innerHTML = "" };
             if (typeof indivPrefs.comments == 'undefined') { document.getElementById("comments").innerHTML = "" };
 
 
