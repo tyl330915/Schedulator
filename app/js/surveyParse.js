@@ -10,7 +10,7 @@ function surveyParse(preferenceSurvey) {
     let personPrefs = {};
     let facPrefs = [];
     let headings = fpData[0];
-    //console.log(headings);
+    console.log(headings);
 
     let timestamp, email, first, last, reasons, b2b, singleDouble, PTSummer, FTSummer, ptft, ptly, ptty, ftty, ynot4, overLoad, notes, pastTaut, notAvail, wouldLikeToTeach, shouldNotTeach, columnTime, prefTimes, dream;
 
@@ -34,6 +34,8 @@ function surveyParse(preferenceSurvey) {
         if (headings[a].includes("back-to-back")) {
             //STUPID SHIM SINCE STUPID GOOGLE FORMS PUT IT IN TWICE
             if (b2b === undefined) {
+                b2b = "N/A"; //a;
+            } else {
                 b2b = a;
             }
         }
@@ -55,7 +57,7 @@ function surveyParse(preferenceSurvey) {
        //     ptty = parseInt(a);
        // }
         
-       if (headings[a].includes("Full-Time") && headings[a].includes("should we")) {
+       if (headings[a].includes("Full-Time") && headings[a].includes("should")) {
             ptft = "FT"
             ftty = a; //parseInt(a);
         }
@@ -68,6 +70,8 @@ function surveyParse(preferenceSurvey) {
 
         if (headings[a].includes("Full-Time") && headings[a].includes("summer")) {
             FTSummer = a;
+        } else {
+            FTSummer = "N/A";
         }
 
 
@@ -78,7 +82,8 @@ function surveyParse(preferenceSurvey) {
 
 
     //GET TEACHER RESPONSES
-    console.log(fpData);
+    //console.log(fpData);
+   
 
 
     for (let i = 1; i < fpData.length; i++) {
@@ -91,10 +96,11 @@ function surveyParse(preferenceSurvey) {
         classesYesorNo = "";
 
         for (let b = 0; b < headings.length; b++) {
-
-            if (headings[b].includes("Requests")) {
+            if (headings[b].includes('SLOTS') || headings[b].includes('requests')) {
                 let headingIndex = b;
+                console.log("Heading Index: ", headingIndex);
                 columnTime = fpData[0][headingIndex].split("[")[1].split("]")[0];
+                console.log("Column Time: ", columnTime);
                 if (fpData[i][headingIndex].includes("PREFER")) {
                     dream += columnTime + ";";
                 }
@@ -102,6 +108,7 @@ function surveyParse(preferenceSurvey) {
                     notAvail += columnTime + ";";
                 }
             }
+
             if (headings[b].includes("experience") || headings[b].includes("goals")) {
                 headingIndex = b;
                 classesYesorNo = fpData[0][headingIndex].split("[")[1].split("]")[0];
@@ -110,7 +117,7 @@ function surveyParse(preferenceSurvey) {
                 if (fpData[i][b].includes("past")) {
                     pastTaut += justClassNumber + ";";
                 }
-                if (fpData[i][b].includes("never")) {
+                if (fpData[i][b].includes("never") || fpData[i][b].includes("willing")) {
                     wouldLikeToTeach += justClassNumber + ";";
                 }
                 if (fpData[i][b].includes("not teach")) {
