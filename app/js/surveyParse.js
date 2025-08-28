@@ -152,7 +152,7 @@ function surveyParse(preferenceSurvey) {
             "shouldNot": shouldNotTeach
         }
 
-        console.log(personPrefs[i].name, personPrefs[i].numBackToBack);
+        console.log(personPrefs[i].name, personPrefs[i].numBackToBack, fpData[i][b2b]);
         facPrefs.push(personPrefs[i]);
 
     };
