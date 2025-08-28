@@ -1,16 +1,17 @@
-//const localforage = require("localforage");
-
-window.addEventListener('load', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    await setCurrentStore();
+    // Now you can use currentStore
+    console.log(currentStore);
     showIndividualClasses();
 });
 
 function showIndividualClasses() {
     //console.log("showIndividualClasses");
 
-    localforage.getItem('faculty', function(err, CFC) {
+    currentStore.getItem('faculty', function(err, CFC) {
         //clearTableCells();
         createGraph(CFC);
-        document.getElementById("unScheduled").innerHTML = "";
+        document.getElementById("holdingPen").innerHTML = "";
         for (i = 0; i < CFC.length; i++) {
             createDragnDropInformation(CFC[i]);
 
@@ -21,8 +22,8 @@ function showIndividualClasses() {
 
 function createDragnDropInformation(personData) {
 
-    // console.log("personData", personData);
-    ///localforage.getItem('courses', function(err, courses) {
+    //console.log("personData", personData);
+    ///currentstore.getItem('courses', function(err, courses) {
     //console.table(courses);
 
     let assignedCourses = personData.currentCourses;
@@ -35,26 +36,22 @@ function createDragnDropInformation(personData) {
     }
     colorWeekDraggers(personData);
 
-
-    ///});
 };
 
 function assembleDraggerID(personName, classDT, arrayNumber) {
-    //console.log("Called shorterTest");
+    //console.log("Called assembleDraggerID");
     // console.log(personName, classDT, arrayNumber);
-    let class1, class2, DT1, DT2, hour1, hour2, day1, day2;
+    let class1, class2, DT1, DT2, hour1, hour2, day1, day2, perWeek;
     let courseNum = classDT.num;
     let method = classDT.method;
     let shortName = personName.split(",")[0] + personName.split(", ")[1][0];
 
-    if (method === "STN" || method === "HYB") {
+    if (method === "STN" || method === "HYB" || method === "ONLSY") {
         if (classDT.time !== undefined && classDT.time !== null && classDT.time !== "" && classDT.days !== undefined && classDT.days !== null && classDT.days !== "") {
 
 
             let classTime = classDT.time;
             let classDays = classDT.days;
-            let perWeek;
-
             //console.log("ShortName: ", shortName);
 
             if (classDays.includes("/")) {
@@ -62,10 +59,7 @@ function assembleDraggerID(personName, classDT, arrayNumber) {
             } else {
                 perWeek = 1;
             }
-            //console.log("perWeek: ", perWeek);
-
-            //  console.log("classTime: ", classTime, "classDays: ", classDays);
-            //   console.log(classDT, arrayNumber, method);
+            // console.log("perWeek: ", perWeek);
 
 
             if (perWeek === "2" || perWeek === 2) {
@@ -74,46 +68,26 @@ function assembleDraggerID(personName, classDT, arrayNumber) {
                 hour1 = classTime.split(": ")[1].split("-")[0];
                 DT1 = day1 + " " + hour1;
                 DT2 = day2 + " " + hour1;
-
-                // console.log("courseNum: ", courseNum, "method: ", method, "DT1: ", DT1, "day2", "DT2: ", DT2, "courseIndex: ", arrayNumber, "perWeek: ", perWeek);
             }
 
             if ((perWeek === "1" || perWeek === 1) && day1 !== "W") {
                 day1 = classDays;
-                //console.log(classTime);
-                // console.log("classDays: ", classDays, "classTime: ", classTime);
                 hour1 = reverseBlockTime(classTime);
-                /// hour1 = classTime.split(": ")[1].split("-")[0] + " " + classTime.split("-")[1].split(" ")[1];
-                // console.log(hour1);
                 DT1 = day1 + " " + hour1;
                 DT2 = doubleClassParse(DT1);
-
-                //  console.log("courseNum: ", courseNum, "method: ", method, "DT1: ", DT1, "DT2: ", DT2, "courseIndex: ", arrayNumber, "perWeek: ", perWeek);
-
             }
 
             if ((perWeek === "1" || perWeek === 1) && day1 === "W") {
                 day1 = classDays;
-
-                // console.log("classDays: ", classDays, "classTime: ", classTime);
                 hour1 = reverseBlockTime(classTime);
-                /// hour1 = classTime.split(": ")[1].split("-")[0] + " " + classTime.split("-")[1].split(" ")[1];
-                //console.log("Wed Hours 1: ", hour1);
                 DT1 = day1 + " " + hour1;
                 DT2 = doubleClassParse(DT1);
-
-                // console.log("courseNum: ", courseNum, "method: ", method, "DT1: ", DT1, "DT2: ", DT2, "courseIndex: ", arrayNumber, "perWeek: ", perWeek);
-
             }
 
-            if ((perWeek === "1" || perWeek === 1) && method === "HYB") {
+            if ((perWeek === "1" || perWeek === 1) && method === "HYB" || method === "ONLSY") {
                 day1 = classDays;
-                // console.log("classDays: ", classDays, "classTime: ", classTime);
                 hour1 = reverseBlockTime(classTime);
-                /// hour1 = classTime.split(": ")[1].split("-")[0] + " " + classTime.split("-")[1].split(" ")[1];
-                //console.log("Wed Hours 1: ", hour1);
                 DT1 = day1 + " " + hour1;
-                //DT2 = doubleClassParse(DT1);
             }
         } else {
             console.log("Not a schedualable class: ", "shortName: ", shortName, "courseNum: ", courseNum, "method: ", method, "arrayNumber: ", arrayNumber);
@@ -121,14 +95,12 @@ function assembleDraggerID(personName, classDT, arrayNumber) {
         }
 
 
-        createDragger(shortName, courseNum, DT1, DT2, method, arrayNumber);
+        createDragger(shortName, courseNum, DT1, DT2, method, arrayNumber, perWeek);
     };
 };
 
-function createDragger(coursePerson, courseNum, DT1, DT2, method, arrayNumber) {
-    // console.log("courseNum: ", courseNum, "DT1: ", DT1, "DT2: ", DT2, "method: ", method, "arrayNumber: ", arrayNumber);
-    // console.log("Called createDragger");
-    // console.log(coursePerson);
+function createDragger(coursePerson, courseNum, DT1, DT2, method, arrayNumber, perWeek) {
+
     var dragName = coursePerson + "#" + arrayNumber + "/" + courseNum;
     //console.log("dragName: ", dragName);
 
@@ -146,16 +118,17 @@ function createDragger(coursePerson, courseNum, DT1, DT2, method, arrayNumber) {
     dragger.setAttribute("id", dragName);
     dragger.setAttribute("name", courseNum);
     dragger.setAttribute("method", method);
+    dragger.setAttribute("perWeek", perWeek);
 
 
     if ((DT1 === null || DT1 === undefined)) {
-        target = "unScheduled";
+        target = "holdingPen";
     } else {
         target = DT1;
     }
 
     let draggerMethod = dragger.getAttribute("method");
-    if (draggerMethod !== "STN" && draggerMethod !== "HYB") {
+    if (draggerMethod !== "STN" && draggerMethod !== "HYB" && draggerMethod !== "ONLSY") {
         console.log("Abnormal dragger Method", draggerMethod);
     }
     //console.log("Target: ", target);
@@ -168,7 +141,7 @@ function createDragger(coursePerson, courseNum, DT1, DT2, method, arrayNumber) {
         console.log(e);
     }
 
-    if (target !== "unScheduled" && draggerMethod !== "HYB") {
+    if (target !== "holdingPen" && draggerMethod !== "HYB" && draggerMethod !== "ONLSY") {
 
         var sisterDragger = document.getElementById(dragger.id).cloneNode(true); //CLONE THE NAME AND PUT IT IN THE SECOND DAY
         sisterDragger.setAttribute("id", dragName + "-sister");
@@ -176,6 +149,7 @@ function createDragger(coursePerson, courseNum, DT1, DT2, method, arrayNumber) {
         //sisterDragger.setAttribute("onmousedown", "rightSelect(event)");
         sisterDragger.setAttribute("class", "sisterDragger");
         sisterDragger.setAttribute("method", method);
+
         displayCurrTarget();
 
         try {
@@ -189,11 +163,9 @@ function createDragger(coursePerson, courseNum, DT1, DT2, method, arrayNumber) {
         console.log("HYBRID: No sister");
 
     } else {
-        console.log("unScheduled");
+        console.log("holdingPen");
         return;
     }
-
-
 };
 
 function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
@@ -207,11 +179,10 @@ function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
     var sisterDragger = document.getElementById(id).cloneNode(true); //CLONE THE NAME AND PUT IT IN THE SECOND DAY
     sisterDragger.setAttribute("id", id + "-sister");
     sisterDragger.setAttribute("draggable", "false");
-    sisterDragger.setAttribute("onmousedown", "rightSelect(event)");
+    //sisterDragger.setAttribute("onmousedown", "rightSelect(event)");
     sisterDragger.setAttribute("class", "sisterDragger");
-    //sisterDragger.setAttribute("perWeek", perWeek);
-    // console.log(primaryTarget, id, perWeek);
-    //    console.log(sisterParse(primaryTarget));
+
+    console.log("sisterID", sisterDragger.getAttribute("id"));
 
     if ((perWeek === 2 || perWeek === "2") && hour.includes("&")) {
         perWeek = 1;
@@ -223,22 +194,13 @@ function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
     }
     if (perWeek === "1" || perWeek === 1) {
         sisterTarget = doubleClassParse(primaryTarget);
+        console.log("sisterID", sisterDragger.id);
         // console.log(sisterTarget);
     }
 
-    //console.log(sisterTarget);
-    // if (courseName[7] === "L" || meth === "LAB") {
-    //     sisterDragger.setAttribute("class", "labSister");
-    // } else {
-
-    //};
-    //console.log(sisterDragger.getAttribute("class"), sisterTarget);
-
     try {
-
         //console.log("trying to place sister");
         document.getElementById(sisterTarget).appendChild(sisterDragger);
-        //console.log("primarytarget: ", primaryTarget, "id: ", id, "perWeek: ", perWeek, "hour: ", hour, "sisterTarget: ", sisterTarget);
         if (perWeek === 2 || perWeek === "2") {
             firstDay = primaryTarget.split(" ")[0];
             secondDay = sisterTarget.split(" ")[0];
@@ -246,23 +208,13 @@ function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
 
         } else {
             days = primaryTarget.split(" ")[0];
-        }
+        };
 
-        //console.log(days);
-
-        // console.log("firstDay: ", firstDay, "hour: ", hour, "perWeek: ", perWeek);
-        // console.log(classBlocks(firstDay, hour, perWeek));
         updatedClass = id.split(".")[0];
         updatedTime = classBlocks(firstDay, hour, perWeek);
         classListIndex = id.split(".")[1];
         updatedIndex = classListIndex;
         updatedFacName = id.split(".")[2];
-
-        //console.log("updatedClass: ", updatedClass, "updatedTime: ", updatedTime, "classListIndex: ", classListIndex, "updatedIndex: ", updatedIndex, "updatedFacName: ", updatedFacName);
-
-
-
-
 
     } catch (e) {
         console.log(e);
@@ -271,8 +223,6 @@ function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
 
         };
     };
-    /////saveSchedule(updatedClass, updatedTime, oldTime, updatedIndex, updatedFacName)
-    //colorDraggers();
 
 };
 
@@ -282,4 +232,19 @@ function clearTableCells() {
     for (var i = 0; i < divs.length; i++) {
         divs[i].innerHTML = "";
     };
+};
+
+function setDraggerBorders() {
+    //console.log("Called setDraggerBorders");
+    //get all of the elements with the attribute "perWeek"
+    var elements = document.querySelectorAll('[perWeek]');
+
+    // Loop through each element
+    for (var i = 0; i < elements.length; i++) {
+        // Check if the "perWeek" attribute's value is "1"
+        if (elements[i].getAttribute('perWeek') === '1') {
+            // Set the border to be 1pt dashed black
+            elements[i].style.border = '1pt dashed black';
+        }
+    }
 };

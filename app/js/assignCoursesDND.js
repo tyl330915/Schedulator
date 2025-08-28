@@ -1,7 +1,5 @@
 //Drag and drop functions 
 
-//const localforage = require("localforage");
-
 nameCountArray = [];
 colorArray = [];
 parentID = "";
@@ -96,7 +94,7 @@ function trashName(item, sCourse) {
     nameDiv.outerHTML = "";
     delete element;
 
-    localforage.getItem('faculty', function(err, CFC) {
+    currentStore.getItem('faculty', function(err, CFC) {
 
         var nameIndex = CFC.map(function(e) { return e.lastName + ", " + e.firstName; }).indexOf(facName);
 
@@ -117,7 +115,7 @@ function trashName(item, sCourse) {
             };
         };
 
-        localforage.setItem("faculty", CFC, function(err, facCourses) {
+        currentStore.setItem("faculty", CFC, function(err, facCourses) {
             console.log(item + "deleted!");
             document.getElementById("trashAlert").innerHTML = "One " + facName.split(",")[0] + "<br> deleted!";
             console.log(facCourses[nameIndex].Norm);
@@ -134,10 +132,10 @@ function saveDragData(facName, courseIndex, oldCourse, newCourse, draggerID) {
     let cfcCourses;
     console.log(facName, courseIndex, oldCourse, newCourse, draggerID);
 
-    ///// localforage.getItem('currentFacultyCourses', function(err, CFC) {
-    localforage.getItem('courses', function(err, crses) {
+    ///// currentstore.getItem('currentFacultyCourses', function(err, CFC) {
+    currentStore.getItem('courses', function(err, crses) {
         /// console.table(crses);
-        localforage.getItem('faculty', function(err, CFC) {
+        currentStore.getItem('faculty', function(err, CFC) {
 
             let newCourseArray = {};
             var nameIndex = CFC.map(function(e) { return e.lastName + ", " + e.firstName; }).indexOf(facName);
@@ -192,12 +190,12 @@ function saveDragData(facName, courseIndex, oldCourse, newCourse, draggerID) {
 
                 console.log("New course, oldCourse: ", newCourse, oldCourse);
                 console.log("csIndex, oldIndex: ", csIndex, oldIndex);
-                console.log("crsrs meth: ", newCourse, crses[csIndex].meth);
+                console.log("crsrs method: ", newCourse, crses[csIndex].method);
 
                 cfcCourses[thisCourseIndex].num = newCourse;
                 cfcCourses[thisCourseIndex].days = "";
                 cfcCourses[thisCourseIndex].time = "";
-                cfcCourses[thisCourseIndex].method = crses[csIndex].meth;
+                cfcCourses[thisCourseIndex].method = crses[csIndex].method;
 
 
             }
@@ -206,21 +204,21 @@ function saveDragData(facName, courseIndex, oldCourse, newCourse, draggerID) {
                 csIndex = crses.map(function(e) { return e.num }).indexOf(newCourse);
                 console.log("New course, oldCourse: ", newCourse, oldCourse);
                 console.log("csIndex, oldIndex: ", csIndex, oldIndex);
-                console.log("crsrs meth: ", newCourse, crses[csIndex].meth);
+                console.log("crsrs method: ", newCourse, crses[csIndex].method);
 
                 if (!cfcCourses[draggerIndex]) {
                     let newEntry = {
                         "num": newCourse,
                         "days": "",
                         "time": "",
-                        "method": crses[csIndex].meth
+                        "method": crses[csIndex].method
 
 
                     }
                     cfcCourses.push(newEntry);
                 } else {
                     cfcCourses[draggerIndex].num = newCourse;
-                    cfcCourses[draggerIndex].method = crses[csIndex].meth;
+                    cfcCourses[draggerIndex].method = crses[csIndex].method;
                 }
 
                 console.log(CFC[nameIndex]);
@@ -242,7 +240,7 @@ function saveDragData(facName, courseIndex, oldCourse, newCourse, draggerID) {
 
 function saveCFC(facCs) {
     console.log("Saving");
-    localforage.setItem("faculty", facCs, function(err, facCourses) {
+    currentStore.setItem("faculty", facCs, function(err, facCourses) {
         //console.log(facCourses[nameIndex].TYCourses, facCourses[nameIndex].TYTimes);
         //////////cleanCFC(facCourses);
         updateDragTable();

@@ -99,6 +99,7 @@ function createSelects(table, data) {
             <option value="FLD">FLD</option>
             <option value="STU">STU</option>
             <option value="ONL">ONL</option>
+            <option value="ONLSY">ONLSY</option>
             <option value="HYB">HYB</option>`;
 
             methCell.innerHTML = "";
@@ -111,7 +112,7 @@ function createSelects(table, data) {
                 console.log("Datarow ", dataRow);
 
                 methCell.textContent = methInput.value;
-                data[dataRow].meth = methInput.value;
+                data[dataRow].method = methInput.value;
                 //console.log("Save here 1");
                 saveData(data);
             });
@@ -120,7 +121,7 @@ function createSelects(table, data) {
                 event.preventDefault();
                 //console.log("dataRow: ", dataRow);
                 methCell.textContent = methInput.value;
-                data[dataRow].meth = methInput.value;
+                data[dataRow].method = methInput.value;
                 //console.log("Save here 2");
                 saveData(data);
             });
@@ -183,7 +184,7 @@ function generateDeleteSelect(csData) {
     for (var i = 0; i < csData.length; i++) {
         let opt = document.createElement("option");
         opt.value = i; // Or csData[i].num, depending on your needs
-        opt.textContent = csData[i].num;
+        opt.textContent = csData[i].num + ": " + csData[i].title;
         delSel.appendChild(opt);
     }
 }

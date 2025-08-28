@@ -3,213 +3,238 @@ function loadSpreadsheet() {
     dia.style.display = "none";
 
     const file = document.getElementById('loadSS').files[0];
-    //console.log(file);
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const text = e.target.result;
-            const allTextLines = text.split(/\r\n|\n/);
-            // console.log(allTextLines);
-            const headers = allTextLines[0].split(',').map(header => header.trim());
-            //console.log(headers);
-            const lines = [];
 
-            let sectionNameIndex = headers.indexOf('Section Name');
-            //console.log("Section Name Index: " + sectionNameIndex)
+    Papa.parse(file, {
+        download: true,
+        header: true,
+        transformHeader: header => header.trim(),
+        transform: value => value.trim(),
+        complete: function(results) {
+            let data = results.data;
+            let fields = results.meta.fields;
 
-            // Initialize an empty object to store the course counts
-            let courseCounts = {};
+            let indexes = {
+                "Division": fields.indexOf("Division"),
+                "Section Name": fields.indexOf("Section Name"),
+                "Title": fields.indexOf("Title"),
+                "Term": fields.indexOf("Term"),
+                "Location": fields.indexOf("Location"),
+                "Instructional Method": fields.indexOf("Instructional Method"),
+                "Days": fields.indexOf("Days"),
+                "Start Time": fields.indexOf("Start Time"),
+                "End Time": fields.indexOf("End Time"),
+                "Faculty First": fields.indexOf("Faculty First"),
+                "Faculty Last": fields.indexOf("Faculty Last"),
+                "E-Mail address - Primary": fields.indexOf("E-Mail address - Primary")
+            };
 
-            // Loop over the data, starting from the second row
-            for (let i = 1; i < allTextLines.length; i++) {
-                // Split the current line into columns
-                if (allTextLines[i].length > 0) {
-                    let columns = allTextLines[i].split(',');
-                    //console.log(allTextLines[i]);
-
-                    // Extract the course number from the section name
-                    let courseNumber = columns[sectionNameIndex].split('-')[0].trim();
-
-                    // If the course number is already in the courseCounts object, increment its count
-                    // Otherwise, add it to the courseCounts object with a count of 1
-                    if (courseNumber in courseCounts) {
-                        courseCounts[courseNumber]++;
-                    } else {
-                        courseCounts[courseNumber] = 1;
+            let filteredData = data.map(row => {
+                let filteredRow = {};
+                for (let key in indexes) {
+                    if (indexes[key] !== -1) {
+                        filteredRow[key] = row[key];
                     }
                 }
-
-            }
-            // Convert the courseCounts object to an array of arrays
-            let courseCountsArray = Object.entries(courseCounts);
-            //console.table(courseCountsArray);
-            saveCourseCounts(courseCountsArray);
-
-            ///CODE IN HERE TO SAVE IT TO THE COURSES LIST IN LOCALFORAGE
-            //return courseCountsArray;
-
-            parseIndividualCourses(allTextLines);
-        };
-        reader.readAsText(file);
-    }
-};
-
-function parseIndividualCourses(data) {
-    let facultyName, firstName, lastName, meetingDay, timeBlock;
-    // Find the index of 'Faculty 1', 'Meeting Day', 'Time Block', and 'Section Name' in the data
-    //let facultyIndex = data[0].indexOf('Faculty 1');
-    const headers = data[0].split(',').map(header => header.trim());
-    console.log(headers); // Add this line to log the headers array
-    let meetingDayIndex = headers.indexOf('Meeting Day');
-    console.log("Meeting Day Index: " + meetingDayIndex);
-    let timeBlockIndex = headers.indexOf('Time Block');
-    console.log("Time Block Index: " + timeBlockIndex);
-    let sectionNameIndex = headers.indexOf('Section Name');
-    console.log("Section Name Index: " + sectionNameIndex);
-    let facultyIndex = headers.indexOf('Faculty 1');
-    console.log("Faculty 1 Index: " + facultyIndex);
-    let methodIndex = headers.indexOf('Instructional Method');
-
-    // Initialize an empty object to store the faculty and their courses
-    let facultyCourses = {};
-
-    // Loop over the data, starting from the second row
-    for (let i = 1; i < data.length; i++) {
-        let columns = CSVtoArray(data[i])
-        console.log("Columns", columns, facultyIndex);
-        // Split the faculty name into first name and last name
-        if (columns.length > 0) {
-            facultyName = columns[facultyIndex].split(',').map(name => name.trim());
-            //    console.log(facultyName);
-            firstName = facultyName[1];
-            lastName = facultyName[0];
-            // Extract the course number from the section name
-            courseNumber = columns[sectionNameIndex].includes('-') ? columns[sectionNameIndex].split('-')[0].trim() : columns[sectionNameIndex].trim();
-            // Extract the meeting day and time block
-            meetingDay = columns[meetingDayIndex].trim();
-            timeBlock = columns[timeBlockIndex].trim();
-            method = columns[methodIndex].trim();
-        }
-        // If the faculty name is already in the facultyCourses object, add the course to their currentCourses
-        // Otherwise, add the faculty name to the facultyCourses object with the course in their currentCourses
-        if (firstName + ' ' + lastName in facultyCourses) {
-            facultyCourses[firstName + ' ' + lastName]['currentCourses'].push({
-                'num': courseNumber,
-                'days': meetingDay,
-                'time': timeBlock,
-                'method': method
+                return filteredRow;
             });
-        } else {
-            facultyCourses[firstName + ' ' + lastName] = {
-                'firstName': firstName,
-                'lastName': lastName,
-                'currentCourses': [{
-                    'num': courseNumber,
-                    'days': meetingDay,
-                    'time': timeBlock,
-                    'method': method
-                }]
-            };
+
+            console.table(filteredData);
+            countCourses(filteredData);
         }
-    }
-    console.table(facultyCourses);
-    //return facultyCourses;
-    saveNewFacultyCourses(facultyCourses);
+    });
 };
 
+function ssSemesterData() {
+    const uploadDiv = document.getElementById('uploadDiv');
+    const messageLine = document.getElementById('dialogMessage');
 
-function saveCourseCounts(courseArray) {
-    localforage.getItem('courses', function(err, oldCourses) {
-        //console.log(oldCourses);
-        if (err) {
-            console.log(err);
-        }
+    const department = document.getElementById('department').value;
+    const term = document.getElementById('semester').value;
+    const year = document.getElementById('year').value;
 
-        //set all oldcourses sections to 0
-        for (i = 0; i < oldCourses.length; i++) {
-            oldCourses[i].sections = 0;
-        }
+    console.log(department, term, year);
+    if (department && term && year) {
+        newSem = department + ' ' + term + ' ' + year;
+        messageLine.innerHTML = '';
+        console.log(uploadDiv);
+        uploadDiv.style.display = 'block';
 
-        //compare the old courses with the new courses and update the sections
-        for (i = 0; i < courseArray.length; i++) {
-            //console.log(courseArray[i], courseArray[i][0]);
-            if (courseArray[i][0] !== '') {
-                //get the index of the course in courseArray from oldCourses
-                let newCourseNum = courseArray[i][0];
-                let index = oldCourses.findIndex(obj => obj.num === newCourseNum);
-                // console.log(newCourseNum, oldCourses[index].num);
-                oldCourses[index].sections = courseArray[i][1];
+        currentStore = localforage.createInstance({
+            name: newSem
+        });
+
+
+    } else {
+        //alert("Please select a department, semester, and year");
+        messageLine.innerHTML = "Please select a department, semester, and year";
+    }
+};
+
+function countCourses(filteredData) {
+    let courseCounts = {};
+
+    filteredData.forEach(row => {
+        let courseName = row["Section Name"];
+        // Check if courseName is defined
+        if (courseName) {
+            // Remove the section number from the end of the course name
+            let hyphenIndex = courseName.lastIndexOf("-");
+            if (hyphenIndex !== -1) {
+                courseName = courseName.substring(0, hyphenIndex).trim();
+            }
+
+            // Increment the count for this course
+            if (courseCounts[courseName]) {
+                courseCounts[courseName]++;
+            } else {
+                courseCounts[courseName] = 1;
             }
         }
-        //console.table(oldCourses);
+    });
 
-        //save courses in localforage
-        localforage.setItem('courses', oldCourses, function(err) {
+    console.log(courseCounts);
+    updateCourseCounts(courseCounts, filteredData); // Pass filteredData and courseCounts
+};
+
+function updateCourseCounts(counts, fData) {
+    currentStore.getItem('courses', function(err, cList) {
+
+        cList.forEach(course => {
+            if (counts[course.num]) {
+                // If the course is in courseCounts, update the sections count
+                course.sections = counts[course.num];
+            } else {
+                // If the course is not in courseCounts, set the sections count to 0
+                course.sections = 0;
+            }
+
+        });
+
+        currentStore.setItem('courses', cList, function(err) {
             if (err) {
                 console.log(err);
             }
             console.log("saved courses");
-
+            console.table(cList);
+            ////window.location.href = "courses.html";
+            setFacultyCourses(fData);
         })
+
     });
+
 };
 
-function saveNewFacultyCourses(newFac) {
-    console.log(newFac[0]);
-    //get faculty list from localforage
-    localforage.getItem('faculty', function(err, oldFac) {
+function setFacultyCourses(fData) {
+
+    console.table(fData);
+
+    let people = {};
+
+    fData.forEach(row => {
+        // Skip if row is empty or first name or last name is undefined
+        if (!row || Object.keys(row).length === 0 || !row["Faculty First"] || !row["Faculty Last"]) {
+            return;
+        }
+
+        let firstName = row["Faculty First"];
+        let lastName = row["Faculty Last"];
+        let email = row["E-Mail address - Primary"];
+        // If there are multiple emails, pick the first one
+        if (email && email.includes(',')) {
+            email = email.split(',')[0].trim();
+        }
+        let personKey = `${firstName} ${lastName} ${email}`;
+
+        if (!people[personKey]) {
+            people[personKey] = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                currentCourses: []
+            };
+        }
+
+        let days = row["Days"];
+        let time = "";
+        if (typeof days === 'string') {
+            let perWeek = days.includes("/") ? 2 : 1;
+            time = classBlocks(days, row["Start Time"], perWeek);
+        }
+
+        // Remove the section number from the end of the course name
+        let courseName = row["Section Name"];
+        let hyphenIndex = courseName.lastIndexOf("-");
+        if (hyphenIndex !== -1) {
+            courseName = courseName.substring(0, hyphenIndex).trim();
+        }
+
+        let course = {
+            num: courseName,
+            days: days,
+            time: time,
+            method: row["Instructional Method"]
+        };
+
+        people[personKey].currentCourses.push(course);
+    });
+
+    // Convert the people object to an array and sort it
+    let peopleArray = Object.values(people);
+    peopleArray.sort((a, b) => {
+        // Sort by last name, then by first name
+        let lastNameComparison = a.lastName.localeCompare(b.lastName);
+        if (lastNameComparison !== 0) {
+            return lastNameComparison;
+        } else {
+            return a.firstName.localeCompare(b.firstName);
+        }
+    });
+
+    console.log(peopleArray);
+    addCurrentCoursesToFaculty(peopleArray);
+
+};
+
+//ADD THE CURRENT COURSES TO THE FACULTY ARRAY, AND SAVE THE FACULTY ARRAYfunction addCurrentCoursesToFaculty(peopleArray) {
+function addCurrentCoursesToFaculty(peopleArray) {
+    currentStore.getItem('faculty', function(err, fac) {
         if (err) {
             console.log(err);
         }
-        console.table(oldFac);
-        //set all old faculty sections to empty
-        for (i = 0; i < oldFac.length; i++) {
-            oldFac[i].currentCourses = [];
-        };
-        //get index of old faculty in new faculty
-        let newFacArray = Object.values(newFac);
 
-        for (let i = 0; i < oldFac.length; i++) {
-            oldFac[i].currentCourses = [];
-            //get index of old faculty in new faculty
-            let facindex = newFacArray.findIndex(obj => obj.firstName + ' ' + obj.lastName === oldFac[i].firstName + ' ' + oldFac[i].lastName);
-            if (facindex > -1) {
-                oldFac[i].currentCourses = newFacArray[facindex].currentCourses;
-                console.log(oldFac[i].firstName + ' ' + oldFac[i].lastName, newFacArray[facindex]);
+        fac.forEach(person => {
+            // Find a match in peopleArray by email or by first name and last name
+            let match = peopleArray.find(p => p.email === person.email || (p.firstName === person.firstName && p.lastName === person.lastName));
+
+            if (match) {
+                // If a match is found, update currentCourses
+                person.currentCourses = match.currentCourses.map(course => {
+
+                    console.log(course);
+                    let days = course.days;
+                    let time = course.time;
+                    if (typeof days === 'string') {
+                        days = days.replace(", ", "/");
+                    }
+
+                    return {...course, days, time }; // Include the updated days value in the returned object
+                });
+            } else {
+                // If no match is found, set currentCourses to an empty array
+                person.currentCourses = [];
             }
-        };
-        //save faculty in localforage
-        localforage.setItem('faculty', oldFac, function(err) {
-            if (err) {
-                console.log(err);
-            }
-            console.log("saved faculty");
-            alert("Spreadsheet loaded successfully");
+        });
+
+        console.log(fac);
+        currentStore.setItem('faculty', fac, function(err) {
+            if (err) return console.log(err);
+            alert("Data saved successfully!");
+            setTimeout(function() {
+                window.location.href = "courses.html";
+            }, 2000);
+
         })
 
 
     });
-}
-
-
-function CSVtoArray(text) {
-    let ret = [''],
-        i = 0,
-        p = '',
-        s = true;
-    for (let l in text) {
-        l = text[l];
-        if ('"' === l) {
-            s = !s;
-            if ('"' === p) {
-                ret[i] += '"';
-                l = '';
-            } else if ('' === p)
-                l = '';
-        } else if (s && ',' === l)
-            l = ret[++i] = '';
-        ret[i] += l;
-        p = l;
-    }
-    return ret.map(field => field.trim().replace(/^"|"$/g, ''));
 }

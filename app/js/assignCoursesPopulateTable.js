@@ -1,7 +1,7 @@
 //THIS ATTACHES THE NAMES BOXES TO THE CORRECT COURSE BOX
 function fillCoursesFromHoldings(CFC) {
     console.log("fillCoursesFromHoldings");
-    //  console.log(CFC);
+    console.log(CFC);
     //console.table(courses);
     let courseBox, draggerID;
 
@@ -11,10 +11,11 @@ function fillCoursesFromHoldings(CFC) {
 
         if (cfcCourses) {
             for (var d = 0; d < cfcCourses.length; d++) {
+
                 var cCourse = cfcCourses[d].num;
                 var nameID = abName + "." + (d);
                 var boxID = "box" + cCourse;
-                // console.log("cCourse: ", cCourse, nameID, boxID);
+                //console.log("cCourse: ", cCourse, nameID, boxID);
                 var thisBox = document.getElementById(boxID);
                 var thisName = document.getElementById(nameID);
                 //console.log(thisBox, thisName);
@@ -38,13 +39,13 @@ function fillCoursesFromHoldings(CFC) {
 function updateDragTable() {
 
     console.log("updateDragTable");
-    //localforage.keys().then(function(keys) {
+    //currentstore.keys().then(function(keys) {
     //    console.log(keys);
     //});
 
     document.getElementById("alertDiv").innerHTML = "";
-    localforage.getItem("semesterData", function(err, semData) {
-        //localforage.getItem('courses', function(err, courses) {
+    currentStore.getItem("semesterData", function(err, semData) {
+        //currentstore.getItem('courses', function(err, courses) {
         console.log(semData);
         let currTotalSectionCount = 0;
 
@@ -96,7 +97,7 @@ function updateDragTable() {
 
 
         semData.currSectionCount = currTotalSectionCount;
-        localforage.setItem('semesterData', semData, function(err) {
+        currentStore.setItem('semesterData', semData, function(err) {
             if (err) { console.log(err) };
             console.log("Course Count updated!");
         })

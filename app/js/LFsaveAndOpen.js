@@ -1,8 +1,8 @@
-//const localforage = require('localforage');
+//const currentstore = require('currentstore');
 
 function openLF(filename) {
     let fileData;
-    localforage.getItem(filename, function(err, fileData) {
+    currentStore.getItem(filename, function(err, fileData) {
         console.log("fileData: ", fileData);
         if (err) {
             alert('Error saving data.');
@@ -14,7 +14,7 @@ function openLF(filename) {
 };
 
 function saveLF() {
-    localforage.setItem("dataName", "dataValue", function(err, result) {
+    currentStore.setItem("dataName", "dataValue", function(err, result) {
         console.log(result);
         alert('Data saved successfully!');
         if (err) {

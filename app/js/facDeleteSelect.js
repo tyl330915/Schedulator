@@ -1,6 +1,6 @@
-    localforage.getItem('faculty', function(err, facultyList) {
-        createDeleteSelect(facultyList);
-    });
+    //currentStore.getItem('faculty', function(err, facultyList) {
+    //    createDeleteSelect(facultyList);
+    //});
 
 
     // Close the modal when clicking outside of it
@@ -86,7 +86,7 @@
         console.log(newPerson);
 
         try {
-            localforage.getItem('faculty', function(err, facList) {
+            currentStore.getItem('faculty', function(err, facList) {
 
                 // Capitalize the first letters of first name and last name
                 const capitalizedFirstName = capitalizeFirstLetter(newPerson.firstName);
@@ -107,7 +107,7 @@
                 console.table(facList);
 
                 ///SORT THE FACLIST BY LASTNAME
-                ///THEN SAVE IT TO LOCALFORAGE
+                ///THEN SAVE IT TO CURRENTSTORE
                 // Sort the facList by lastName
                 facList.sort(function(a, b) {
                     if (a.lastName < b.lastName) {
@@ -121,8 +121,8 @@
 
                 console.table(facList);
 
-                // Save it to localforage
-                localforage.setItem('faculty', facList, function(err) {
+                // Save it to currentstore
+                currentStore.setItem('faculty', facList, function(err) {
                     console.log(facList);
                     generateTable(facList, tableHeaders, "table-container");
                     generateAvailableCount(facList);

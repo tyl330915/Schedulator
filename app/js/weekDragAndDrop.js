@@ -1,6 +1,6 @@
 //Drag and drop functions 
 
-//const localforage = require("localforage");
+//const currentstore = require("currentstore");
 
 function drag(target, e) {
     console.log("drag", e, target)
@@ -48,7 +48,7 @@ function drop(target, e) {
         return;
     }
 
-    localforage.getItem('faculty', function(err, CFC) {
+    currentStore.getItem('faculty', function(err, CFC) {
         let chosenName = id.split("#")[0];
         console.log(chosenName);
         nameIndex = CFC.findIndex(obj => obj.lastName + obj.firstName[0] === chosenName);
@@ -92,7 +92,7 @@ function drop(target, e) {
             alert("A: Cannot put a twice-a-week class here.");
             return; //DOES NOT ALLOW TWICE-A-WEEK CLASSES
         }
-        if ((currentPerWeek === "1" || currentPerWeek === 1) && doubleClassParse(tId) === "Cannot Drop") {
+        if ((currentPerWeek === "1" || currentPerWeek === 1) && doubleClassParse(tId) === "Cannot Drop" && idMethod !== "HYB") {
             console.log("DoubleDrop: ", doubleClassParse(tId))
             alert("A: Cannot put a once-a-week class here.");
             return;
@@ -240,9 +240,9 @@ function drop(target, e) {
 
 
 
-        localforage.setItem("faculty", CFC, function(err, value) {
+        currentStore.setItem("faculty", CFC, function(err, value) {
             console.log(value[nameIndex].currentCourses);
-            createGraph(CFC);
+            createGraph(value);
             getTimeCount();
             //makeDropDown(value);
             //showThisSemesterCourses(value[nameIndex].currentCourses);
@@ -257,56 +257,95 @@ function drop(target, e) {
     });
 };
 
-function checkForDuplicateTimes() {
-    localforage.getItem('faculty', function(err, CFC) {
-        //console.log(CFC);
-        for (var i = 0; i < CFC.length; i++) {
-            let name = CFC[i].lastName + ", " + CFC[i].firstName;
-            if (CFC[i].currentCourses !== undefined) {
-                checkDupes(name, CFC[i].currentCourses);
+function highlightDuplicateDraggers(tableName) {
 
+    // Get all td elements within the named table
+    let tds = document.querySelectorAll(`table#${tableName} td`);
+
+    // Loop through each td
+    tds.forEach((td) => {
+        let divs = td.getElementsByTagName('div');
+        let ids = {};
+        let hasDuplicates = false;
+
+        // Loop through each div within the td
+        for (let i = 0; i < divs.length; i++) {
+            // Ignore divs that don't contain '#'
+            if (!divs[i].id.includes('#')) {
+                continue;
             }
-            //check all of the faculty members, and see if any of them have duplicate days and times
-            //if they do, alert the user
+
+            // Extract the name part of the id (before the '/')
+            let name = divs[i].id.split('#')[0];
+
+            // If the name already exists in the ids object, set hasDuplicates to true
+            if (ids[name]) {
+                hasDuplicates = true;
+                break;
+            } else {
+                // If the name doesn't exist in the ids object, add it
+                ids[name] = divs[i];
+            }
         }
 
-    })
+        // If duplicates were found, change the background color of the td to red
+        if (hasDuplicates) {
+            td.style.backgroundColor = 'red';
+        }
+    });
 }
 
-function checkDupes(profName, courses) {
-    // Create an empty object to store the days and times
-    var times = {};
-    // console.log(profName, courses);
-    if (courses.length === 0) {
-        return;
-    } else {
-        // Iterate over each course
-        for (var i = 0; i < courses.length; i++) {
-            // Get the days and time of the course
-            if (courses[i].time && courses[i].days) {
 
-                var daysTime = courses[i].days + ' ' + courses[i].time;
-                //console.log(daysTime);
-                // Check if the days and time is already in the times object
-                if (times[daysTime]) {
-                    console.log('Duplicate time found: ', profName, daysTime);
-                    //clearTableCells();
-                    console.log(courses[i].days, reverseBlockTime(courses[i].time));
-                    if (courses[i].days.includes("/")) {
-                        let days1 = courses[i].days.split("/")[0] + ' ' + reverseBlockTime(courses[i].time);
-                        let days2 = courses[i].days.split("/")[1] + ' ' + reverseBlockTime(courses[i].time);
-                        document.getElementById(days1).style.backgroundColor = 'red';
-                        document.getElementById(days2).style.backgroundColor = 'red';
-                    } else {
-                        days1 = courses[i].days + ' ' + reverseBlockTime(courses[i].time);
-                        document.getElementById(days1).style.backgroundColor = 'red';
-                    }
 
-                } else {
-                    // If the days and time is not in the times object, add it
-                    times[daysTime] = true;
-                }
-            }
+
+
+function unschedDrop(target, e) {
+    //resetDragnDropTableColors();
+    //var facName = document.getElementById("facultySelect").value;
+    var id = e.dataTransfer.getData('id');
+    var parentID = document.getElementById(id).parentElement.id;
+    var tId = target.id;
+    var newClass = id.split(".")[0];
+    var newDays = "";
+    var newTime = "";
+    var newIndex = id.split(".")[1];
+    var facName = id.split("#")[0];
+    var currentCoursesIndex = id.split("#")[1].split("/")[0];
+
+    console.log("ID: " + id, "ParentID: " + parentID, "tId: " + tId, "newClass: " + newClass, "newTime: " + newTime, "currentCoursesIndex: " + currentCoursesIndex);
+
+    target.appendChild(document.getElementById(id));
+    e.preventDefault();
+
+    console.log("Unsched: ", newClass, newDays, newTime, facName);
+
+    currentStore.getItem("faculty", function(err, nameCourses) {
+
+        let nameIndex = nameCourses.map(function(e) { return e.lastName + e.firstName[0]; }).indexOf(facName);
+        console.log(nameCourses[nameIndex]);
+        let theseCourses = nameCourses[nameIndex].currentCourses;
+        let thisCourse = theseCourses[currentCoursesIndex];
+        thisCourse.time = "";
+        thisCourse.days = "";
+        thisCourse.perWeek = "";
+
+        var killSister = document.getElementById(id + "-sister");
+        //console.log(killSister);
+        if (killSister) {
+            killSister.parentNode.removeChild(killSister);
         }
-    }
+
+        currentStore.setItem("faculty", nameCourses, function(err, value) {
+            console.log(value[nameIndex].currentCourses);
+            // colorDraggers();
+            createGraph(value);
+            //checkForDuplicateTimes();
+            //////////////////highlightDuplicateDraggers("dayTable");
+
+            //showThisSemesterCourses(value[nameIndex].currentCourses);
+
+        })
+
+    });
+
 };

@@ -5,27 +5,30 @@ console.log("weekTimeCount");
 //console.log(document.getElementById("M8"));
 
 function displayCurrTarget() {
-    localforage.getItem('semesterData', function(err, semDat) {
+
+    currentStore.getItem('semesterData', function(err, semDat) {
         //console.log(semDat);
         var counter = document.getElementById("targNum");
         counter.value = semDat.registrarMaxPerTimePeriod;
         displayTimeCount(counter.value);
     });
+
 };
 
 function getTimeCount() {
     let tc = document.getElementById("targNum").value;
     //console.log(tc);
-    localforage.getItem('semesterData', function(err, semData) {
+    currentStore.getItem('semesterData', function(err, semData) {
         semData.registrarMaxPerTimePeriod = tc;
 
-        localforage.setItem('semesterData', semData, function(err, sd) {
+        currentStore.setItem('semesterData', semData, function(err, sd) {
             displayTimeCount(tc)
         })
     });
 };
 
 function displayTimeCount(targCount) {
+
     targCount = parseInt(targCount);
     let tableCells = document.getElementsByClassName("dayCell");
     //console.log(tableCells[1].id);
@@ -72,5 +75,7 @@ function displayTimeCount(targCount) {
             document.getElementById(cellTime).style.backgroundColor = "black";
         };
     };
-    checkForDuplicateTimes();
+    ///checkForDuplicateTimes();
+    highlightDuplicateDraggers("dayTable");
+    setDraggerBorders();
 };

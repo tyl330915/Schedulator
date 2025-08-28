@@ -1,14 +1,6 @@
-//const localforage = require("localforage");
+//const currentStore = require("currentStore");
 
 //Manages the coloring and display functions. Allows Preferences to be displayed if mouse hovers on name. 
-localforage.keys().then(function(keys) {
-    // An array of all the key names.
-    console.log(keys);
-});
-
-
-
-
 
 function setMouseOver() {
     let draggerArray = document.getElementsByClassName('dragger');
@@ -40,16 +32,16 @@ function setMouseOver() {
 function changeBackgroundColor(name) { //CHANGES BACKGROUND COLOR OF DIVS FOR NAME HIGHLIGHTED
     let relevantBox;
 
-    localforage.getItem("faculty", function(err, facArray) {
-        // localforage.getItem("courses", function(err, crses) {
+    currentStore.getItem("faculty", function(err, facArray) {
+        // currentStore.getItem("courses", function(err, crses) {
         //console.table(facArray);
         let index = facArray.findIndex(obj => obj.lastName + ", " + obj.firstName === name);
 
         if (facArray[index].currentCourses && facArray[index].currentCourses.length > 0) {
-            console.log(facArray[index].currentCourses);
+            //console.log(facArray[index].currentCourses);
             for (var c = 0; c < facArray[index].currentCourses.length; c++) {
                 relevantBox = document.getElementById("box" + facArray[index].currentCourses[c].num);
-                console.log("Relevant Box: ", relevantBox);
+                //console.log("Relevant Box: ", relevantBox);
                 if (relevantBox) {
                     //console.log(relevantBox);
                     relevantBox.style.backgroundColor = "red";
@@ -63,7 +55,7 @@ function changeBackgroundColor(name) { //CHANGES BACKGROUND COLOR OF DIVS FOR NA
 function getRidOfRedBoxes() {
     //console.log("getRidOfRedBoxes");
 
-    localforage.getItem("courses", function(err, crses) {
+    currentStore.getItem("courses", function(err, crses) {
         let boxArray = [];
         for (let a = 0; a < crses.length; a++) {
             //let boxElements = document.getElementsByClassName("box");
@@ -84,9 +76,9 @@ function getRidOfRedBoxes() {
 
 
 function mouseNote(name) { //DISPLAYS DATA FOR FACULTY MEMBER, AND CHANGES COLOR OF "SCHEDULED" IF THERE IS A DIFFERENCE BETWEEN "NORM" OR "WANTS"
-    //localforage.getItem("currentFacultyCourses", function(err, currFC) {
+    //currentStore.getItem("currentFacultyCourses", function(err, currFC) {
     console.log("mousenote", name);
-    localforage.getItem("facultyPreferences", function(err, facPrefs) {
+    currentStore.getItem("facultyPreferences", function(err, facPrefs) {
         // console.log(facPrefs);
         let nameIndex = -1;
         let shortName = abbrevName(name);

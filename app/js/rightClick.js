@@ -59,7 +59,7 @@ document.onclick = function(e) {
 function switchSingleAndDoubleClasses(selectedDiv, parentId) {
     // console.log('Doing something with ' + selectedDiv + ' and its parent ' + parentId);
     console.log("selectedDiv: ", selectedDiv, parentId);
-    localforage.getItem("faculty", function(err, CFC) {
+    currentStore.getItem("faculty", function(err, CFC) {
         //   console.log("selected: ", selectedDiv);
 
         //console.table(CFC);
@@ -205,7 +205,7 @@ function switchSingleAndDoubleClasses(selectedDiv, parentId) {
 
         ////////////////////////////saveToChangeLog(newPerWeek) //SAVE TO HISTORY
 
-        localforage.setItem('faculty', CFC, function(err, CF) {
+        currentStore.setItem('faculty', CFC, function(err, CF) {
             // console.log(CF);
             console.log(CF[facInCFCIndex].currentCourses);
             if (err) {
@@ -220,7 +220,7 @@ function switchSingleAndDoubleClasses(selectedDiv, parentId) {
 };
 
 function switchDays(id, parentId) {
-    localforage.getItem('faculty', function(err, CFC) {
+    currentStore.getItem('faculty', function(err, CFC) {
         console.log("switchDays");
         console.log('Doing another thing with ' + id + ' and its parent ' + parentId);
         let parentDay, parentTime, newDay, newDT, newCFCDay, newCFCTime;
@@ -262,7 +262,7 @@ function switchDays(id, parentId) {
                 CFC[profInCFCIndex].currentCourses[selIndex].days = newCFCDay;
                 CFC[profInCFCIndex].currentCourses[selIndex].time = newCFCTime;
 
-                localforage.setItem('faculty', CFC, function(err, CF) {
+                currentStore.setItem('faculty', CFC, function(err, CF) {
                     console.log("change saved");
                     showThisSemesterCourses(CF[profInCFCIndex].currentCourses);
                 })

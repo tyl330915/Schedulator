@@ -5,22 +5,23 @@ function parseCSVFile(csvFile) {
         const parsedData = parseFacCSVContent(csvContent);
         dataList = parsedData;
 
-        //console.table(dataList);
         for (let i = 0; i < dataList.length; i++) {
-            //   console.log(dataList[i]);
+            for (let key in dataList[i]) {
+                if (typeof dataList[i][key] === 'string') {
+                    dataList[i][key] = dataList[i][key].replace(/^"|"$/g, ''); // Remove leading/trailing quotes
+                }
+            }
+
             if (dataList[i].email.includes('<')) {
                 let str = dataList[i].email;
                 let cleanStr = str.replace(/<\/?[^>]+(>|$)/g, "");
                 cleanStr = cleanStr.replace(/&nbsp;/g, "").trim();
                 cleanStr = cleanStr.replace(/"/g, '');
-                console.log(cleanStr); // Outputs: jsmith@some.edu
-
                 dataList[i].email = cleanStr;
             }
         }
         console.log(dataList);
         saveData(dataList); // Save the updated data
-
     };
     reader.readAsText(csvFile);
 }
@@ -75,7 +76,7 @@ function readCourseCSVFile() {
             console.log("Keys:", keys);
 
             // Create a mapping of expected keys to their positions
-            const expectedKeys = ['div', 'num', 'title', 'loc', 'meth', 'sem', 'sections'];
+            const expectedKeys = ['div', 'num', 'title', 'loc', 'method', 'sem', 'sections'];
             const keyMap = {};
             
             console.log("Creating key map from headers:", keys);
@@ -116,7 +117,7 @@ function readCourseCSVFile() {
 
             console.log("Final Result:", result);
 
-            const tableHeaders = ['div', 'num', 'title', 'loc', 'meth', 'sem', 'sections'];
+            const tableHeaders = ['div', 'num', 'title', 'loc', 'method', 'sem', 'sections'];
             console.log("Table Headers:", tableHeaders);
 
             saveData(result);
@@ -124,3 +125,80 @@ function readCourseCSVFile() {
         };
     }
 };
+
+
+/*
+function readCourseCSVFile() {
+    var files = document.querySelector('#csv-file').files;
+    //const courseArray = [];
+
+    if (files.length > 0) {
+        var file = files[0];
+        var reader = new FileReader();
+
+        reader.readAsText(file);
+
+        reader.onload = function(event) {
+            var csvdata = event.target.result;
+
+            console.table(csvdata);
+
+            let lines = csvdata.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+            console.log("Lines:", lines);
+
+            let keys = lines[0].split(',').map(key => key.replace(/^"|"$/g, '').trim().toLowerCase());
+            console.log("Keys:", keys);
+
+            // Create a mapping of expected keys to their positions
+            const expectedKeys = ['div', 'num', 'title', 'loc', 'meth', 'sem', 'sections'];
+            const keyMap = {};
+            
+            console.log("Creating key map from headers:", keys);
+            expectedKeys.forEach(expectedKey => {
+                const index = keys.indexOf(expectedKey);
+                if (index !== -1) {
+                    console.log(`Mapping ${expectedKey} to column ${index}`);
+                    keyMap[expectedKey] = index;
+                } else {
+                    console.warn(`Expected key ${expectedKey} not found in headers`);
+                }
+            });
+            console.log("Final key map:", keyMap);
+
+            if (Object.keys(keyMap).length === 0) {
+                console.error("Key map is empty. No matching headers found.");
+                return;
+            }
+
+            let result = lines.slice(1).map(line => {
+                let values = line.split(',').map(value => value.replace(/^"|"$/g, '').trim());
+                console.log("Values:", values);
+
+                let obj = {};
+                let values = line.split(',');
+                //GET THE DATA FROM THE SPREADSHEET AND PARSE IT. ALLOWS BOTH "METH" AND "METHOD" TO BE USED
+                keys.forEach((key, i) => {
+                    if (['div', 'num', 'title', 'loc', 'sem'].includes(key)) {
+                        obj[key] = values[i];
+                    }
+                    if (key === 'method' || key === 'meth') {
+                        obj['method'] = values[i];
+                    }
+                });
+
+                console.log("Object after assignment:", obj);
+                return obj;
+            }).filter(Boolean);
+
+            console.log("Final Result:", result);
+
+            const tableHeaders = ['div', 'num', 'title', 'loc', 'meth', 'sem', 'sections'];
+            console.log("Table Headers:", tableHeaders);
+
+            saveData(result);
+            generateTable(result, tableHeaders, 'courseTable');
+        };
+    }
+
+};
+*/

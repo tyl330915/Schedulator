@@ -77,3 +77,11 @@
  .dropdown:hover .dropdown-content {
      display: block;
  }
+ 
+ #currentSemester {
+     float: right;
+     font-size: 16px;
+     color: rgb(247, 240, 179);
+     padding: 14px 16px;
+     text-decoration: none;
+ }

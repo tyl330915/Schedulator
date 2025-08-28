@@ -1,5 +1,3 @@
-const localforage = require('localforage');
-
 document.addEventListener('DOMContentLoaded', () => {
     const deptSelect = document.getElementById('dept');
     const semesterSelect = document.getElementById('semester');
@@ -17,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        const semData = localforage.getItem('semesterData', function(err, semData) {
+        const semData = currentStore.getItem('semesterData', function(err, semData) {
             console.log("semData 1: ", semData);
         });
 
@@ -42,12 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-
-
 function saveSemesterData(data) {
 
-    localforage.setItem("semesterData", data, function(err, result) {
+    currentStore.setItem("semesterData", data, function(err, result) {
         console.log(result);
         alert('Data saved successfully 2!');
         if (err) {

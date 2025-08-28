@@ -1,21 +1,25 @@
 function surveyParse(preferenceSurvey) {
     console.log("survey parse");
     console.table(preferenceSurvey);
+    if (preferenceSurvey.length === 0) {
+
+        return [];
+    }
     let fpData = findAndLogDuplicateEmails(preferenceSurvey);
     // console.log(fpData);
     let personPrefs = {};
     let facPrefs = [];
     let headings = fpData[0];
-    //console.log(headings);
+    console.log(headings);
 
-    let timestamp, email, first, last, reasons, b2b, ptft, ptly, ptty, ftty, ynot4, overLoad, notes, pastTaut, notAvail, wouldLikeToTeach, shouldNotTeach, columnTime, prefTimes, dream;
+    let timestamp, email, first, last, reasons, b2b, singleDouble, PTSummer, FTSummer, ptft, ptly, ptty, ftty, ynot4, overLoad, notes, pastTaut, notAvail, wouldLikeToTeach, shouldNotTeach, columnTime, prefTimes, dream;
 
     for (let a = 0; a < headings.length; a++) {
         //console.log(headings[a]);
         if (headings[a].includes("Timestamp")) {
             timestamp = a;
         }
-        if (headings[a].includes('Email')) {
+        if (headings[a].includes('Username') || headings[a].includes('Email')) {
             email = a;
         }
         if (headings[a].includes("First Name")) {
@@ -30,20 +34,32 @@ function surveyParse(preferenceSurvey) {
         if (headings[a].includes("back-to-back")) {
             //STUPID SHIM SINCE STUPID GOOGLE FORMS PUT IT IN TWICE
             if (b2b === undefined) {
+                b2b = "N/A"; //a;
+            } else {
                 b2b = a;
             }
         }
-        if (headings[a].includes("Part-Time") && headings[a].includes("last")) {
 
+        if (headings[a].includes("75")) {
+            singleDouble = a;
+        }
+
+        if (headings[a].includes("Part-Time") && headings[a].includes("3 courses")) {
             ptft = "PT";
-            ptly = parseInt(a);
+            ptty = a;
         }
-        if (headings[a].includes("Part-Time") && headings[a].includes("would you")) {
-            ptty = parseInt(a);
+
+        if (headings[a].includes("Part-Time") && headings[a].includes("summer")) {
+            PTSummer = a;
         }
-        if (headings[a].includes("Full-Time") && headings[a].includes("should you")) {
+
+       // if (headings[a].includes("Part-Time") && headings[a].includes("should we")) {
+       //     ptty = parseInt(a);
+       // }
+        
+       if (headings[a].includes("Full-Time") && headings[a].includes("should")) {
             ptft = "FT"
-            ftty = parseInt(a);
+            ftty = a; //parseInt(a);
         }
         if (headings[a].includes("less than 4")) {
             ynot4 = a;
@@ -52,6 +68,13 @@ function surveyParse(preferenceSurvey) {
             overLoad = a;
         }
 
+        if (headings[a].includes("Full-Time") && headings[a].includes("summer")) {
+            FTSummer = a;
+        } else {
+            FTSummer = "N/A";
+        }
+
+
         if (headings[a].includes("Anything else")) {
             notes = a;
         }
@@ -59,7 +82,8 @@ function surveyParse(preferenceSurvey) {
 
 
     //GET TEACHER RESPONSES
-    console.log(fpData);
+    //console.log(fpData);
+   
 
 
     for (let i = 1; i < fpData.length; i++) {
@@ -72,10 +96,11 @@ function surveyParse(preferenceSurvey) {
         classesYesorNo = "";
 
         for (let b = 0; b < headings.length; b++) {
-
-            if (headings[b].includes("Requests")) {
+            if (headings[b].includes('SLOTS') || headings[b].includes('requests')) {
                 let headingIndex = b;
+                console.log("Heading Index: ", headingIndex);
                 columnTime = fpData[0][headingIndex].split("[")[1].split("]")[0];
+                console.log("Column Time: ", columnTime);
                 if (fpData[i][headingIndex].includes("PREFER")) {
                     dream += columnTime + ";";
                 }
@@ -83,6 +108,7 @@ function surveyParse(preferenceSurvey) {
                     notAvail += columnTime + ";";
                 }
             }
+
             if (headings[b].includes("experience") || headings[b].includes("goals")) {
                 headingIndex = b;
                 classesYesorNo = fpData[0][headingIndex].split("[")[1].split("]")[0];
@@ -91,7 +117,7 @@ function surveyParse(preferenceSurvey) {
                 if (fpData[i][b].includes("past")) {
                     pastTaut += justClassNumber + ";";
                 }
-                if (fpData[i][b].includes("never")) {
+                if (fpData[i][b].includes("never") || fpData[i][b].includes("willing")) {
                     wouldLikeToTeach += justClassNumber + ";";
                 }
                 if (fpData[i][b].includes("not teach")) {
@@ -104,13 +130,16 @@ function surveyParse(preferenceSurvey) {
 
         personPrefs[i] = {
 
-            "prefEmail": fpData[i][email],
+            //"prefEmail": fpData[i][email],
             "name": capitalizeFirstLetter(fpData[i][last]).trim() + ", " + capitalizeFirstLetter(fpData[i][first].trim()),
             "factors": fpData[i][reasons],
             "numBackToBack": parseInt(fpData[i][b2b]),
-            "PTLastYear": Number(fpData[i][ptly]),
-            "PTThisYear": Number(fpData[i][ptty]),
-            "FTThisYear": Number(fpData[i][ftty]),
+            "singleDouble": fpData[i][singleDouble],
+           // "PTLastYear": Number(fpData[i][ptly]),
+            "PTSummer": fpData[i][PTSummer],
+            "PTThisYear": fpData[i][ptty],
+            "FTThisYear": fpData[i][ftty],
+            "FTSummer": fpData[i][FTSummer],
             "whyNot4": fpData[i][ynot4],
             "overLoad": fpData[i][overLoad],
             "comments": fpData[i][notes],
@@ -179,8 +208,9 @@ function removeDuplicateEmailsAndKeepLatest(array) {
 
 
 function matchPrefsNametoFacultyName(prefs) {
+    console.log(prefs);
     try {
-        localforage.getItem('faculty', function(err, fac) {
+        currentStore.getItem('faculty', function(err, fac) {
             if (err) throw err;
             console.table(fac);
             let missingNames = [];
@@ -188,27 +218,31 @@ function matchPrefsNametoFacultyName(prefs) {
                 for (let i = 0; i < fac.length; i++) {
                     if (fac[i].available = true) {
                         let prefIndex = prefs.map(function(e) { return e.prefEmail; }).indexOf(fac[i].email);
-                        if (prefIndex < 0) {
+                        //if (prefIndex < 0) {
+                        //check to see if the last name and first initial match
+                        let nameIndex = prefs.map(function(e) { return e.name.split(", ")[0] + e.name.split(", ")[1][0]; }).indexOf(fac[i].lastName + fac[i].firstName[0]);
+                        if (nameIndex < 0 && prefIndex < 0) {
+
                             console.log("Missing: ", fac[i].email, fac[i].lastName);
-                            missingNames.push(fac[i].lastName);
+                            missingNames.push(fac[i].lastName + " " + fac[i].firstName[0]) + ".";
                         }
                     }
+                }
 
+            }
+            console.log(missingNames);
+            document.getElementById("missing").innerHTML = "";
+            if (missingNames.length > 0) {
+                document.getElementById("missingDiv").style.display = "block";
+                for (let j = 0; j < missingNames.length - 1; j++) {
+                    //GET ALL THE MISSING NAMES BUT THE LAST
+                    document.getElementById("missing").innerHTML += missingNames[j] + ", ";
                 }
-                console.log(missingNames);
-                document.getElementById("missing").innerHTML = "";
-                if (missingNames.length > 0) {
-                    document.getElementById("missingDiv").style.display = "block";
-                    for (let j = 0; j < missingNames.length - 1; j++) {
-                        //GET ALL THE MISSING NAMES BUT THE LAST
-                        document.getElementById("missing").innerHTML += missingNames[j] + ", ";
-                    }
-                    //THIS JUST ENSURE THAT THE FINAL COMMA IS DROPPED FROM THE LAST NAME
-                    document.getElementById("missing").innerHTML += missingNames[missingNames.length - 1];
-                    document.getElementById("numberMissing").innerHTML = missingNames.length;
-                } else {
-                    console.log("Could not find saved faculty names. You may need to enter them manually, or use the 'Load Spreadsheet' button.");
-                }
+                //THIS JUST ENSURE THAT THE FINAL COMMA IS DROPPED FROM THE LAST NAME
+                document.getElementById("missing").innerHTML += missingNames[missingNames.length - 1];
+                document.getElementById("numberMissing").innerHTML = missingNames.length;
+            } else {
+                console.log("Could not find saved faculty names. You may need to enter them manually, or use the 'Load Spreadsheet' button.");
             }
         });
 

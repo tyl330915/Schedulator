@@ -1,11 +1,12 @@
 //import "chart.js/auto";
 
-window.addEventListener('load', function() {
-    createGraph(CFC);
-});
+//document.addEventListener('DOMContentLoaded', async function() {
+//    createGraph(CFC);
+//});
 
 function createGraph(CFC) {
     console.log("createGraph");
+
     //
 
     let eights = 0;
@@ -29,78 +30,81 @@ function createGraph(CFC) {
 
             for (var j = 0; j < currentFacCourses.length; j++) {
 
-                let currentTimes = currentFacCourses[j].time;
-                let blockTime = currentTimes.split(":")[0];
-                // console.log("Block Time: ", blockTime);
+                if (currentFacCourses[j].time !== undefined && currentFacCourses[j].time !== null) {
 
-                switch (blockTime) {
-                    case "Block 1":
-                        eights = eights + 2;
-                        break;
-                    case "Block 2":
-                        tens = tens + 2;
-                        break;
-                    case "Block 3":
-                        elevens = elevens + 2;
-                        break;
-                    case "Block 4":
-                        ones = ones + 2;
-                        break;
-                    case "Block 5":
-                        twos = twos + 2;
-                        break;
-                    case "Block 6":
-                        fours = fours + 2;
-                        break;
-                    case "Block 7":
-                        fives = fives + 2;
-                        break;
-                    case "Block 8":
-                        sevens = sevens + 2;
-                        break;
+                    let currentTimes = currentFacCourses[j].time;
 
-                    case "* Wed Block A":
-                        W9 = W9 + 1;
-                        break;
-                    case "* Wed Block B":
-                        W12 = W12 + 1;
-                        break;
-                    case "* Wed Block 9":
-                        W5 = W5 + 1;
-                        break;
-                    case "Block 1&2":
-                        eights = eights + 1;
-                        tens = tens + 1;
-                        break;
-                    case "Block 2&3":
-                        tens = tens + 1;
-                        elevens = elevens + 1;
-                        break;
-                    case "Block 3&4":
-                        elevens = elevens + 1;
-                        ones = ones + 1;
-                        break;
-                    case "Block 4&5":
-                        ones = ones + 1;
-                        twos = twos + 1;
-                        break;
-                    case "Block 5&6":
-                        twos = twos + 1;
-                        fours = fours + 1;
-                        break;
-                    case "Block 6&7":
-                        fours = fours + 1;
-                        fives = fives + 1;
-                        break;
-                    case "Block 7&8":
-                        fives = fives + 1;
-                        sevens = sevens + 1;
-                        break;
-                    default:
-                        console.log("Error: Check time");
+                    let blockTime = currentTimes.split(":")[0];
+                    //console.log("Block Time: ", blockTime);
+
+                    switch (blockTime) {
+                        case "Block 1":
+                            eights = eights + 2;
+                            break;
+                        case "Block 2":
+                            tens = tens + 2;
+                            break;
+                        case "Block 3":
+                            elevens = elevens + 2;
+                            break;
+                        case "Block 4":
+                            ones = ones + 2;
+                            break;
+                        case "Block 5":
+                            twos = twos + 2;
+                            break;
+                        case "Block 6":
+                            fours = fours + 2;
+                            break;
+                        case "Block 7":
+                            fives = fives + 2;
+                            break;
+                        case "Block 8":
+                            sevens = sevens + 2;
+                            break;
+
+                        case "* Wed Block A":
+                            W9 = W9 + 1;
+                            break;
+                        case "* Wed Block B":
+                            W12 = W12 + 1;
+                            break;
+                        case "* Wed Block 9":
+                            W5 = W5 + 1;
+                            break;
+                        case "Block 1&2":
+                            eights = eights + 1;
+                            tens = tens + 1;
+                            break;
+                        case "Block 2&3":
+                            tens = tens + 1;
+                            elevens = elevens + 1;
+                            break;
+                        case "Block 3&4":
+                            elevens = elevens + 1;
+                            ones = ones + 1;
+                            break;
+                        case "Block 4&5":
+                            ones = ones + 1;
+                            twos = twos + 1;
+                            break;
+                        case "Block 5&6":
+                            twos = twos + 1;
+                            fours = fours + 1;
+                            break;
+                        case "Block 6&7":
+                            fours = fours + 1;
+                            fives = fives + 1;
+                            break;
+                        case "Block 7&8":
+                            fives = fives + 1;
+                            sevens = sevens + 1;
+                            break;
+                        default:
+                            console.log("Error: Check time");
 
 
-
+                    }
 
                 }
             }

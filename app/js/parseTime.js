@@ -38,7 +38,7 @@ function parsePartTime(aClass) { //for parsing the saved faculty course and time
 
 function parseFullTime(aClass) { //takes the Fac class desired and undesired data and finds the first weekly class
     var dayTim = [];
-    console.log(aClass);
+    //console.log(aClass);
     aClass = aClass.toString();
 
     /*Schedule Requests [Mon/Thu 8:30-9:45 ]	Schedule Requests [Mon/Thu 10:00-11:15]	Schedule Requests [Mon/Thu 11:30-12:45]	Schedule Requests [Mon/Thu 1-2:15]	Schedule Requests [Mon/Thu 2:30-3:45]	Schedule Requests [Mon/Thu 4:00-5:15]	Schedule Requests [Tue/Fri 8:30-9:45]	Schedule Requests [Tue/Fri 10:00-11:15]	Schedule Requests [Tue/Fri 11:30-12:45]	Schedule Requests [Tue/Fri 1-2:15]	Schedule Requests [Tue/Fri 2:30-3:45]	Schedule Requests [Tue/Fri 4:00-5:15]	Schedule Requests [Wed 9:00-11:45 (double class only)]	Schedule Requests [Wed 12:15-3:00 (double class only)]	Schedule Requests [Mon 5:30-6:45]	Schedule Requests [Mon 7:00-8:15]	Schedule Requests [Mon 5:30-8:15]	Schedule Requests [Tue 5:30-6:45]	Schedule Requests [Tue 7:00-8:15]	Schedule Requests [Wed 5:30-6:45]	Schedule Requests [Wed 7:00-8:15]	Schedule Requests [Thu 5:30-6:45]	Schedule Requests [Thu 7:00-8:15]
@@ -69,8 +69,9 @@ function parseFullTime(aClass) { //takes the Fac class desired and undesired dat
     // if (aClass.includes("Mon/Thurs 5:00pm-6:15pm") || aClass.includes("Mon/Wed 5:30-6:45")) { dayTim.push("M 5:30 PM") };
     // if (aClass.includes("Mon/Thurs 7:00pm-8:15pm") || aClass.includes("Mon/Wed 7:00-8:15")) { dayTim.push("M 7:00 PM") };
 
-    if (aClass.includes("Wed 9:00-11:45") || aClass.includes("W 9:00 AM-11:45 AM")) { dayTim.push("W 9:00 AM", "W 10:30 AM") };
-    if (aClass.includes("Wed 12:15-3:00") || aClass.includes("W 12:15 PM-3:00 PM")) { dayTim.push("W 12:15 PM", "W 1:45 PM") };
+    ///These first two parse the errors in the Fall 2025 Questionaire
+    if (aClass.includes("Wed 9:00-11:45") || aClass.includes("W 9:00 AM-11:45 AM") || aClass.includes("Wed 8:30-11:15") ) { dayTim.push("W 9:00 AM", "W 10:30 AM") };
+    if (aClass.includes("Wed 12:15-3:00") || aClass.includes("W 12:15 PM-3:00 PM") || aClass.includes("Wed 11:30-12:45")) { dayTim.push("W 12:15 PM", "W 1:45 PM") };
     if (aClass.includes("Mon 5:30-8:15") || aClass.includes("M 5:30 PM-8:15 PM")) { dayTim.push("M 5:30 PM", "M 7:00 PM") };
     if (aClass.includes("Tue 5:30-8:15") || aClass.includes("T 5:30 PM-8:15 PM")) { dayTim.push("T 5:30 PM", "T 7:00 PM") };
     if (aClass.includes("Wed 5:30-8:15") || aClass.includes("W 5:30 PM-8:15 PM")) { dayTim.push("W 5:30 PM", "W 7:00 PM") };

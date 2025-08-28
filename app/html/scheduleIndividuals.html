@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC"-//W3C//DTD XHTML 1.0 Strict//EN" oncontextmenu="return false">
 
-<!--script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script-->
+<script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="../js/currentStorage.js"></script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
@@ -274,7 +276,7 @@
                     <tr>
                         <th>Why Unavailable:</th>
                         <th>Would like to teach:</th>
-                        <th>FT or PT?</th>
+                        <th>Summer?</th>
                         <th>Max back to back:</th>
                     </tr>
 
@@ -283,7 +285,8 @@
                     <tr>
                         <td id="unavailReasons" class="prefData" style="text-align: left; border: 1pt solid blue">Hello!</td>
                         <td id="wouldLike" class="prefData" style="border: 1pt solid blue"></td>
-                        <td id="ftORpt" class="prefData" style="border: 1pt solid blue"></td>
+                        <!--td id="ftORpt" class="prefData" style="border: 1pt solid blue"></td-->
+                        <td id="summer" class="prefData" style="border: 1pt solid blue"></td>
                         <td id="numBackToBack" class="prefData" style="border: 1pt solid blue"></td>
                     </tr>
 
@@ -295,7 +298,7 @@
 
                     <tr>
                         <th>FT Why Less than 4?</th>
-                        <th>PT: Courses last year:</th>
+                        <!--th>PT: Courses last year:</th-->
                         <th>PT: This year:</th>
                         <th>FT: This year:</th>
                         <th>Overload:</th>
@@ -305,7 +308,7 @@
 
                     <tr>
                         <td id="splainin" class="prefData" style="text-align: left; border: 1pt solid blue"></td>
-                        <td id="PTNumLast" class="prefData" style="border: 1pt solid blue"></td>
+                        <!--td id="PTNumLast" class="prefData" style="border: 1pt solid blue"></td-->
                         <td id="PTNumThisYear" class="prefData" style="border: 1pt solid blue"></td>
                         <td id="FTThisYear" class="prefData" style="border: 1pt solid blue"></td>
                         <td id="overLoad" class="prefData" style="border: 1pt solid blue"></td>
@@ -365,7 +368,6 @@
     </div>
 
 
-    <script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="../js/schedStart.js"></script>
     <script type="text/javascript" src="../js/schedFillClasses.js"></script>
     <script src="../js/parseTime.js" type="text/javascript"></script>

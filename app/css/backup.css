@@ -57,7 +57,6 @@ dialog::backdrop {
 }
 
 dialog {
-    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -73,14 +72,56 @@ dialog {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    font-size: 1.2vw;
     background-color: rgb(249, 249, 189);
     padding: 50px;
     border: 4px solid #888;
-    width: 400px;
-    height: 250px;
+    width: 600px;
     text-align: center;
     align-items: center;
     font-size: 1vw;
+}
+
+#houseKeepingContent {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2vw;
+    background-color: rgb(249, 249, 189);
+    padding: 50px;
+    border: 4px solid #888;
+    font-size: 1vw;
+}
+
+#databaseList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#databaseList input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+select {
+    font-size: 1.2vw;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 20px;
+}
+
+#uploadDiv {
+    display: none;
+    font-size: 1vw;
+    position: relative;
+    z-index: 2;
+}
+
+#dialogMessage {
+    font-size: 1.2vw;
+    color: red;
+    font-weight: bold;
 }
 
 #dialogboxfoot {
@@ -90,11 +131,23 @@ dialog {
     font-size: 1vw;
 }
 
-#loadCSVButton {
+#loadSpreadsheetButton {
     margin-left: 100px;
     padding: 0px 20px;
 }
 
 #loadFilesButton {
     padding: 0px 20px;
+}
+
+#ssUploadButton {
+    font-size: 1.2vw;
+}
+
+.new {
+    display: inline-block;
+    color: red;
+    position: absolute;
+    font-weight: bold;
+    margin-left: 10px;
 }

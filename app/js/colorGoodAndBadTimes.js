@@ -13,12 +13,11 @@ function resetDragnDropTableColors() {
 
 function colorGoodAndBadTimes(shortName) {
     console.log("colorGoodAndBadTimes");
-    resetDragnDropTableColors();
+    // resetDragnDropTableColors();
 
     let goodTimes, badTimes;
 
-    localforage.getItem('facultyPreferences', function(err, fPrefs) {
-
+    currentStore.getItem('facultyPreferences', function(err, fPrefs) {
         fPrefsIndex = fPrefs.findIndex(obj => obj.name.split(",")[0].toLowerCase() + obj.name.split(", ")[1][0].toLowerCase() === shortName.toLowerCase());
 
         if (fPrefs[fPrefsIndex]) {

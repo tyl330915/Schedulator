@@ -1,34 +1,29 @@
-//const localforage = require('localforage');
 const tableHeaders = ['First Name', 'Last Name', 'Status', 'Email', 'Available'];
 
-localforage.keys().then(function(keys) {
-    // An array of all the key names.
-    console.log(keys);
+
+// anotherScript.js
+document.addEventListener('DOMContentLoaded', async function() {
+    await setCurrentStore();
+    // Now you can use currentStore
 
     try {
-        localforage.getItem('faculty', function(err, fac) {
+        currentStore.getItem('faculty', function(err, fac) {
             // if err is non-null, we got an error. otherwise, value is the value
-            if (err || !fac) {
+            if (err || !fac || fac.length == 0) {
                 alert("Could not find saved faculty names. You may need to enter them manually, or use the 'Load Spreadsheet' button.");
                 return;
-
             } else {
                 console.log(fac, fac.length);
                 generateTable(fac, tableHeaders, "table-container");
                 generateAvailableCount(fac);
-
-                //createDeleteSelect(fac);
+                createDeleteSelect(fac);
             }
         });
-
     } catch (err) {
-
         alert('Error getting data. You can either load the faculty list from a csv, or enter names manually.');
         console.log(err);
-
     }
 });
-
 
 function sortFacList(facList) {
     const sortedFacList = sortDataByProperty(facList, 'lastName');
@@ -106,14 +101,13 @@ function saveData(data) {
             email: email,
             available: avail,
             currentCourses: currentCourses
-
         };
         newData.push(currRecord);
     }
     console.table(newData);
     // Regenerate the table
 
-    localforage.setItem('faculty', newData, function(err) {
+    currentStore.setItem('faculty', newData, function(err) {
         // if err is non-null, we got an error
 
         if (err) {
@@ -136,7 +130,7 @@ function saveData(data) {
 
 function makeAllAvailable() {
     try {
-        localforage.getItem('faculty', function(err, fac) {
+        currentStore.getItem('faculty', function(err, fac) {
             // if err is non-null, we got an error. otherwise, value is the value
             if (err || fac === null) {
                 alert("Could not find saved faculty names. You may need to enter them manually, or use the 'Load Spreadsheet' button.");

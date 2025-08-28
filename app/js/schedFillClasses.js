@@ -1,7 +1,7 @@
 function showIndividualClasses() {
     console.log("showIndividualClasses");
 
-    localforage.getItem('faculty', function(err, fac) {
+    currentStore.getItem('faculty', function(err, fac) {
 
         clearTableCells();
         // clearDivs();
@@ -10,6 +10,8 @@ function showIndividualClasses() {
         createGraph(fac);
         document.getElementById("holdingPen").innerHTML = "";
         document.getElementById("notesText").innerHTML = "";
+        //document.getElementById("nonClassroomDiv").style.display = "none";
+        // document.getElementById("TYTable").style.display = "none";
 
         //        console.log(fac);
         let nameIndex = -1;
@@ -38,7 +40,7 @@ function showIndividualClasses() {
             cleanClassList = sortCFCAndClean(classList);
             //console.log("clean class list: ", cleanClassList);
             fac[nameIndex].currentCourses = cleanClassList;
-            localforage.setItem('faculty', fac, function(err, value) {
+            currentStore.setItem('faculty', fac, function(err, value) {
                 //console.log("Clean CFC saved: ", value);
                 createDragnDropInformation(fac[nameIndex]);
             })
@@ -52,24 +54,21 @@ function showIndividualClasses() {
 function createDragnDropInformation(personData) {
     console.log(personData);
 
-    localforage.getItem('courses', function(err, courses) {
-        let assignedCourses = personData.currentCourses;
+    //currentStore.getItem('courses', function(err, courses) {
+    let assignedCourses = personData.currentCourses;
 
-        if (assignedCourses) {
-            for (j = 0; j < assignedCourses.length; j++) {
-                let methodIndex = courses.findIndex(obj => obj.num === assignedCourses[j].num);
-                let meth = courses[methodIndex].meth;
-                let currentClass = assignedCourses[j];
+    if (assignedCourses) {
+        for (j = 0; j < assignedCourses.length; j++) {
+            console.log(assignedCourses[j]);
+            let method = assignedCourses[j].method;
+            let currentClass = assignedCourses[j];
 
-                shorterTest(personData, currentClass, j, meth);
+            shorterTest(personData, currentClass, j, method);
 
-            };
-            if (err) {
-                console.log(err);
-            }
-            colorDraggers();
-        }
-    });
+        };
+        colorDraggers();
+    }
+
 };
 
 function shorterTest(personData, classDT, arrayNumber, method) {
@@ -78,7 +77,7 @@ function shorterTest(personData, classDT, arrayNumber, method) {
     let class1, class2, DT1, DT2, hour1, hour2, day1, day2;
     let courseNum = classDT.num;
 
-    if (method !== "STN" && method !== "HYB") {
+    if (method !== "STN" && method !== "HYB" && method !== "ONLSY") {
         console.log("Not standard: " + method);
         return;
     } else {
@@ -88,7 +87,7 @@ function shorterTest(personData, classDT, arrayNumber, method) {
             let classDays = classDT.days;
 
             let perWeek;
-            console.log("classTime: ", classTime, classDays.includes("/"));
+            // console.log("classTime: ", classTime, classDays.includes("/"));
 
             if (classDays === "" || classDays === undefined || classDays.includes("/")) {
                 perWeek = 2;
@@ -100,9 +99,9 @@ function shorterTest(personData, classDT, arrayNumber, method) {
                 perWeek = 1;
             }
 
-            console.log("classTime: ", classTime, "classDays: ", classDays, "perWeek: ", perWeek);
+            // console.log("classTime: ", classTime, "classDays: ", classDays, "perWeek: ", perWeek);
 
-            console.log(classDT, arrayNumber, method);
+            //console.log(classDT, arrayNumber, method);
 
 
             if (perWeek === "2" || perWeek === 2) {
@@ -114,7 +113,7 @@ function shorterTest(personData, classDT, arrayNumber, method) {
                 DT1 = day1 + " " + hour1;
                 DT2 = day2 + " " + hour1;
 
-                console.log("courseNum: ", courseNum, "method: ", method, "DT1: ", DT1, "day2", "DT2: ", DT2, "courseIndex: ", arrayNumber, "perWeek: ", perWeek);
+                //console.log("courseNum: ", courseNum, "method: ", method, "DT1: ", DT1, "day2", "DT2: ", DT2, "courseIndex: ", arrayNumber, "perWeek: ", perWeek);
             }
 
             if ((perWeek === "1" || perWeek === 1) && day1 !== "W") {
@@ -126,7 +125,7 @@ function shorterTest(personData, classDT, arrayNumber, method) {
                 //console.log(hour1);
                 DT1 = day1 + " " + hour1;
                 DT2 = doubleClassParse(DT1);
-                console.log("Single Class: ", DT1, DT2);
+                // console.log("Single Class: ", DT1, DT2);
                 //  console.log("courseNum: ", courseNum, "method: ", method, "DT1: ", DT1, "DT2: ", DT2, "courseIndex: ", arrayNumber, "perWeek: ", perWeek);
 
             }
@@ -137,7 +136,7 @@ function shorterTest(personData, classDT, arrayNumber, method) {
                 // console.log("classDays: ", classDays, "classTime: ", classTime);
                 hour1 = reverseBlockTime(classTime);
                 /// hour1 = classTime.split(": ")[1].split("-")[0] + " " + classTime.split("-")[1].split(" ")[1];
-                console.log("Wed Hours 1: ", hour1);
+                // console.log("Wed Hours 1: ", hour1);
                 DT1 = day1 + " " + hour1;
                 DT2 = doubleClassParse(DT1);
 
@@ -150,8 +149,6 @@ function shorterTest(personData, classDT, arrayNumber, method) {
         } else {
             console.log("No time", personData.name, DT1, DT2, courseNum, method, arrayNumber);
             createDragger(personData, courseNum, DT1, DT2, method, arrayNumber);
-            //
-            //colorDraggers(personData);
         }
     }
 
@@ -163,7 +160,7 @@ function createDragger(personData, courseNum, DT1, DT2, method, arrayNumber) {
     let target;
     var dragger = document.createElement("div");
 
-    if (method !== "STN" && method !== "HYB") {
+    if (method !== "STN" && method !== "HYB" && method !== "ONLSY") {
         console.log("Not standard");
         return;
 
@@ -191,7 +188,7 @@ function createDragger(personData, courseNum, DT1, DT2, method, arrayNumber) {
             target = DT1;
         }
 
-        ///console.log("dragger.id: ", dragger.id);
+        // console.log("dragger.id: ", dragger.id, "target: ", target, "course: ", courseNum);
 
         try {
             var t = document.createTextNode(courseNum); // Create a text node
@@ -258,7 +255,7 @@ function makeAndPlaceSister(primaryTarget, id, perWeek, hour) {
     }
 
     //console.log(sisterTarget);
-    // if (courseName[7] === "L" || meth === "LAB") {
+    // if (courseName[7] === "L" || method === "LAB") {
     //     sisterDragger.setAttribute("class", "labSister");
     // } else {
 
@@ -317,6 +314,7 @@ function showThisSemesterCourses(array) {
 
     console.log("showThisSemesterCourses");
     console.table(array);
+    document.getElementById("nonClassroomDiv").style.display = "none";
 
     if (array.length < 1) {
         alert("You need to assign courses to faculty before they can be scheduled.")
@@ -328,7 +326,7 @@ function showThisSemesterCourses(array) {
 
     for (let i = 0; i < array.length; i++) {
         //CURRENTLY, ONLY STN AND HYB CLASSES GET ADDED TO THE TABLES
-        if (array[i].method === "STN" || array[i].method === undefined || array[i].method === "HYB") {
+        if (array[i].method === "STN" || array[i].method === undefined || array[i].method === "HYB" || array[i].method === "ONLSY") {
 
             if (array[i].days === undefined) {
                 array[i].days = "";
@@ -341,36 +339,41 @@ function showThisSemesterCourses(array) {
             nonClassroomArray.push([array[i].num, array[i].days, array[i].time, array[i].method]);
         }
     }
+    console.table(classArray);
+    console.table(nonClassroomArray);
+    console.log(nonClassroomArray.length);
 
-
+    document.getElementById("TYTable").style.display = "block";
     drawTableAddHeaders(classArray, ["Course", "Days", "Time", "Method"], "TYTable");
+
     if (nonClassroomArray.length > 0) {
+        console.log("Non Classroom Array showing")
         document.getElementById("nonClassroomDiv").style.display = "block";
         drawTableAddHeaders(nonClassroomArray, ["Course", "Days", "Time", "Method"], "nonClassroomTable");
 
     } else {
+        console.log("Non Classroom Array not showing")
         document.getElementById("nonClassroomDiv").style.display = "none";
-
     }
 
 };
 
 function saveNote(newNote) {
 
-    localforage.getItem("faculty", function(err, CFCSched) {
+    currentStore.getItem("faculty", function(err, CFCSched) {
         let teacherName = document.getElementById("facultySelect").value;
         let nameIndex = CFCSched.findIndex(obj => obj.lastName + ", " + obj.firstName === teacherName);
         //ADD ANY NOTES	
         let noteArea = document.getElementById("notesText");
 
-        console.log("notes: ", noteArea);
-        console.log("NOTESAVING: ", newNote);
-        console.log(nameIndex);
-        console.log(teacherName);
+        //console.log("notes: ", noteArea);
+        //console.log("NOTESAVING: ", newNote);
+        //console.log(nameIndex);
+        //console.log(teacherName);
 
         CFCSched[nameIndex].notes = newNote;
 
-        localforage.setItem("faculty", CFCSched, function(err, value) {
+        currentStore.setItem("faculty", CFCSched, function(err, value) {
             console.log("Note Saved", value);
         });
 

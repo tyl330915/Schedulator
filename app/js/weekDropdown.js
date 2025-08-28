@@ -1,32 +1,40 @@
-const dropDown = document.getElementById("distribution");
-localforage.getItem('semesterData', function(err, currData) {
-    console.log("currData: ", currData);
-    let currCourses = currData.currSections;
+document.addEventListener('DOMContentLoaded', async function() {
+    await setCurrentStore();
+    // Now you can use currentStore
+    console.log(currentStore);
 
-    // Create and append the options
-    //var options = ["All Classes", "101", "102", "103"];
-    var first = document.createElement("option");
-    first.value = "All Courses";
-    first.text = "All courses";
+    const dropDown = document.getElementById("distribution");
+
+    currentStore.getItem('semesterData', function(err, currData) {
+        console.log("currData: ", currData);
+        let currCourses = currData.currSections;
+
+        // Create and append the options
+        //var options = ["All Classes", "101", "102", "103"];
+        var first = document.createElement("option");
+        first.value = "All Courses";
+        first.text = "All courses";
 
 
-    // Add the new option at the beginning of the select
-    dropDown.add(first);
-    for (var i = 0; i < currCourses.length; i++) {
-        let course = currCourses[i].num;
-        var option = document.createElement("option");
-        option.value = course;
-        option.text = course;
-        dropDown.appendChild(option);
-    }
+        // Add the new option at the beginning of the select
+        dropDown.add(first);
+        for (var i = 0; i < currCourses.length; i++) {
+            let course = currCourses[i].num;
+            var option = document.createElement("option");
+            option.value = course;
+            option.text = course;
+            dropDown.appendChild(option);
+        }
 
-    // Add an event listener for the change event
+        // Add an event listener for the change event
 
-    dropDown.addEventListener("change", function() {
-        console.log("The selected value is: " + this.value);
-        showCourse(this.value);
+        dropDown.addEventListener("change", function() {
+            console.log("The selected value is: " + this.value);
+            showCourse(this.value);
+        });
     });
 });
+
 
 function showCourse(course) {
     var cells = document.getElementsByClassName("dayCell");

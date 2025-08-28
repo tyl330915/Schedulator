@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <title>Faculty Survey</title>
+    <script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/currentStorage.js"></script>
+
     <link rel="stylesheet" type="text/css" href="../css/navbar.css">
     <link href="../css/survey.css" media="screen" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
@@ -59,6 +62,7 @@
 
                     <div class="row " style="margin-left: 50px ">
                         <h3>Completed Surveys: </h3>
+                        <div id="surveysCompleted" style="color: tomato; font-weight: bold;"></div>
                     </div>
 
                     <table id="objTable"></table>
@@ -69,7 +73,7 @@
 
 
 </body>
-<script src="../js/localforage.js" type="text/javascript" charset="utf-8"></script>
+
 <script src="../js/survey.js "></script>
 <script src="../js/parseCSV.js "></script>
 <script src="../js/papaparse.js "></script>
