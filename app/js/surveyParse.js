@@ -10,7 +10,7 @@ function surveyParse(preferenceSurvey) {
     let personPrefs = {};
     let facPrefs = [];
     let headings = fpData[0];
-    console.log(headings);
+    //console.log(headings);
 
     let timestamp, email, first, last, reasons, b2b, singleDouble, PTSummer, FTSummer, ptft, ptly, ptty, ftty, ynot4, overLoad, notes, pastTaut, notAvail, wouldLikeToTeach, shouldNotTeach, columnTime, prefTimes, dream;
 
@@ -133,7 +133,7 @@ function surveyParse(preferenceSurvey) {
             //"prefEmail": fpData[i][email],
             "name": capitalizeFirstLetter(fpData[i][last]).trim() + ", " + capitalizeFirstLetter(fpData[i][first].trim()),
             "factors": fpData[i][reasons],
-            "numBackToBack": parseInt(fpData[i][b2b]),
+            "numBackToBack": fpData[i][b2b],
             "singleDouble": fpData[i][singleDouble],
            // "PTLastYear": Number(fpData[i][ptly]),
             "PTSummer": fpData[i][PTSummer],
