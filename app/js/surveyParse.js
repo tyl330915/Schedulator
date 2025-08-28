@@ -34,13 +34,8 @@ function surveyParse(preferenceSurvey) {
         if (headings[a].includes("back-to-back")) {
             console.log("Back-to-back found at index: ", a);
             //STUPID SHIM SINCE STUPID GOOGLE FORMS PUT IT IN TWICE
-            if (b2b === undefined) {
-                b2b = 0; 
-            } else {
-                b2b = a;
-            }
-            console.log("b2b NOW set to: ", b2b);
-        }
+            b2b = a;
+           }
 
         if (headings[a].includes("75")) {
             singleDouble = a;
