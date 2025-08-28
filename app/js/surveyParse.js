@@ -35,11 +35,11 @@ function surveyParse(preferenceSurvey) {
             console.log("Back-to-back found at index: ", a);
             //STUPID SHIM SINCE STUPID GOOGLE FORMS PUT IT IN TWICE
             if (b2b === undefined) {
-                b2b = "N/A"; //a;
+                b2b = "N/A"; 
             } else {
                 b2b = parseInt(a);
             }
-            console.log("b2b set to: ", b2b);
+            console.log("b2b NOW set to: ", b2b);
         }
 
         if (headings[a].includes("75")) {
