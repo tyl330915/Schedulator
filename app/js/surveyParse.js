@@ -37,7 +37,7 @@ function surveyParse(preferenceSurvey) {
             if (b2b === undefined) {
                 b2b = 0; 
             } else {
-                b2b = parseInt(a);
+                b2b = a;
             }
             console.log("b2b NOW set to: ", b2b);
         }
