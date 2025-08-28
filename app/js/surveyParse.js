@@ -82,7 +82,7 @@ function surveyParse(preferenceSurvey) {
 
 
     //GET TEACHER RESPONSES
-    console.log(fpData);
+    //console.log(fpData);
    
 
 
@@ -96,7 +96,7 @@ function surveyParse(preferenceSurvey) {
         classesYesorNo = "";
 
         for (let b = 0; b < headings.length; b++) {
-            if (headings[b].includes('SLOTS') || headings[b].includes('requests')) {
+            if (headings[b].includes('Schedule Requests')) {
                 let headingIndex = b;
                 console.log("Heading Index: ", headingIndex);
                 columnTime = fpData[0][headingIndex].split("[")[1].split("]")[0];
