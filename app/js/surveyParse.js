@@ -212,7 +212,7 @@ function matchPrefsNametoFacultyName(prefs) {
     try {
         currentStore.getItem('faculty', function(err, fac) {
             if (err) throw err;
-            console.table(fac);
+            //console.table(fac);
             let missingNames = [];
             if (fac) {
                 for (let i = 0; i < fac.length; i++) {
@@ -223,7 +223,7 @@ function matchPrefsNametoFacultyName(prefs) {
                         let nameIndex = prefs.map(function(e) { return e.name.split(", ")[0] + e.name.split(", ")[1][0]; }).indexOf(fac[i].lastName + fac[i].firstName[0]);
                         if (nameIndex < 0 && prefIndex < 0) {
 
-                            console.log("Missing: ", fac[i].email, fac[i].lastName);
+                            //console.log("Missing: ", fac[i].email, fac[i].lastName);
                             missingNames.push(fac[i].lastName + " " + fac[i].firstName[0]) + ".";
                         }
                     }
