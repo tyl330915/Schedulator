@@ -92,7 +92,7 @@ function parseFullTime(aClass) { //takes the Fac class desired and undesired dat
 
 
     // console.log("aclass: ", aClass);
-    // console.log("dayTim: ", dayTim);
+    console.log("dayTim: ", dayTim);
     //let testDiv = document.getElementById("W 10:30 AM");
 
 
