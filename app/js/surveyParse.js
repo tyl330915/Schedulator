@@ -35,7 +35,7 @@ function surveyParse(preferenceSurvey) {
             console.log("Back-to-back found at index: ", a);
             //STUPID SHIM SINCE STUPID GOOGLE FORMS PUT IT IN TWICE
             if (b2b === undefined) {
-                b2b = "N/A"; 
+                b2b = 0; 
             } else {
                 b2b = parseInt(a);
             }
