@@ -39,6 +39,7 @@ function surveyParse(preferenceSurvey) {
             } else {
                 b2b = a;
             }
+            console.log("b2b set to: ", b2b);
         }
 
         if (headings[a].includes("75")) {
