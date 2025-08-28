@@ -82,7 +82,7 @@ function surveyParse(preferenceSurvey) {
 
 
     //GET TEACHER RESPONSES
-    //console.log(fpData);
+    console.log(fpData);
    
 
 
