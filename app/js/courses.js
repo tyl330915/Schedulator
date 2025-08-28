@@ -16,9 +16,9 @@ function showAllCourses() {
     var allCourseArray = [];
     document.getElementById("courseTable").innerHTML = "";
 
-    localforage.getItem('courses', function(err, cList) {
+    localforage.getItem('courses').then(function(cList) {
 
-        if (err || cList === undefined || cList === null) {
+        if (cList === undefined || cList === null) {
             var dialog = document.getElementById("noCourseDialog");
             dialog.showModal();
             // alert("Could not find saved courses. You may need to enter them manually, or use the 'Load Spreadsheet' button.");
@@ -60,7 +60,7 @@ function showAllCourses() {
             ///"Per Week": pWeek, "Class Length": classLength, 
             ///Deleted 8/5/22
 
-        };
+        }
         //console.table(allCourseArray);
         getCurrentTotalSections(allCourseArray);
         //drawSectionsTable(allCourseArray, objTable);
@@ -74,58 +74,60 @@ function showAllCourses() {
                     };
 
                 });  */
-    });
+        });
+    }
 
-};
+
 
 
 function getCurrentTotalSections(csData) {
-    localforage.getItem("semesterData", function(err, semData) {
-        if (err) {
-            console.log(err);
-        }
+    localforage.getItem("semesterData").then(function(semData) {
         console.log(semData);
         if (!semData) {
             console.log("No Semester Data!");
             let semData = [];
+                localforage.setItem('semesterData', semData, function(err) {
+                    // if err is non-null, we got an error
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            } else {
+                localforage.setItem('semesterData', semData).then(function() {
+                    console.log("currentSectionCount Saved");
+                    console.log(semData);
+                }).catch(function(err) {
+                    console.log(err);
+                });
+            }
+            let currTotal = 0;
+            for (var t = 0; t < csData.length; t++) {
+                // console.log(csData[t].sections, parseInt(csData[t].sections));
+                currTotal += parseInt(csData[t].sections);
+                if (csData[t].sections > 0) {
+                    console.log("Sections: ", csData[t].num, csData[t].sections);
+                    let validCourse = csData[t];
+                    //console.log(validCourse);
+                    currentCourses.push(validCourse);
+                }
+            }
+            console.log(currTotal);
+            document.getElementById("currentSectionNum").innerText = currTotal;
+            semData.currRequiredCoursesCount = currTotal;
+    
+            semData.currSections = currentCourses;
+            console.log(semData);
+    
             localforage.setItem('semesterData', semData, function(err) {
-                // if err is non-null, we got an error
+                // if err is non-null, we got an error. otherwise, value is the value
                 if (err) {
                     console.log(err);
+                } else {
+                    console.log("currentSectionCount Saved");
+                    console.log(semData);
                 }
-            })
-        }
-
-        let currentCourses = [];
-        let currTotal = 0;
-        for (var t = 0; t < csData.length; t++) {
-            // console.log(csData[t].sections, parseInt(csData[t].sections));
-            currTotal += parseInt(csData[t].sections);
-            if (csData[t].sections > 0) {
-                console.log("Sections: ", csData[t].num, csData[t].sections);
-                let validCourse = csData[t];
-                //console.log(validCourse);
-                currentCourses.push(validCourse);
-            }
-        }
-        console.log(currTotal);
-        document.getElementById("currentSectionNum").innerText = currTotal;
-        semData.currRequiredCoursesCount = currTotal;
-
-        semData.currSections = currentCourses;
-        console.log(semData);
-
-        localforage.setItem('semesterData', semData, function(err) {
-            // if err is non-null, we got an error
-            // if err is non-null, we got an error. otherwise, value is the value
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("currentSectionCount Saved");
-                console.log(semData);
-            };
+            });
         });
-
-    });
+   
 
 };
