@@ -155,8 +155,7 @@ function saveData(data) {
 
         }
         generateDeleteSelect(data);
-
-        // getCurrentTotalSections(data);
+        getCurrentTotalSections(data);
 
 
     });

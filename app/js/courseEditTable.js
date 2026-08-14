@@ -76,7 +76,6 @@ function generateTable(dataList, headers, containerId) {
             }
 
             saveData(dataList); // Save the updated data
-            getCurrentTotalSections(dataList);
 
         })
 
