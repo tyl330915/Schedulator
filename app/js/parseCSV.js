@@ -138,6 +138,26 @@ function readCourseCSVFile() {
                     }
                     delete obj.term;
 
+                    // Clean up semester value from "Sem" or "Semester" column
+                    if (obj.sem) {
+                        obj.sem = obj.sem.toUpperCase().trim();
+                        // If sem contains a year prefix like "2026FA", extract just "FA"
+                        if (obj.sem.match(/^\d+FA$/)) {
+                            obj.sem = 'FA';
+                        } else if (obj.sem.match(/^\d+SP$/)) {
+                            obj.sem = 'SP';
+                        } else if (obj.sem.match(/^\d+SU$/)) {
+                            obj.sem = 'SU';
+                        }
+                        // If sem contains extra text like "Fall", extract last 2 characters
+                        else if (obj.sem.match(/FA|SP|SU/)) {
+                            let match = obj.sem.match(/FA|SP|SU/);
+                            if (match) {
+                                obj.sem = match[0];
+                            }
+                        }
+                    }
+
                     return obj;
                 }).filter(obj => Object.keys(obj).length > 0);
 
