@@ -102,7 +102,7 @@ function readCourseCSVFile() {
                 
                 console.log("Creating key map from headers:", keys);
                 Object.entries(headerAliases).forEach(([expectedKey, aliases]) => {
-                    const index = keys.findIndex(key => aliases.includes(key));
+                    const index = keys.findIndex(key => aliases.some(alias => alias.toLowerCase() === key.toLowerCase()));
                     if (index !== -1) {
                         console.log(`Mapping ${expectedKey} to column ${index}`);
                         keyMap[expectedKey] = index;
