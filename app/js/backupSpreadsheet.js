@@ -96,19 +96,56 @@ function countCourses(filteredData) {
     updateCourseCounts(courseCounts, filteredData); // Pass filteredData and courseCounts
 };
 
+function buildCoursesFromSpreadsheet(counts, fData) {
+    let courseMap = {};
+
+    fData.forEach(row => {
+        let sectionName = row["Section Name"];
+        if (!sectionName) return;
+
+        let hyphenIndex = sectionName.lastIndexOf("-");
+        let courseNum = hyphenIndex !== -1 ? sectionName.substring(0, hyphenIndex).trim() : sectionName.trim();
+
+        if (!courseMap[courseNum]) {
+            let title = row["Title"];
+            courseMap[courseNum] = {
+                div: row["Division"],
+                num: courseNum.toUpperCase(),
+                title: title ? title.charAt(0).toUpperCase() + title.slice(1) : "",
+                loc: row["Location"],
+                method: row["Instructional Method"],
+                sem: row["Term"],
+                sections: counts[courseNum] || 0
+            };
+        }
+    });
+
+    return Object.values(courseMap);
+}
+
 function updateCourseCounts(counts, fData) {
     currentStore.getItem('courses', function(err, cList) {
 
-        cList.forEach(course => {
-            if (counts[course.num]) {
-                // If the course is in courseCounts, update the sections count
-                course.sections = counts[course.num];
-            } else {
-                // If the course is not in courseCounts, set the sections count to 0
-                course.sections = 0;
-            }
+        if (err) {
+            console.log(err);
+            alert("Error loading this semester's course list.");
+            return;
+        }
 
-        });
+        if (!cList || cList.length === 0) {
+            cList = buildCoursesFromSpreadsheet(counts, fData);
+        } else {
+            cList.forEach(course => {
+                if (counts[course.num]) {
+                    // If the course is in courseCounts, update the sections count
+                    course.sections = counts[course.num];
+                } else {
+                    // If the course is not in courseCounts, set the sections count to 0
+                    course.sections = 0;
+                }
+
+            });
+        }
 
         currentStore.setItem('courses', cList, function(err) {
             if (err) {
@@ -195,35 +232,59 @@ function setFacultyCourses(fData) {
 
 };
 
+function buildFacultyFromSpreadsheet(peopleArray) {
+    return peopleArray.map(person => ({
+        firstName: person.firstName,
+        lastName: person.lastName,
+        email: person.email,
+        status: "",
+        available: true,
+        currentCourses: person.currentCourses.map(course => {
+            let days = course.days;
+            let time = course.time;
+            if (typeof days === 'string') {
+                days = days.replace(", ", "/");
+            }
+            return {...course, days, time };
+        })
+    }));
+}
+
 //ADD THE CURRENT COURSES TO THE FACULTY ARRAY, AND SAVE THE FACULTY ARRAYfunction addCurrentCoursesToFaculty(peopleArray) {
 function addCurrentCoursesToFaculty(peopleArray) {
     currentStore.getItem('faculty', function(err, fac) {
         if (err) {
             console.log(err);
+            alert("Error loading this semester's faculty list.");
+            return;
         }
 
-        fac.forEach(person => {
-            // Find a match in peopleArray by email or by first name and last name
-            let match = peopleArray.find(p => p.email === person.email || (p.firstName === person.firstName && p.lastName === person.lastName));
+        if (!fac || fac.length === 0) {
+            fac = buildFacultyFromSpreadsheet(peopleArray);
+        } else {
+            fac.forEach(person => {
+                // Find a match in peopleArray by email or by first name and last name
+                let match = peopleArray.find(p => p.email === person.email || (p.firstName === person.firstName && p.lastName === person.lastName));
 
-            if (match) {
-                // If a match is found, update currentCourses
-                person.currentCourses = match.currentCourses.map(course => {
+                if (match) {
+                    // If a match is found, update currentCourses
+                    person.currentCourses = match.currentCourses.map(course => {
 
-                    console.log(course);
-                    let days = course.days;
-                    let time = course.time;
-                    if (typeof days === 'string') {
-                        days = days.replace(", ", "/");
-                    }
+                        console.log(course);
+                        let days = course.days;
+                        let time = course.time;
+                        if (typeof days === 'string') {
+                            days = days.replace(", ", "/");
+                        }
 
-                    return {...course, days, time }; // Include the updated days value in the returned object
-                });
-            } else {
-                // If no match is found, set currentCourses to an empty array
-                person.currentCourses = [];
-            }
-        });
+                        return {...course, days, time }; // Include the updated days value in the returned object
+                    });
+                } else {
+                    // If no match is found, set currentCourses to an empty array
+                    person.currentCourses = [];
+                }
+            });
+        }
 
         console.log(fac);
         currentStore.setItem('faculty', fac, function(err) {
@@ -234,7 +295,5 @@ function addCurrentCoursesToFaculty(peopleArray) {
             }, 2000);
 
         })
-
-
     });
 }
