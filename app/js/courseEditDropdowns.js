@@ -19,7 +19,7 @@ function createSelects(table, data) {
                 <option value="BUS">BUS</option>
     <option value="CCM">CCM</option>  
     <option value="COR">COR</option>
-    <option value="BUS">EHS</option>
+    <option value="EHS">EHS</option>
     <option value="ITS">ITS</option>`;
 
             divCell.innerHTML = "";
