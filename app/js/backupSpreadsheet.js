@@ -77,25 +77,19 @@ function countCourses(filteredData) {
 
     filteredData.forEach(row => {
         let courseName = row["Section Name"];
-        // Check if courseName is defined
         if (courseName) {
-            // Remove the section number from the end of the course name
             let hyphenIndex = courseName.lastIndexOf("-");
             if (hyphenIndex !== -1) {
                 courseName = courseName.substring(0, hyphenIndex).trim();
             }
+            courseName = courseName.toUpperCase();
 
-            // Increment the count for this course
-            if (courseCounts[courseName]) {
-                courseCounts[courseName]++;
-            } else {
-                courseCounts[courseName] = 1;
-            }
+            courseCounts[courseName] = (courseCounts[courseName] || 0) + 1;
         }
     });
 
     console.log(courseCounts);
-    updateCourseCounts(courseCounts, filteredData); // Pass filteredData and courseCounts
+    updateCourseCounts(courseCounts, filteredData);
 };
 
 function buildCoursesFromSpreadsheet(counts, fData) {
@@ -134,28 +128,50 @@ function updateCourseCounts(counts, fData) {
             return;
         }
 
-        if (!cList || cList.length === 0) {
-            cList = buildCoursesFromSpreadsheet(counts, fData);
-        } else {
-            cList.forEach(course => {
-                if (counts[course.num]) {
-                    // If the course is in courseCounts, update the sections count
-                    course.sections = counts[course.num];
-                } else {
-                    // If the course is not in courseCounts, set the sections count to 0
-                    course.sections = 0;
-                }
-
-            });
+        if (!Array.isArray(cList)) {
+            cList = [];
         }
 
-        currentStore.setItem('courses', cList, function(err) {
+        var byNum = {};
+        cList.forEach(function(c) {
+            if (c && c.num) byNum[c.num.toUpperCase()] = c;
+        });
+
+        var added = 0;
+        var updated = 0;
+
+        fData.forEach(function(row) {
+            var sectionName = row["Section Name"];
+            if (!sectionName) return;
+            var hyphenIndex = sectionName.lastIndexOf("-");
+            var courseNum = hyphenIndex !== -1 ? sectionName.substring(0, hyphenIndex).trim().toUpperCase() : sectionName.trim().toUpperCase();
+            var existingCourse = byNum[courseNum];
+            var sectionCount = counts[courseNum] || 0;
+
+            if (existingCourse) {
+                existingCourse.sections = sectionCount;
+                updated++;
+            } else {
+                byNum[courseNum] = {
+                    div: row["Division"] || "",
+                    num: courseNum,
+                    title: row["Title"] || "",
+                    loc: row["Location"] || "",
+                    method: row["Instructional Method"] || "",
+                    sem: row["Term"] || "",
+                    sections: sectionCount
+                };
+                added++;
+            }
+        });
+
+        var mergedCourses = Object.values(byNum);
+        currentStore.setItem('courses', mergedCourses, function(err) {
             if (err) {
                 console.log(err);
             }
-            console.log("saved courses");
-            console.table(cList);
-            ////window.location.href = "courses.html";
+            console.log("saved courses: " + added + " added, " + updated + " updated");
+            console.table(mergedCourses);
             setFacultyCourses(fData);
         })
 
@@ -261,7 +277,6 @@ function buildFacultyFromSpreadsheet(peopleArray) {
     }));
 }
 
-//ADD THE CURRENT COURSES TO THE FACULTY ARRAY, AND SAVE THE FACULTY ARRAYfunction addCurrentCoursesToFaculty(peopleArray) {
 function addCurrentCoursesToFaculty(peopleArray) {
     currentStore.getItem('faculty', function(err, fac) {
         if (err) {
@@ -270,37 +285,60 @@ function addCurrentCoursesToFaculty(peopleArray) {
             return;
         }
 
-        if (!fac || fac.length === 0) {
-            fac = buildFacultyFromSpreadsheet(peopleArray);
-        } else {
-            fac.forEach(person => {
-                // Find a match in peopleArray by email or by first name and last name
-                let match = peopleArray.find(p => p.email === person.email || (p.firstName === person.firstName && p.lastName === person.lastName));
-
-                if (match) {
-                    // If a match is found, update currentCourses
-                    person.currentCourses = match.currentCourses.map(course => {
-
-                        console.log(course);
-                        let days = course.days;
-                        let time = course.time;
-                        if (typeof days === 'string') {
-                            days = days.replace(", ", "/");
-                        }
-
-                        return {...course, days, time }; // Include the updated days value in the returned object
-                    });
-                } else {
-                    // If no match is found, set currentCourses to an empty array
-                    person.currentCourses = [];
-                }
-            });
+        if (!Array.isArray(fac)) {
+            fac = [];
         }
+
+        var byName = {};
+        fac.forEach(function(p) {
+            if (p && p.firstName && p.lastName) {
+                byName[(p.firstName + "|" + p.lastName).toLowerCase()] = p;
+            }
+        });
+
+        var added = 0;
+        var updated = 0;
+
+        peopleArray.forEach(function(spreadsheetPerson) {
+            var key = (spreadsheetPerson.firstName + "|" + spreadsheetPerson.lastName).toLowerCase();
+            var existing = byName[key];
+
+            var normalizedCourses = spreadsheetPerson.currentCourses.map(function(course) {
+                var days = course.days;
+                if (typeof days === 'string') {
+                    days = days.replace(", ", "/");
+                }
+                return {
+                    num: course.num,
+                    days: days,
+                    time: course.time,
+                    method: course.method
+                };
+            });
+
+            if (existing) {
+                existing.currentCourses = normalizedCourses;
+                if (!existing.email && spreadsheetPerson.email) {
+                    existing.email = spreadsheetPerson.email;
+                }
+                updated++;
+            } else {
+                fac.push({
+                    firstName: spreadsheetPerson.firstName,
+                    lastName: spreadsheetPerson.lastName,
+                    email: spreadsheetPerson.email,
+                    status: "",
+                    available: true,
+                    currentCourses: normalizedCourses
+                });
+                added++;
+            }
+        });
 
         console.log(fac);
         currentStore.setItem('faculty', fac, function(err) {
             if (err) return console.log(err);
-            alert("Data saved successfully!");
+            alert(added + " new faculty added (" + updated + " updated). Courses and section counts saved.");
             setTimeout(function() {
                 window.location.href = "courses.html";
             }, 2000);
