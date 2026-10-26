@@ -1,11 +1,16 @@
 function loadSpreadsheet() {
+    var newSem = document.getElementById('department').value + ' ' + document.getElementById('semester').value + ' ' + document.getElementById('year').value;
+    if (document.getElementById('uploadDiv').style.display !== 'block') {
+        alert("Please select a Department, Semester, and Year first by clicking 'Select Semester'.");
+        return;
+    }
+
     let dia = document.getElementById("uploadSSModal");
     dia.style.display = "none";
 
     const file = document.getElementById('loadSS').files[0];
 
     Papa.parse(file, {
-        download: true,
         header: true,
         transformHeader: header => header.trim(),
         transform: value => value.trim(),
@@ -192,6 +197,9 @@ function setFacultyCourses(fData) {
         }
 
         let days = row["Days"];
+        if (typeof days === 'string') {
+            days = days.replace(/, ?/g, "/");
+        }
         let time = "";
         if (typeof days === 'string') {
             let perWeek = days.includes("/") ? 2 : 1;

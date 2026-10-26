@@ -1,5 +1,23 @@
+function normalizeTime(timeStr) {
+    if (!timeStr || typeof timeStr !== 'string') return timeStr;
+    timeStr = timeStr.trim();
+    if (timeStr.endsWith(" AM") || timeStr.endsWith(" PM")) return timeStr;
+    var h = parseInt(timeStr.split(":")[0], 10);
+    var m = parseInt(timeStr.split(":")[1], 10);
+    if (isNaN(h) || isNaN(m)) return timeStr;
+    if (h >= 8 && h < 12) return timeStr + " AM";
+    if (h === 12) return timeStr + " PM";
+    if (h >= 1 && h < 8) return timeStr + " PM";
+    return timeStr;
+}
+
 function classBlocks(day, timePart, perWeek) {
-    //console.log("Blox One: ", day, timePart, perWeek);
+    timePart = normalizeTime(timePart);
+    if (day && typeof day === 'string') {
+        if (day.includes(",")) { day = day.split(",")[0].trim(); }
+        if (day.includes("/")) { day = day.split("/")[0].trim(); }
+    }
+
     if (perWeek === "2" || perWeek === 2) {
         switch (timePart) {
             case "8:30 AM":
@@ -19,17 +37,15 @@ function classBlocks(day, timePart, perWeek) {
             case "7:00 PM":
                 return "Block 8: 7:00 PM-8:15 PM";
             default:
-                console.log("Error: Check time");
+                console.log("Error: Check time (2/week): ", timePart);
+                return "";
         }
     }
 
     if (day !== "W" && (perWeek === "1" || perWeek === 1)) {
-        //console.log("Blox Two: ", day, timePart);
         switch (timePart) {
             case "8:30 AM":
                 return "Block 1&2: 8:30 AM-11:15 AM";
-                //case "9:00 AM":
-                //    return "* Wed Block A: 9:00 AM-11:45 AM";
             case "10:00 AM":
                 return "Block 2&3: 10:00 AM-12:45 PM";
             case "11:30 AM":
@@ -44,15 +60,15 @@ function classBlocks(day, timePart, perWeek) {
                 return "Block 6&7: 4:00 PM-6:45 PM";
             case "5:30 PM":
                 return "Block 7&8: 5:30 PM-8:15 PM";
+            case "7:00 PM":
+                return "Block 7&8: 5:30 PM-8:15 PM";
             default:
-                console.log("Error: Check time");
+                console.log("Error: Check time (1/week non-W): ", timePart);
+                return "";
         }
-
     }
 
-
     if (day === "W" && (perWeek === "1" || perWeek === 1)) {
-        // console.log("Blox Three: ", day, timePart);
         switch (timePart) {
             case "9:00 AM":
                 return "* Wed Block A: 9:00-11:45 AM";
@@ -60,11 +76,16 @@ function classBlocks(day, timePart, perWeek) {
                 return "* Wed Block B: 12:15-3:00 PM";
             case "5:30 PM":
                 return "* Wed Block 9: 5:30 PM-8:15 PM";
+            case "7:00 PM":
+                return "* Wed Block 9: 5:30 PM-8:15 PM";
             default:
-                console.log("Error: Check time");
+                console.log("Error: Check time (Wed): ", timePart);
+                return "";
         }
     }
 
+    console.log("Error: Unhandled block case - day:", day, "time:", timePart, "perWeek:", perWeek);
+    return "";
 };
 
 function parseSisterDay(day) {
