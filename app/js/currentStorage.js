@@ -1,24 +1,46 @@
 let currentStore;
 let currStore;
 
+function openSemesterStore(name) {
+    return localforage.createInstance({ name: name });
+}
+
+async function openCurrentStore(name) {
+    currStore = name;
+    currentStore = openSemesterStore(name);
+
+    let semesterEl = document.getElementById('currentSemester');
+    if (semesterEl) {
+        semesterEl.textContent = name || "";
+    }
+
+    document.dispatchEvent(new CustomEvent("storeReady", { detail: { name: name } }));
+    return currentStore;
+}
+
 async function setCurrentStore() {
     currStore = await localforage.getItem('currentStore');
     console.log("value: " + currStore);
 
     if (currStore) {
         console.log("Saved Store Name exists: " + currStore);
-        currentStore = localforage.createInstance({
-            name: currStore
-        });
-        let keys = await currentStore.keys();
+        let store = await openCurrentStore(currStore);
+        let keys = await store.keys();
         console.log("saved store keys: " + keys);
-        // for (key of keys) {
-        //     let value = await currentStore.getItem(key);
-        //     console.log(key + ": " + JSON.stringify(value, null, 2) + " type: " + typeof value);
-        // }
-        //show the semester in the menu bar
-        document.getElementById('currentSemester').innerHTML = currStore;
+        return store;
     }
+
+    currentStore = undefined;
+    let semesterEl = document.getElementById('currentSemester');
+    if (semesterEl) {
+        semesterEl.textContent = "";
+    }
+    return undefined;
+}
+
+async function switchCurrentStore(name) {
+    await localforage.setItem('currentStore', name);
+    return openCurrentStore(name);
 }
 
 setCurrentStore();

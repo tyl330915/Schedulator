@@ -28,6 +28,7 @@ function loadSpreadsheet() {
                 "Days": fields.indexOf("Days"),
                 "Start Time": fields.indexOf("Start Time"),
                 "End Time": fields.indexOf("End Time"),
+                "Time Block": fields.indexOf("Time Block"),
                 "Faculty First": fields.indexOf("Faculty First"),
                 "Faculty Last": fields.indexOf("Faculty Last"),
                 "E-Mail address - Primary": fields.indexOf("E-Mail address - Primary")
@@ -49,7 +50,7 @@ function loadSpreadsheet() {
     });
 };
 
-function ssSemesterData() {
+async function ssSemesterData() {
     const uploadDiv = document.getElementById('uploadDiv');
     const messageLine = document.getElementById('dialogMessage');
 
@@ -59,18 +60,14 @@ function ssSemesterData() {
 
     console.log(department, term, year);
     if (department && term && year) {
-        newSem = department + ' ' + term + ' ' + year;
+        let newSem = department + ' ' + term + ' ' + year;
         messageLine.innerHTML = '';
         console.log(uploadDiv);
         uploadDiv.style.display = 'block';
 
-        currentStore = localforage.createInstance({
-            name: newSem
-        });
-
+        await switchCurrentStore(newSem);
 
     } else {
-        //alert("Please select a department, semester, and year");
         messageLine.innerHTML = "Please select a department, semester, and year";
     }
 };
@@ -204,6 +201,12 @@ function setFacultyCourses(fData) {
         if (typeof days === 'string') {
             let perWeek = days.includes("/") ? 2 : 1;
             time = classBlocks(days, row["Start Time"], perWeek);
+        }
+        if (!time && row["Time Block"]) {
+            time = row["Time Block"];
+        }
+        if (!time) {
+            time = "";
         }
 
         // Remove the section number from the end of the course name
